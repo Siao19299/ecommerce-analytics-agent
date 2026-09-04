@@ -16,7 +16,9 @@ Text-to-SQL 和结果校验。
 - 数据性质：真实商业数据的匿名化样本。
 
 下载数据前，应在 Kaggle 登录并接受平台条款。原始 CSV 放入 `data/raw/`，不得
-提交到 Git；下载方式和文件校验值将在实际下载后补充。
+提交到 Git。文件名、大小、行数、实际字段和 SHA-256 已保存到
+`data/metadata/olist_file_manifest.csv`；字段语义见
+`docs/OLIST_DATA_DICTIONARY.md`。
 
 ## 与项目需求的匹配
 
@@ -45,4 +47,3 @@ Day 1 不下载和处理全部 9 张表。先使用 `data/sample/` 中的极小�
 3. 订单状态筛选；
 4. GMV 的第一版口径；
 5. JOIN 后重复行导致的错误聚合。
-
