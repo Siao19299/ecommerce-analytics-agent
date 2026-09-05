@@ -1,0 +1,39 @@
+table_name,table_type,grain,column_name,data_type,nullable,key_role,references,source_file,description
+dim_customers,dimension,one order-level customer record,customer_id,TEXT,false,PK,,olist_customers_dataset.csv,Order-level customer identifier
+dim_customers,dimension,one order-level customer record,customer_unique_id,TEXT,false,attribute,,olist_customers_dataset.csv,Identifier shared across orders by the same customer
+dim_customers,dimension,one order-level customer record,customer_zip_code_prefix,TEXT,false,attribute,,olist_customers_dataset.csv,Five-character customer postal-code prefix
+dim_customers,dimension,one order-level customer record,customer_city,TEXT,false,attribute,,olist_customers_dataset.csv,Customer city
+dim_customers,dimension,one order-level customer record,customer_state,TEXT,false,attribute,,olist_customers_dataset.csv,Customer state code
+dim_products,dimension,one product,product_id,TEXT,false,PK,,olist_products_dataset.csv,Product identifier
+dim_products,dimension,one product,product_category_name,TEXT,true,attribute,,olist_products_dataset.csv,Portuguese product category
+dim_products,dimension,one product,product_name_lenght,INTEGER,true,attribute,,olist_products_dataset.csv,Product name length using the original source spelling
+dim_products,dimension,one product,product_description_lenght,INTEGER,true,attribute,,olist_products_dataset.csv,Product description length using the original source spelling
+dim_products,dimension,one product,product_photos_qty,INTEGER,true,attribute,,olist_products_dataset.csv,Number of product photos
+dim_products,dimension,one product,product_weight_g,INTEGER,true,attribute,,olist_products_dataset.csv,Product weight in grams
+dim_products,dimension,one product,product_length_cm,INTEGER,true,attribute,,olist_products_dataset.csv,Product length in centimetres
+dim_products,dimension,one product,product_height_cm,INTEGER,true,attribute,,olist_products_dataset.csv,Product height in centimetres
+dim_products,dimension,one product,product_width_cm,INTEGER,true,attribute,,olist_products_dataset.csv,Product width in centimetres
+dim_sellers,dimension,one seller,seller_id,TEXT,false,PK,,olist_sellers_dataset.csv,Seller identifier
+dim_sellers,dimension,one seller,seller_zip_code_prefix,TEXT,false,attribute,,olist_sellers_dataset.csv,Five-character seller postal-code prefix
+dim_sellers,dimension,one seller,seller_city,TEXT,false,attribute,,olist_sellers_dataset.csv,Seller city
+dim_sellers,dimension,one seller,seller_state,TEXT,false,attribute,,olist_sellers_dataset.csv,Seller state code
+fact_orders,fact,one order,order_id,TEXT,false,PK,,olist_orders_dataset.csv,Order identifier
+fact_orders,fact,one order,customer_id,TEXT,false,FK,dim_customers.customer_id,olist_orders_dataset.csv,Order-level customer identifier
+fact_orders,fact,one order,order_status,TEXT,false,attribute,,olist_orders_dataset.csv,Order status
+fact_orders,fact,one order,order_purchase_timestamp,TIMESTAMP,false,event_time,,olist_orders_dataset.csv,Order purchase time
+fact_orders,fact,one order,order_approved_at,TIMESTAMP,true,event_time,,olist_orders_dataset.csv,Order approval time
+fact_orders,fact,one order,order_delivered_carrier_date,TIMESTAMP,true,event_time,,olist_orders_dataset.csv,Time handed to carrier
+fact_orders,fact,one order,order_delivered_customer_date,TIMESTAMP,true,event_time,,olist_orders_dataset.csv,Customer delivery time
+fact_orders,fact,one order,order_estimated_delivery_date,TIMESTAMP,false,event_time,,olist_orders_dataset.csv,Estimated delivery time
+fact_order_items,fact,one item sequence within an order,order_id,TEXT,false,PK/FK,fact_orders.order_id,olist_order_items_dataset.csv,Order identifier and first part of the composite key
+fact_order_items,fact,one item sequence within an order,order_item_id,INTEGER,false,PK,,olist_order_items_dataset.csv,Item sequence and second part of the composite key
+fact_order_items,fact,one item sequence within an order,product_id,TEXT,false,FK,dim_products.product_id,olist_order_items_dataset.csv,Product identifier
+fact_order_items,fact,one item sequence within an order,seller_id,TEXT,false,FK,dim_sellers.seller_id,olist_order_items_dataset.csv,Seller identifier
+fact_order_items,fact,one item sequence within an order,shipping_limit_date,TIMESTAMP,false,event_time,,olist_order_items_dataset.csv,Seller shipping deadline
+fact_order_items,fact,one item sequence within an order,price,"NUMERIC(12,2)",false,measure,,olist_order_items_dataset.csv,Item price excluding freight
+fact_order_items,fact,one item sequence within an order,freight_value,"NUMERIC(12,2)",false,measure,,olist_order_items_dataset.csv,Freight amount for the item row
+fact_payments,fact,one payment record within an order,order_id,TEXT,false,PK/FK,fact_orders.order_id,olist_order_payments_dataset.csv,Order identifier and first part of the composite key
+fact_payments,fact,one payment record within an order,payment_sequential,INTEGER,false,PK,,olist_order_payments_dataset.csv,Payment sequence and second part of the composite key
+fact_payments,fact,one payment record within an order,payment_type,TEXT,false,attribute,,olist_order_payments_dataset.csv,Payment method
+fact_payments,fact,one payment record within an order,payment_installments,INTEGER,false,attribute,,olist_order_payments_dataset.csv,Number of payment instalments
+fact_payments,fact,one payment record within an order,payment_value,"NUMERIC(12,2)",false,measure,,olist_order_payments_dataset.csv,Payment amount for the payment row
