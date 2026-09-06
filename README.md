@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 3 已完成并验收（2026-09-06，`23 passed`）
+- 当前状态：Day 4 已完成并验收（2026-09-06，`27 passed`）
 
 ## 一句话介绍
 
@@ -73,11 +73,20 @@
 # 执行五条基础经营 SQL 并保存结果
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day03_metrics
 
+# 执行 Day 4 的十条标准 SQL 与五条进阶 SQL 并保存结果
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day04_metrics
+
 # 运行全部自动测试
 .\.venv\Scripts\python.exe -m pytest
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
+
+Day 4 指标语义层的机器可读定义位于
+`data/metadata/metric_dictionary.csv`。标准 SQL 位于
+`sql/day04_standard_metrics.sql`，进阶 SQL 位于
+`sql/day04_advanced_metrics.sql`。进阶查询覆盖月度环比、同比、品类
+Top-N、贡献度以及先按订单预聚合的 GMV/支付对账。
 
 ## 评测设计
 
