@@ -71,6 +71,8 @@ def import_csv(
     connection: sqlite3.Connection,
     csv_path: str,
     table_name: str,
+    *,
+    commit: bool = True,
 ) -> int:
     """将允许列表中的 CSV 导入表中，返回本次新增行数。"""
     try:
@@ -106,6 +108,7 @@ def import_csv(
 
     changes_before = connection.total_changes
     connection.executemany(insert_sql, records)
-    connection.commit()
+    if commit:
+        connection.commit()
 
     return connection.total_changes - changes_before
