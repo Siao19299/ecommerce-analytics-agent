@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：尚未开始
+- 当前状态：Day 3 已完成并验收（2026-09-06，`23 passed`）
 
 ## 一句话介绍
 
@@ -59,6 +59,26 @@
 
 可以先用简单 Python 状态机完成最小闭环，再迁移到 LangGraph；不要因为框架学习阻塞核心功能。
 
+## 当前可重复生成的成果
+
+以下命令均在项目根目录使用项目独立 `.venv` 执行：
+
+```powershell
+# 重建六张核心表的 SQLite 数据库
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day03_pipeline
+
+# 重建数据质量报告
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day03_quality
+
+# 执行五条基础经营 SQL 并保存结果
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day03_metrics
+
+# 运行全部自动测试
+.\.venv\Scripts\python.exe -m pytest
+```
+
+数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
+
 ## 评测设计
 
 建立至少 60 道固定测试题：
@@ -97,4 +117,3 @@
 ## 新对话启动提示词
 
 > 请先完整阅读当前目录中的 README.md、PLAN.md 和 LEARNING_LOG.md。我的目标是在一个月求职准备中完成“跨平台电商经营分析 Agent”，用于投递 AI 应用工程师岗位。我编程基础较弱，可以在 AI 辅助下开发，但需要同时理解和掌握核心代码。请从 PLAN.md 中第一个未完成任务继续，每次先说明本轮目标和验收标准，再协助我实现、测试，并更新计划和学习日志。不要使用或虚构任何公司内部数据。
-
