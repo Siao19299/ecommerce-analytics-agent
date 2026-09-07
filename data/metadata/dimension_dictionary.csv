@@ -1,0 +1,7 @@
+dimension_id,chinese_name,source_table,source_column
+purchase_month,下单月,fact_orders,order_purchase_timestamp
+product_category,商品品类,dim_products,product_category_name
+seller,卖家,dim_sellers,seller_id
+customer_state,客户州,dim_customers,customer_state
+customer_city,客户城市,dim_customers,customer_city
+payment_type,支付方式,fact_payments,payment_type

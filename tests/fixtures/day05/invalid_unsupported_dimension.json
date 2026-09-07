@@ -1,0 +1,14 @@
+{
+  "metrics": [
+    "delivered_payment_amount"
+  ],
+  "dimensions": [
+    "product_category"
+  ],
+  "filters": [],
+  "time_range": {
+    "mode": "all_data",
+    "start_date": null,
+    "end_date": null
+  }
+}
