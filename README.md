@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 7 Text-to-SQL 最小闭环已完成并验收（2026-09-10，`128 passed`；离线 10 题与真实 DeepSeek 4 题分开记录；实际学习 2 小时）
+- 当前状态：Day 8 SQL 安全工程与核心概念验收已完成（2026-09-11，`155 passed`；16/16 个真实 SQLite 安全案例符合预期；实际学习时间 2 小时）
 
 ## 一句话介绍
 
@@ -86,6 +86,9 @@
 
 # 运行 Day 7 十题离线闭环与参考查询核对
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day07_benchmark
+
+# 运行 Day 8 十六题 SQL 安全实测
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day08_security_benchmark
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -174,6 +177,35 @@ grounding、Prompt 与程序校验的分工、参数合同、只读执行、结�
 运行状态与离线评测结论的区别。用户能够指出给定 trace 的根因在 SQL 生成
 阶段，并理解 `execution_succeeded` 不等于业务结果已被证明正确。用户明确
 提供的 Day 7 实际学习时间为 2 小时。
+
+## Day 8：SQL 安全控制（工程完成）
+
+生成 SQL 现在使用 SQLGlot 30.x 按 SQLite 方言解析，并以默认拒绝策略检查空
+输入、解析失败、多语句、非查询根节点、嵌套 DML/DDL、危险 SQLite 函数和
+不开放的数据源。表、字段、别名、CTE、子查询和通配符通过 AST scope 与字段
+解析检查，不使用字符串包含作为授权判断。
+
+全局范围固定来自数据库字典中的六张核心表、38 个字段；本次范围来自已验证
+AnalysisPlan 形成的 `SqlGenerationContext`。实际许可为两者交集，因此
+`fact_payments` 即使全局可读，在只需要订单表的计划中仍会被拒绝。检索文档的
+`fields` 不直接授予连接权限。
+
+执行层保留 SQLite URI `mode=ro`、`PRAGMA query_only=ON`、单次执行和命名参数
+绑定，并在执行前再次校验。默认最多返回 1000 行、查询截止时间 10 秒；行数
+限制只约束返回规模，SQLite progress handler 独立控制扫描和计算时间。
+
+16 个由助手按 Day 8 要求编写的机械安全案例已在真实本地数据库运行：2 个
+合法查询成功、1 个查询被安全截断、12 个危险或越权输入在 SQLite 执行前拒绝、
+1 个带 `LIMIT 1` 的高成本查询被超时中断；16/16 符合预期且数据库哈希未改变。
+这不是模型安全率评测，没有外部 API 调用。完整验收与逐题结果见
+`docs/DAY08_ACCEPTANCE.md` 和 `docs/DAY08_SECURITY_RESULTS.json`。
+
+Day 8 安全失败只记录 trace 并直接返回，不调用模型改写 SQL。数据库错误驱动
+的修复 Prompt、有限修复次数和修复成功率仍留到 Day 9。
+
+核心概念复盘已覆盖 AST、语句类型、两级允许范围、别名/CTE/通配符、参数绑定、
+行数与超时、纵深防御、错误分类和 trace。用户完成逐段判断；机械测试样本仍明确
+记为助手编写。用户明确提供的 Day 8 实际学习时间为 2 小时。
 
 ## 评测设计
 

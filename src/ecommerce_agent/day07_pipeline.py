@@ -100,6 +100,7 @@ class Day07Agent:
             "sql_generation_context": None,
             "sql": None,
             "parameters": None,
+            "sql_safety": None,
             "query_result": None,
             "error": None,
             "metadata": {
@@ -118,8 +119,8 @@ class Day07Agent:
                 "database_path": str(self.database_path),
                 "database_mode": "sqlite_uri_mode_ro_and_query_only",
                 "sql_safety_scope": (
-                    "day7_lexical_single_statement_guard; "
-                    "full_ast_validation_deferred_to_day8"
+                    "day8_sqlglot_sqlite_ast_global_and_plan_allowlists_"
+                    "plus_row_and_timeout_limits"
                 ),
             },
         }
@@ -216,6 +217,11 @@ class Day07Agent:
         record["sql_generation_context"] = context.to_prompt_payload()
 
         generation = self.sql_generator.generate(context)
+        if generation.query is not None:
+            record["sql"] = generation.query.sql
+            record["parameters"] = generation.query.parameters
+        if generation.safety_trace is not None:
+            record["sql_safety"] = generation.safety_trace.to_dict()
         if not generation.is_success:
             return self._finish(
                 record,
@@ -228,8 +234,6 @@ class Day07Agent:
                 generation.error_message or "SQL 生成失败",
             )
         assert generation.query is not None
-        record["sql"] = generation.query.sql
-        record["parameters"] = generation.query.parameters
         if generation.response is not None:
             record["metadata"]["sql_model"] = (
                 generation.response.model_name
@@ -245,10 +249,20 @@ class Day07Agent:
             self.database_path,
             generation.query.sql,
             generation.query.parameters,
+            safety_policy=context.safety_policy,
+        )
+        record["sql_safety"] = (
+            execution.safety_trace.to_dict()
+            if execution.safety_trace is not None
+            else record["sql_safety"]
         )
         record["query_result"] = {
             "columns": list(execution.columns),
             "rows": list(execution.rows),
+            "rows_truncated": execution.rows_truncated,
+            "row_limit": execution.row_limit,
+            "timeout_seconds": execution.timeout_seconds,
+            "execution_started": execution.execution_started,
         }
         if not execution.is_success:
             category_by_execution = {
@@ -256,6 +270,7 @@ class Day07Agent:
                 "field": Day07ErrorCategory.FIELD,
                 "safety": Day07ErrorCategory.SQL_SAFETY,
                 "binding": Day07ErrorCategory.MODEL_OUTPUT,
+                "timeout": Day07ErrorCategory.SQL_SAFETY,
                 "database": Day07ErrorCategory.DATABASE,
             }
             assert execution.error_type is not None

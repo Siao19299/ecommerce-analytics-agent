@@ -1,8 +1,8 @@
-"""Day 7 SQL context, generation contract, and minimal read-only execution.
+"""SQL context, generation contract, and guarded read-only execution.
 
-This module deliberately stops short of Day 8 AST validation and Day 9 repair.
-It still enforces the minimum boundary needed to execute generated SQL safely:
-one SELECT/WITH statement, named value binding, and a read-only SQLite handle.
+Day 8 adds SQLGlot AST validation, plan-scoped allowlists, row caps, and a
+SQLite progress-handler deadline. Day 9 model-driven repair remains out of
+scope: every safety rejection is returned directly without another model call.
 """
 
 from __future__ import annotations
@@ -11,10 +11,11 @@ import csv
 import json
 import re
 import sqlite3
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from datetime import timedelta
 from enum import Enum
 from pathlib import Path
+from time import monotonic
 from typing import Any, Sequence
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
@@ -34,6 +35,12 @@ from src.ecommerce_agent.model_client import (
     TransientModelError,
 )
 from src.ecommerce_agent.retrieval import RetrievalDocument, RetrievalHit
+from src.ecommerce_agent.sql_safety import (
+    SqlSafetyErrorCode,
+    SqlSafetyPolicy,
+    SqlSafetyTrace,
+    validate_sql_safety,
+)
 
 
 ParameterValue = str | int | float | bool | None
@@ -62,6 +69,7 @@ class QueryExecutionErrorType(str, Enum):
     FIELD = "field"
     BINDING = "binding"
     SAFETY = "safety"
+    TIMEOUT = "timeout"
     DATABASE = "database"
 
 
@@ -77,13 +85,16 @@ class SqlGenerationContext:
     schema_fields: tuple[dict[str, Any], ...]
     table_context: tuple[dict[str, Any], ...]
     parameter_contract: dict[str, ParameterValue]
+    safety_policy: SqlSafetyPolicy
     field_scope: str = (
         "canonical columns of required metric and dimension tables; "
         "not arbitrary join permission"
     )
 
     def to_prompt_payload(self) -> dict[str, Any]:
-        return asdict(self)
+        payload = asdict(self)
+        payload.pop("safety_policy")
+        return payload
 
 
 @dataclass(frozen=True)
@@ -92,6 +103,7 @@ class SqlGenerationResult:
     response: ModelResponse | None
     error_type: SqlGenerationErrorType | None = None
     error_message: str | None = None
+    safety_trace: SqlSafetyTrace | None = None
 
     @property
     def is_success(self) -> bool:
@@ -104,6 +116,11 @@ class QueryExecutionResult:
     rows: tuple[dict[str, Any], ...] = ()
     error_type: QueryExecutionErrorType | None = None
     error_message: str | None = None
+    safety_trace: SqlSafetyTrace | None = None
+    execution_started: bool = False
+    rows_truncated: bool = False
+    row_limit: int | None = None
+    timeout_seconds: float | None = None
 
     @property
     def is_success(self) -> bool:
@@ -201,6 +218,16 @@ def build_sql_generation_context(
         for row in schema_rows
         if row["table_name"] in required_tables
     )
+    global_schema: dict[str, set[str]] = {}
+    plan_schema: dict[str, set[str]] = {}
+    for row in schema_rows:
+        global_schema.setdefault(row["table_name"], set()).add(
+            row["column_name"]
+        )
+        if row["table_name"] in required_tables:
+            plan_schema.setdefault(row["table_name"], set()).add(
+                row["column_name"]
+            )
 
     table_context = []
     for table in sorted(required_tables):
@@ -228,6 +255,10 @@ def build_sql_generation_context(
         schema_fields=schema_fields,
         table_context=tuple(table_context),
         parameter_contract=build_parameter_contract(plan),
+        safety_policy=SqlSafetyPolicy(
+            global_schema=global_schema,
+            plan_schema=plan_schema,
+        ),
     )
 
 
@@ -303,16 +334,16 @@ class SqlGenerator:
                 error_message=_validation_message(error),
             )
 
-        try:
-            validate_single_read_only_statement(query.sql)
-        except ValueError as error:
+        safety = validate_sql_safety(query.sql, context.safety_policy)
+        if not safety.is_safe:
             return SqlGenerationResult(
-                query=None,
+                query=query,
                 response=response,
                 error_type=SqlGenerationErrorType.UNSAFE_STATEMENT,
-                error_message=str(error),
+                error_message=safety.trace.error_message,
+                safety_trace=safety.trace,
             )
-        placeholders = set(re.findall(r":([A-Za-z_][A-Za-z0-9_]*)", query.sql))
+        placeholders = set(safety.trace.referenced_parameters)
         expected = set(context.parameter_contract)
         if placeholders != expected or query.parameters != context.parameter_contract:
             return SqlGenerationResult(
@@ -322,8 +353,13 @@ class SqlGenerator:
                 error_message=(
                     "SQL 命名占位符和参数必须与计划生成的参数合同完全一致"
                 ),
+                safety_trace=safety.trace,
             )
-        return SqlGenerationResult(query=query, response=response)
+        return SqlGenerationResult(
+            query=query,
+            response=response,
+            safety_trace=safety.trace,
+        )
 
     def _build_messages(
         self,
@@ -351,7 +387,10 @@ class SqlGenerator:
 
 
 def validate_single_read_only_statement(sql: str) -> None:
-    """Lexical Day 7 guard; full SQL AST enforcement belongs to Day 8."""
+    """Legacy lexical helper retained for compatibility with Day 7 tests.
+
+    Production generation and execution use ``validate_sql_safety`` instead.
+    """
     normalized = _remove_sql_comments_and_literals(sql).strip()
     if not normalized:
         raise ValueError("SQL 不能为空")
@@ -435,13 +474,17 @@ def execute_read_only_query(
     database_path: str | Path,
     sql: str,
     parameters: dict[str, ParameterValue] | None = None,
+    *,
+    safety_policy: SqlSafetyPolicy,
 ) -> QueryExecutionResult:
-    try:
-        validate_single_read_only_statement(sql)
-    except ValueError as error:
+    safety = validate_sql_safety(sql, safety_policy)
+    if not safety.is_safe:
         return QueryExecutionResult(
             error_type=QueryExecutionErrorType.SAFETY,
-            error_message=str(error),
+            error_message=safety.trace.error_message,
+            safety_trace=safety.trace,
+            row_limit=safety_policy.max_rows,
+            timeout_seconds=safety_policy.timeout_seconds,
         )
 
     path = Path(database_path).resolve()
@@ -449,28 +492,96 @@ def execute_read_only_query(
         return QueryExecutionResult(
             error_type=QueryExecutionErrorType.DATABASE,
             error_message=f"数据库不存在：{path}",
+            safety_trace=safety.trace,
+            row_limit=safety_policy.max_rows,
+            timeout_seconds=safety_policy.timeout_seconds,
         )
-    connection = sqlite3.connect(
-        f"file:{path.as_posix()}?mode=ro",
-        uri=True,
-    )
+    try:
+        connection = sqlite3.connect(
+            f"file:{path.as_posix()}?mode=ro",
+            uri=True,
+        )
+    except sqlite3.Error as error:
+        return QueryExecutionResult(
+            error_type=QueryExecutionErrorType.DATABASE,
+            error_message=str(error),
+            safety_trace=safety.trace,
+            row_limit=safety_policy.max_rows,
+            timeout_seconds=safety_policy.timeout_seconds,
+        )
+    deadline = monotonic() + safety_policy.timeout_seconds
+    timed_out = False
+
+    def stop_after_deadline() -> int:
+        nonlocal timed_out
+        if monotonic() >= deadline:
+            timed_out = True
+            return 1
+        return 0
+
     try:
         connection.execute("PRAGMA query_only = ON")
+        for table in safety.trace.referenced_tables:
+            actual_columns = {
+                row[1]
+                for row in connection.execute(
+                    f'PRAGMA table_info("{table}")'
+                )
+            }
+            expected_columns = set(safety_policy.global_schema[table])
+            if actual_columns != expected_columns:
+                mismatch_trace = replace(
+                    safety.trace,
+                    accepted=False,
+                    error_code=(
+                        SqlSafetyErrorCode.DATABASE_SCHEMA_MISMATCH
+                    ),
+                    error_message=(
+                        f"数据库实际字段与全局允许列表不一致：{table}"
+                    ),
+                )
+                return QueryExecutionResult(
+                    error_type=QueryExecutionErrorType.SAFETY,
+                    error_message=mismatch_trace.error_message,
+                    safety_trace=mismatch_trace,
+                    row_limit=safety_policy.max_rows,
+                    timeout_seconds=safety_policy.timeout_seconds,
+                )
+        connection.set_progress_handler(
+            stop_after_deadline,
+            safety_policy.progress_handler_steps,
+        )
         cursor = connection.execute(sql, parameters or {})
         columns = tuple(column[0] for column in cursor.description or ())
+        fetched = cursor.fetchmany(safety_policy.max_rows + 1)
+        rows_truncated = len(fetched) > safety_policy.max_rows
+        returned = fetched[: safety_policy.max_rows]
         return QueryExecutionResult(
             columns=columns,
-            rows=tuple(rows_to_dicts(cursor)),
+            rows=tuple(
+                dict(zip(columns, row)) for row in returned
+            ),
+            safety_trace=safety.trace,
+            execution_started=True,
+            rows_truncated=rows_truncated,
+            row_limit=safety_policy.max_rows,
+            timeout_seconds=safety_policy.timeout_seconds,
         )
     except sqlite3.ProgrammingError as error:
         return QueryExecutionResult(
             error_type=QueryExecutionErrorType.BINDING,
             error_message=str(error),
+            safety_trace=safety.trace,
+            execution_started=True,
+            row_limit=safety_policy.max_rows,
+            timeout_seconds=safety_policy.timeout_seconds,
         )
     except sqlite3.OperationalError as error:
         message = str(error)
         lowered = message.lower()
-        if "syntax error" in lowered or "incomplete input" in lowered:
+        if timed_out and "interrupted" in lowered:
+            error_type = QueryExecutionErrorType.TIMEOUT
+        elif "syntax error" in lowered or "incomplete input" in lowered:
             error_type = QueryExecutionErrorType.SQL_SYNTAX
         elif "no such column" in lowered or "ambiguous column" in lowered:
             error_type = QueryExecutionErrorType.FIELD
@@ -481,13 +592,22 @@ def execute_read_only_query(
         return QueryExecutionResult(
             error_type=error_type,
             error_message=message,
+            safety_trace=safety.trace,
+            execution_started=True,
+            row_limit=safety_policy.max_rows,
+            timeout_seconds=safety_policy.timeout_seconds,
         )
     except sqlite3.DatabaseError as error:
         return QueryExecutionResult(
             error_type=QueryExecutionErrorType.DATABASE,
             error_message=str(error),
+            safety_trace=safety.trace,
+            execution_started=True,
+            row_limit=safety_policy.max_rows,
+            timeout_seconds=safety_policy.timeout_seconds,
         )
     finally:
+        connection.set_progress_handler(None, 0)
         connection.close()
 
 

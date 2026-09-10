@@ -217,6 +217,48 @@ def test_metric_dimension_semantics_stop_before_sql(tmp_path):
     assert len(sql_client.requests) == 0
 
 
+def test_day8_ast_rejection_is_traced_without_execution_or_repair(tmp_path):
+    database = tmp_path / "sample.sqlite3"
+    _sample_database(database)
+    question = "2018 年 6 月已送达订单 GMV（不含运费）是多少？"
+    agent, planning_client, sql_client = _agent(
+        database,
+        question,
+        {
+            "status": "ready",
+            "plan": {
+                "metrics": ["delivered_gmv"],
+                "dimensions": [],
+                "filters": [],
+                "time_range": {
+                    "mode": "bounded",
+                    "start_date": "2018-06-01",
+                    "end_date": "2018-06-30",
+                },
+            },
+            "evidence_document_ids": ["metric:delivered_gmv"],
+        },
+        {
+            "sql": "DELETE FROM fact_orders",
+            "parameters": {
+                "start_date": "2018-06-01",
+                "end_date_exclusive": "2018-07-01",
+            },
+        },
+    )
+
+    record = agent.run(question)
+
+    assert record["status"] == "failed"
+    assert record["error"]["category"] == "sql_safety"
+    assert record["sql"] == "DELETE FROM fact_orders"
+    assert record["sql_safety"]["accepted"] is False
+    assert record["sql_safety"]["error_code"] == "non_query"
+    assert record["query_result"] is None
+    assert len(planning_client.requests) == 1
+    assert len(sql_client.requests) == 1
+
+
 def test_day7_fixture_is_exactly_ten_and_discloses_sources():
     cases = json.loads(
         (ROOT / "tests/fixtures/day07/cases.json").read_text(

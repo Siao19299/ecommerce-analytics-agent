@@ -1,0 +1,120 @@
+{
+  "source_disclosure": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+  "cases": [
+    {
+      "case_id": "D8_01",
+      "category": "legal_alias_query",
+      "sql": "SELECT o.order_status, COUNT(*) AS order_count FROM fact_orders AS o GROUP BY o.order_status ORDER BY o.order_status",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "succeeded"
+    },
+    {
+      "case_id": "D8_02",
+      "category": "legal_cte_query",
+      "sql": "WITH delivered AS (SELECT o.customer_id FROM fact_orders AS o WHERE o.order_status = 'delivered') SELECT COUNT(DISTINCT c.customer_unique_id) AS customer_count FROM delivered AS d JOIN dim_customers AS c ON c.customer_id = d.customer_id",
+      "plan_tables": ["fact_orders", "dim_customers"],
+      "expected_outcome": "succeeded"
+    },
+    {
+      "case_id": "D8_03",
+      "category": "row_limit_and_wildcard",
+      "sql": "SELECT o.* FROM fact_orders AS o ORDER BY o.order_id",
+      "plan_tables": ["fact_orders"],
+      "max_rows": 5,
+      "expected_outcome": "succeeded_truncated"
+    },
+    {
+      "case_id": "D8_04",
+      "category": "empty_sql",
+      "sql": " ",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_05",
+      "category": "parse_failure",
+      "sql": "SELECT 'unterminated",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_06",
+      "category": "multiple_statements",
+      "sql": "SELECT COUNT(*) FROM fact_orders; SELECT COUNT(*) FROM dim_customers",
+      "plan_tables": ["fact_orders", "dim_customers"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_07",
+      "category": "insert",
+      "sql": "INSERT INTO fact_orders(order_id) VALUES ('unsafe')",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_08",
+      "category": "update",
+      "sql": "UPDATE fact_orders SET order_status = 'unsafe'",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_09",
+      "category": "delete",
+      "sql": "DELETE FROM fact_orders",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_10",
+      "category": "drop",
+      "sql": "DROP TABLE fact_orders",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_11",
+      "category": "alter",
+      "sql": "ALTER TABLE fact_orders ADD COLUMN unsafe TEXT",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_12",
+      "category": "outside_global_table",
+      "sql": "SELECT name FROM sqlite_master",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_13",
+      "category": "outside_analysis_plan_table",
+      "sql": "SELECT SUM(payment_value) FROM fact_payments",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_14",
+      "category": "unknown_field",
+      "sql": "SELECT o.final_status FROM fact_orders AS o",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_15",
+      "category": "forbidden_function",
+      "sql": "SELECT load_extension('unsafe')",
+      "plan_tables": ["fact_orders"],
+      "expected_outcome": "safety_rejected"
+    },
+    {
+      "case_id": "D8_16",
+      "category": "timeout_despite_limit",
+      "sql": "WITH RECURSIVE counter(x) AS (SELECT 1 UNION ALL SELECT x + 1 FROM counter WHERE x < 100000000) SELECT x FROM counter ORDER BY x DESC LIMIT 1",
+      "plan_tables": ["fact_orders"],
+      "timeout_seconds": 0.001,
+      "progress_handler_steps": 1,
+      "expected_outcome": "timeout"
+    }
+  ]
+}

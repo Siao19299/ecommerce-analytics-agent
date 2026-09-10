@@ -34,6 +34,7 @@ from src.ecommerce_agent.sql_generation import (
     SqlGenerator,
     execute_read_only_query,
 )
+from src.ecommerce_agent.sql_safety import build_global_sql_policy
 
 
 APPROVED_CASE_IDS = ("D7_01", "D7_02", "D7_04", "D7_05")
@@ -96,6 +97,7 @@ def _evaluate_reference(
         database_path,
         case["reference_sql"],
         case.get("reference_parameters", {}),
+        safety_policy=build_global_sql_policy(Path(__file__).parents[2]),
     )
     if not reference.is_success:
         raise RuntimeError(

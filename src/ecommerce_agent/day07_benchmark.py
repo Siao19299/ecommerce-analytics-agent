@@ -22,6 +22,7 @@ from src.ecommerce_agent.sql_generation import (
     SqlGenerator,
     execute_read_only_query,
 )
+from src.ecommerce_agent.sql_safety import build_global_sql_policy
 
 
 EXPECTED_OUTCOMES = {
@@ -62,6 +63,13 @@ def observed_outcome(record: dict[str, Any]) -> str:
     if record["status"] == "needs_clarification":
         return "needs_clarification"
     category = (record.get("error") or {}).get("category")
+    if category == "sql_safety":
+        safety_code = (record.get("sql_safety") or {}).get("error_code")
+        if safety_code == "parse_error":
+            return "sql_syntax_error"
+        if safety_code == "column_resolution_failed":
+            return "field_error"
+        return "sql_safety_error"
     return {
         "retrieval": "retrieval_error",
         "sql_syntax": "sql_syntax_error",
@@ -170,6 +178,7 @@ def run_case(
             database_path,
             reference_sql,
             case.get("reference_parameters", {}),
+            safety_policy=build_global_sql_policy(root),
         )
         if not reference.is_success:
             raise RuntimeError(

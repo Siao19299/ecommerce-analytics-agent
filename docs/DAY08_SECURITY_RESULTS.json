@@ -1,0 +1,1133 @@
+{
+  "measurement_scope": "offline_real_sqlite_execution_with_assistant_authored_mechanical_security_cases; no_model_or_external_api_calls",
+  "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+  "fixture_sha256": "cb908cc12258831a7e7c3cf4b7009f2cfaeb03a4a6860892ecab6c07403eaaec",
+  "database_path": "data/processed/olist.sqlite3",
+  "global_schema": {
+    "dim_customers": [
+      "customer_city",
+      "customer_id",
+      "customer_state",
+      "customer_unique_id",
+      "customer_zip_code_prefix"
+    ],
+    "dim_products": [
+      "product_category_name",
+      "product_description_lenght",
+      "product_height_cm",
+      "product_id",
+      "product_length_cm",
+      "product_name_lenght",
+      "product_photos_qty",
+      "product_weight_g",
+      "product_width_cm"
+    ],
+    "dim_sellers": [
+      "seller_city",
+      "seller_id",
+      "seller_state",
+      "seller_zip_code_prefix"
+    ],
+    "fact_order_items": [
+      "freight_value",
+      "order_id",
+      "order_item_id",
+      "price",
+      "product_id",
+      "seller_id",
+      "shipping_limit_date"
+    ],
+    "fact_orders": [
+      "customer_id",
+      "order_approved_at",
+      "order_delivered_carrier_date",
+      "order_delivered_customer_date",
+      "order_estimated_delivery_date",
+      "order_id",
+      "order_purchase_timestamp",
+      "order_status"
+    ],
+    "fact_payments": [
+      "order_id",
+      "payment_installments",
+      "payment_sequential",
+      "payment_type",
+      "payment_value"
+    ]
+  },
+  "database_sha256_before": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "database_sha256_after": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "database_unchanged": true,
+  "case_count": 16,
+  "expectation_met_count": 16,
+  "observed_outcome_counts": {
+    "safety_rejected": 12,
+    "succeeded": 2,
+    "succeeded_truncated": 1,
+    "timeout": 1
+  },
+  "safety_rejections_entering_sqlite": 0,
+  "cases": [
+    {
+      "case_id": "D8_01",
+      "category": "legal_alias_query",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT o.order_status, COUNT(*) AS order_count FROM fact_orders AS o GROUP BY o.order_status ORDER BY o.order_status",
+      "expected_outcome": "succeeded",
+      "observed_outcome": "succeeded",
+      "expectation_met": true,
+      "execution_started": true,
+      "error_type": null,
+      "error_message": null,
+      "safety_trace": {
+        "accepted": true,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [
+          "fact_orders"
+        ],
+        "referenced_columns": [
+          "fact_orders.order_status"
+        ],
+        "referenced_parameters": [],
+        "error_code": null,
+        "error_message": null,
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 8,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": [
+        {
+          "order_status": "approved",
+          "order_count": 2
+        },
+        {
+          "order_status": "canceled",
+          "order_count": 625
+        },
+        {
+          "order_status": "created",
+          "order_count": 5
+        },
+        {
+          "order_status": "delivered",
+          "order_count": 96478
+        },
+        {
+          "order_status": "invoiced",
+          "order_count": 314
+        }
+      ]
+    },
+    {
+      "case_id": "D8_02",
+      "category": "legal_cte_query",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "WITH delivered AS (SELECT o.customer_id FROM fact_orders AS o WHERE o.order_status = 'delivered') SELECT COUNT(DISTINCT c.customer_unique_id) AS customer_count FROM delivered AS d JOIN dim_customers AS c ON c.customer_id = d.customer_id",
+      "expected_outcome": "succeeded",
+      "observed_outcome": "succeeded",
+      "expectation_met": true,
+      "execution_started": true,
+      "error_type": null,
+      "error_message": null,
+      "safety_trace": {
+        "accepted": true,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [
+          "dim_customers",
+          "fact_orders"
+        ],
+        "referenced_columns": [
+          "dim_customers.customer_id",
+          "dim_customers.customer_unique_id",
+          "fact_orders.customer_id",
+          "fact_orders.order_status"
+        ],
+        "referenced_parameters": [],
+        "error_code": null,
+        "error_message": null,
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "dim_customers": [
+              "customer_city",
+              "customer_id",
+              "customer_state",
+              "customer_unique_id",
+              "customer_zip_code_prefix"
+            ],
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "dim_customers": [
+              "customer_city",
+              "customer_id",
+              "customer_state",
+              "customer_unique_id",
+              "customer_zip_code_prefix"
+            ],
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 1,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": [
+        {
+          "customer_count": 93358
+        }
+      ]
+    },
+    {
+      "case_id": "D8_03",
+      "category": "row_limit_and_wildcard",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT o.* FROM fact_orders AS o ORDER BY o.order_id",
+      "expected_outcome": "succeeded_truncated",
+      "observed_outcome": "succeeded_truncated",
+      "expectation_met": true,
+      "execution_started": true,
+      "error_type": null,
+      "error_message": null,
+      "safety_trace": {
+        "accepted": true,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [
+          "fact_orders"
+        ],
+        "referenced_columns": [
+          "fact_orders.customer_id",
+          "fact_orders.order_approved_at",
+          "fact_orders.order_delivered_carrier_date",
+          "fact_orders.order_delivered_customer_date",
+          "fact_orders.order_estimated_delivery_date",
+          "fact_orders.order_id",
+          "fact_orders.order_purchase_timestamp",
+          "fact_orders.order_status"
+        ],
+        "referenced_parameters": [],
+        "error_code": null,
+        "error_message": null,
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 5,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 5,
+      "rows_truncated": true,
+      "row_limit": 5,
+      "timeout_seconds": 10.0,
+      "rows_preview": [
+        {
+          "order_id": "00010242fe8c5a6d1ba2dd792cb16214",
+          "customer_id": "3ce436f183e68e07877b285a838db11a",
+          "order_status": "delivered",
+          "order_purchase_timestamp": "2017-09-13 08:59:02",
+          "order_approved_at": "2017-09-13 09:45:35",
+          "order_delivered_carrier_date": "2017-09-19 18:34:16",
+          "order_delivered_customer_date": "2017-09-20 23:43:48",
+          "order_estimated_delivery_date": "2017-09-29 00:00:00"
+        },
+        {
+          "order_id": "00018f77f2f0320c557190d7a144bdd3",
+          "customer_id": "f6dd3ec061db4e3987629fe6b26e5cce",
+          "order_status": "delivered",
+          "order_purchase_timestamp": "2017-04-26 10:53:06",
+          "order_approved_at": "2017-04-26 11:05:13",
+          "order_delivered_carrier_date": "2017-05-04 14:35:00",
+          "order_delivered_customer_date": "2017-05-12 16:04:24",
+          "order_estimated_delivery_date": "2017-05-15 00:00:00"
+        },
+        {
+          "order_id": "000229ec398224ef6ca0657da4fc703e",
+          "customer_id": "6489ae5e4333f3693df5ad4372dab6d3",
+          "order_status": "delivered",
+          "order_purchase_timestamp": "2018-01-14 14:33:31",
+          "order_approved_at": "2018-01-14 14:48:30",
+          "order_delivered_carrier_date": "2018-01-16 12:36:48",
+          "order_delivered_customer_date": "2018-01-22 13:19:16",
+          "order_estimated_delivery_date": "2018-02-05 00:00:00"
+        },
+        {
+          "order_id": "00024acbcdf0a6daa1e931b038114c75",
+          "customer_id": "d4eb9395c8c0431ee92fce09860c5a06",
+          "order_status": "delivered",
+          "order_purchase_timestamp": "2018-08-08 10:00:35",
+          "order_approved_at": "2018-08-08 10:10:18",
+          "order_delivered_carrier_date": "2018-08-10 13:28:00",
+          "order_delivered_customer_date": "2018-08-14 13:32:39",
+          "order_estimated_delivery_date": "2018-08-20 00:00:00"
+        },
+        {
+          "order_id": "00042b26cf59d7ce69dfabb4e55b4fd9",
+          "customer_id": "58dbd0b2d70206bf40e62cd34e84d795",
+          "order_status": "delivered",
+          "order_purchase_timestamp": "2017-02-04 13:57:51",
+          "order_approved_at": "2017-02-04 14:10:13",
+          "order_delivered_carrier_date": "2017-02-16 09:46:09",
+          "order_delivered_customer_date": "2017-03-01 16:42:31",
+          "order_estimated_delivery_date": "2017-03-17 00:00:00"
+        }
+      ]
+    },
+    {
+      "case_id": "D8_04",
+      "category": "empty_sql",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": " ",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "SQL 不能为空",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 0,
+        "root_expression": null,
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "empty_sql",
+        "error_message": "SQL 不能为空",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_05",
+      "category": "parse_failure",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT 'unterminated",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "SQLite SQL 解析失败：Error tokenizing 'SELECT 'unterminate'",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 0,
+        "root_expression": null,
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "parse_error",
+        "error_message": "SQLite SQL 解析失败：Error tokenizing 'SELECT 'unterminate'",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_06",
+      "category": "multiple_statements",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT COUNT(*) FROM fact_orders; SELECT COUNT(*) FROM dim_customers",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "只允许执行一条 SQL 查询",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 2,
+        "root_expression": null,
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "multiple_statements",
+        "error_message": "只允许执行一条 SQL 查询",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "dim_customers": [
+              "customer_city",
+              "customer_id",
+              "customer_state",
+              "customer_unique_id",
+              "customer_zip_code_prefix"
+            ],
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "dim_customers": [
+              "customer_city",
+              "customer_id",
+              "customer_state",
+              "customer_unique_id",
+              "customer_zip_code_prefix"
+            ],
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_07",
+      "category": "insert",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "INSERT INTO fact_orders(order_id) VALUES ('unsafe')",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "只允许只读查询，当前根节点为 Insert",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Insert",
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "non_query",
+        "error_message": "只允许只读查询，当前根节点为 Insert",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_08",
+      "category": "update",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "UPDATE fact_orders SET order_status = 'unsafe'",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "只允许只读查询，当前根节点为 Update",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Update",
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "non_query",
+        "error_message": "只允许只读查询，当前根节点为 Update",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_09",
+      "category": "delete",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "DELETE FROM fact_orders",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "只允许只读查询，当前根节点为 Delete",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Delete",
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "non_query",
+        "error_message": "只允许只读查询，当前根节点为 Delete",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_10",
+      "category": "drop",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "DROP TABLE fact_orders",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "只允许只读查询，当前根节点为 Drop",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Drop",
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "non_query",
+        "error_message": "只允许只读查询，当前根节点为 Drop",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_11",
+      "category": "alter",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "ALTER TABLE fact_orders ADD COLUMN unsafe TEXT",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "只允许只读查询，当前根节点为 Alter",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Alter",
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "non_query",
+        "error_message": "只允许只读查询，当前根节点为 Alter",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_12",
+      "category": "outside_global_table",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT name FROM sqlite_master",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "查询引用全局六表允许列表之外的表：sqlite_master",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [
+          "sqlite_master"
+        ],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "global_table_denied",
+        "error_message": "查询引用全局六表允许列表之外的表：sqlite_master",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_13",
+      "category": "outside_analysis_plan_table",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT SUM(payment_value) FROM fact_payments",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "查询引用本次 AnalysisPlan 范围之外的表：fact_payments",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [
+          "fact_payments"
+        ],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "plan_table_denied",
+        "error_message": "查询引用本次 AnalysisPlan 范围之外的表：fact_payments",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_14",
+      "category": "unknown_field",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT o.final_status FROM fact_orders AS o",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "字段、别名、CTE 或通配符无法安全解析：Unknown column: final_status",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [
+          "fact_orders"
+        ],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "column_resolution_failed",
+        "error_message": "字段、别名、CTE 或通配符无法安全解析：Unknown column: final_status",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_15",
+      "category": "forbidden_function",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "SELECT load_extension('unsafe')",
+      "expected_outcome": "safety_rejected",
+      "observed_outcome": "safety_rejected",
+      "expectation_met": true,
+      "execution_started": false,
+      "error_type": "safety",
+      "error_message": "查询包含不允许的 SQLite 函数：load_extension",
+      "safety_trace": {
+        "accepted": false,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": "forbidden_function",
+        "error_message": "查询包含不允许的 SQLite 函数：load_extension",
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 10.0,
+          "progress_handler_steps": 1000
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 10.0,
+      "rows_preview": []
+    },
+    {
+      "case_id": "D8_16",
+      "category": "timeout_despite_limit",
+      "case_source": "assistant_authored_mechanical_security_cases_from_day8_requirements",
+      "sql": "WITH RECURSIVE counter(x) AS (SELECT 1 UNION ALL SELECT x + 1 FROM counter WHERE x < 100000000) SELECT x FROM counter ORDER BY x DESC LIMIT 1",
+      "expected_outcome": "timeout",
+      "observed_outcome": "timeout",
+      "expectation_met": true,
+      "execution_started": true,
+      "error_type": "timeout",
+      "error_message": "interrupted",
+      "safety_trace": {
+        "accepted": true,
+        "dialect": "sqlite",
+        "statement_count": 1,
+        "root_expression": "Select",
+        "referenced_tables": [],
+        "referenced_columns": [],
+        "referenced_parameters": [],
+        "error_code": null,
+        "error_message": null,
+        "policy": {
+          "scope_rule": "global_core_schema_intersection_analysis_plan_schema",
+          "plan_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "effective_schema": {
+            "fact_orders": [
+              "customer_id",
+              "order_approved_at",
+              "order_delivered_carrier_date",
+              "order_delivered_customer_date",
+              "order_estimated_delivery_date",
+              "order_id",
+              "order_purchase_timestamp",
+              "order_status"
+            ]
+          },
+          "max_rows": 1000,
+          "timeout_seconds": 0.001,
+          "progress_handler_steps": 1
+        }
+      },
+      "returned_row_count": 0,
+      "rows_truncated": false,
+      "row_limit": 1000,
+      "timeout_seconds": 0.001,
+      "rows_preview": []
+    }
+  ]
+}

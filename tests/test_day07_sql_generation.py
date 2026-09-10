@@ -26,6 +26,7 @@ from src.ecommerce_agent.sql_generation import (
     rows_to_dicts,
     validate_single_read_only_statement,
 )
+from src.ecommerce_agent.sql_safety import SqlSafetyPolicy
 
 
 ROOT = Path(__file__).parents[1]
@@ -300,6 +301,10 @@ def test_rows_convert_to_dicts_and_executor_is_read_only(tmp_path):
         database,
         "SELECT id, name FROM sample WHERE id >= :minimum ORDER BY id",
         {"minimum": 2},
+        safety_policy=SqlSafetyPolicy(
+            global_schema={"sample": {"id", "name"}},
+            plan_schema={"sample": {"id", "name"}},
+        ),
     )
     assert result.is_success is True
     assert list(result.rows) == [{"id": 2, "name": "beta"}]
@@ -307,6 +312,10 @@ def test_rows_convert_to_dicts_and_executor_is_read_only(tmp_path):
     rejected = execute_read_only_query(
         database,
         "UPDATE sample SET name = 'changed'",
+        safety_policy=SqlSafetyPolicy(
+            global_schema={"sample": {"id", "name"}},
+            plan_schema={"sample": {"id", "name"}},
+        ),
     )
     assert rejected.error_type == QueryExecutionErrorType.SAFETY
     check = sqlite3.connect(database).execute(
@@ -321,8 +330,22 @@ def test_executor_distinguishes_syntax_and_field_errors(tmp_path):
     connection.execute("CREATE TABLE sample (id INTEGER)")
     connection.close()
 
-    syntax = execute_read_only_query(database, "SELECT FROM sample")
-    field = execute_read_only_query(database, "SELECT missing FROM sample")
+    policy = SqlSafetyPolicy(
+        global_schema={"sample": {"id"}},
+        plan_schema={"sample": {"id"}},
+    )
+    syntax = execute_read_only_query(
+        database,
+        "SELECT FROM sample",
+        safety_policy=policy,
+    )
+    field = execute_read_only_query(
+        database,
+        "SELECT missing FROM sample",
+        safety_policy=policy,
+    )
 
-    assert syntax.error_type == QueryExecutionErrorType.SQL_SYNTAX
-    assert field.error_type == QueryExecutionErrorType.FIELD
+    assert syntax.error_type == QueryExecutionErrorType.SAFETY
+    assert syntax.execution_started is False
+    assert field.error_type == QueryExecutionErrorType.SAFETY
+    assert field.execution_started is False
