@@ -1,0 +1,70 @@
+[
+  {
+    "question_id": "human_001",
+    "question": "2018 年 6 月，已送达订单的商品金额加运费，与支付金额相差多少？",
+    "annotation_status": "human_confirmed_primary_metric_only",
+    "primary_metric_id": "delivered_payment_reconciliation_difference",
+    "evidence": "用户回答：已送达订单支付对账差额；并指出计算意图词为：相差。",
+    "expected_schema_fields": null,
+    "note": "用户仅确认了核心指标；Schema 字段和其他必要召回文档尚未标注。不得当作完整召回集合。"
+  },
+  {
+    "question_id": "human_002",
+    "question": "2018 年 6 月内，至少完成两笔已送达订单的客户，占当月已送达客户的比例是多少？",
+    "annotation_status": "human_confirmed_primary_metric_only",
+    "primary_metric_id": "period_repeat_customer_rate",
+    "evidence": "用户在获得客户类四个候选及定义后回答：期间复购率。",
+    "expected_schema_fields": null,
+    "note": "查阅候选定义后完成的人工核心指标标注；尚未确认完整 Schema 召回集合。此前历史回购客户题为讲解例子，不计作独立正确标注。"
+  },
+  {
+    "question_id": "human_003",
+    "question": "2018 年 6 月的销售额是多少？",
+    "annotation_status": "human_confirmed_ambiguity_only",
+    "primary_metric_id": null,
+    "candidate_metric_ids": ["delivered_gmv", "delivered_gmv_including_freight", "delivered_payment_amount"],
+    "expected_behavior": "needs_clarification",
+    "evidence": "用户回答：保留候选并要求澄清，题目缺少销售额的具体定义。候选三项由助手在题目中给出。",
+    "expected_schema_fields": null,
+    "note": "候选不是唯一可执行答案；订单状态范围也是助手指出的待澄清点，未另行获用户确认。此处为检索评测标签，不代表已实现意图识别。"
+  },
+  {
+    "question_id": "human_004",
+    "question": "2018 年 6 月，按商品品类统计已送达订单的支付金额。",
+    "annotation_status": "human_confirmed_incompatibility_only",
+    "primary_metric_id": "delivered_payment_amount",
+    "requested_dimension_ids": ["product_category"],
+    "expected_behavior": "unsupported_metric_dimension",
+    "evidence": "用户回答：现有指标不支持这种维度拆分。指标和维度的英文标识由助手按现有目录映射。",
+    "expected_schema_fields": null,
+    "note": "保留指标限制作为解释依据，不得将可召回解释为可执行；Schema 集合尚未人工标注。"
+  },
+  {
+    "question_id": "human_005",
+    "question": "2018 年 6 月的已送达 GMV，比 2017 年 6 月增长了百分之多少？",
+    "annotation_status": "human_confirmed_primary_metric_only",
+    "primary_metric_id": "delivered_gmv_yoy_rate",
+    "evidence": "用户在获得环比与同比的候选定义后回答：已送达GMV同比增长率。",
+    "expected_schema_fields": null,
+    "note": "核心指标已确认；完整 Schema 集合及同比边界限制尚未人工标注。"
+  },
+  {
+    "question_id": "human_006",
+    "question": "想评估承运商接到货以后，平均需要多少天才能送达客户，不把商家备货时间算进去。",
+    "annotation_status": "human_confirmed_primary_metric_only",
+    "primary_metric_id": "average_carrier_delivery_days",
+    "evidence": "用户在获得平均订单送达时长与平均承运配送时长的候选定义后回答：平均承运配送时长。",
+    "expected_schema_fields": null,
+    "note": "只确认核心指标；分析时间范围、完整 Schema 集合及异常排除说明尚未人工确认。"
+  },
+  {
+    "question_id": "human_007",
+    "question": "2018 年 6 月下单、当前已进入终态的订单中，取消订单占多少比例？",
+    "annotation_status": "human_confirmed_primary_metric_only",
+    "primary_metric_id": "terminal_cancellation_rate",
+    "evidence": "用户回答：终态订单取消率，进入分母。后半句回答 unavailable 应进入哪一部分的问题。",
+    "confirmed_constraint": "unavailable 进入终态分母，不进入取消分子",
+    "expected_schema_fields": null,
+    "note": "核心指标和 unavailable 的分母归属已确认；完整 Schema 集合尚未人工标注。"
+  }
+]

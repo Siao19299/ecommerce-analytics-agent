@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 5 已完成并验收（2026-09-08，`82 passed`）
+- 当前状态：Day 6 已完成离线检索验收（2026-09-10，`112 passed`；15 题中 7 题由用户确认、8 题按用户委托由助手审阅）
 
 ## 一句话介绍
 
@@ -115,6 +115,27 @@ API Key、问题原文或模型响应原文。
 第一轮返回内容未通过 JSON 校验，第二轮在一次有限纠正后生成合法计划；
 两轮分别使用 `1121/512` 和 `1155/120` 个输入/输出 Token。没有根据这些
 数据虚构费用，原始模型响应未写入日志。
+
+## Day 6：Schema 与指标检索
+
+已从现有字典生成 27 份指标文档和 38 份字段文档，实现独立 Retriever
+接口、关键词评分、Top-k、类型及表过滤、完整结果与评分依据保存。
+口径和允许维度沿用 Day 4/5，检索不生成 SQL。
+
+15 题覆盖指标、Schema 和混合检索；7 题来自用户确认，新增 8 题按用户明确
+委托由助手对照字典和 DDL 审阅，不宣称全部由用户独立标注。
+原基线与依赖展开版本在 Top-5 分别找齐 10/15、11/15 题的指定目标，
+但后者 Top-1 从 8/15 降为 6/15，因此默认保留原基线。
+
+运行 `.\.venv\Scripts\python.exe -m src.ecommerce_agent.day06_benchmark --require-reviewed`
+重建完整比较。单题模块 `day06_retrieval` 支持 `--type metric/schema/both`、
+`--top-k` 和 `--retriever baseline/dependencies`。
+运行 `day06_cosine` 重建五个短文本的词频余弦实验；这不是模型 Embedding。
+实际学习时间为用户提供的 3 小时。
+
+验收与复现详见 `docs/DAY06_ACCEPTANCE.md`；实际错误、局限和精简评测结果
+分别保存于 `docs/DAY06_RETRIEVAL_ERRORS.md` 和 `docs/DAY06_BENCHMARK_RESULTS.json`。
+下一步进入 Day 7；本次没有实现 SQL 生成闭环。
 
 ## 评测设计
 

@@ -1,0 +1,302 @@
+{
+  "schema_version": 1,
+  "usage": "development_review_set_not_held_out_benchmark",
+  "label_scope": "required_retrieval_targets_not_exhaustive_SQL_dependencies",
+  "group_rule": "Every group requires at least one returned document ID from its alternatives; do not count mere mention in broad field context as field-document retrieval.",
+  "cases": [
+    {
+      "id": "R01",
+      "question": "2018 年 6 月，已送达订单的商品金额加运费，与支付金额相差多少？",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:delivered_payment_reconciliation_difference"
+        ]
+      ],
+      "annotation_status": "human_reviewed",
+      "annotation_source": "human_001",
+      "behavior": "supported"
+    },
+    {
+      "id": "R02",
+      "question": "2018 年 6 月内，至少完成两笔已送达订单的客户，占当月已送达客户的比例是多少？",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:period_repeat_customer_rate"
+        ]
+      ],
+      "annotation_status": "human_reviewed",
+      "annotation_source": "human_002",
+      "behavior": "supported"
+    },
+    {
+      "id": "R03",
+      "question": "2018 年 6 月的销售额是多少？",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:delivered_gmv"
+        ],
+        [
+          "metric:delivered_gmv_including_freight"
+        ],
+        [
+          "metric:delivered_payment_amount"
+        ]
+      ],
+      "annotation_status": "human_reviewed",
+      "annotation_source": "human_003: user retained the presented candidates and requested clarification",
+      "behavior": "needs_clarification",
+      "note": "These are clarification candidates, not a uniquely executable answer."
+    },
+    {
+      "id": "R04",
+      "question": "2018 年 6 月，按商品品类统计已送达订单的支付金额。",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:delivered_payment_amount"
+        ]
+      ],
+      "annotation_status": "human_reviewed",
+      "annotation_source": "human_004",
+      "behavior": "unsupported_metric_dimension",
+      "requested_dimensions": [
+        "product_category"
+      ]
+    },
+    {
+      "id": "R05",
+      "question": "2018 年 6 月的已送达 GMV，比 2017 年 6 月增长了百分之多少？",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:delivered_gmv_yoy_rate"
+        ]
+      ],
+      "annotation_status": "human_reviewed",
+      "annotation_source": "human_005",
+      "behavior": "supported"
+    },
+    {
+      "id": "R06",
+      "question": "想评估承运商接到货以后，平均需要多少天才能送达客户，不把商家备货时间算进去。",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:average_carrier_delivery_days"
+        ]
+      ],
+      "annotation_status": "human_reviewed",
+      "annotation_source": "human_006",
+      "behavior": "missing_time_range",
+      "note": "Metric retrieval can proceed without a time range; execution planning still needs one."
+    },
+    {
+      "id": "R07",
+      "question": "2018 年 6 月下单、当前已进入终态的订单中，取消订单占多少比例？",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:terminal_cancellation_rate"
+        ]
+      ],
+      "annotation_status": "human_reviewed",
+      "annotation_source": "human_007",
+      "behavior": "supported"
+    },
+    {
+      "id": "R08",
+      "question": "商品价格（不含运费）存在哪个字段？",
+      "retrieval_type": "schema",
+      "expected_groups": [
+        [
+          "schema:fact_order_items.price"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "schema_lookup",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "docs/OLIST_DATA_DICTIONARY.md",
+        "sql/schema.sql"
+      ]
+    },
+    {
+      "id": "R09",
+      "question": "跨订单识别同一个真实客户，应该使用哪个字段？",
+      "retrieval_type": "schema",
+      "expected_groups": [
+        [
+          "schema:dim_customers.customer_unique_id"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "schema_lookup",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "docs/OLIST_DATA_DICTIONARY.md",
+        "sql/schema.sql"
+      ]
+    },
+    {
+      "id": "R10",
+      "question": "订单明细表的复合主键由哪两个字段构成？",
+      "retrieval_type": "schema",
+      "expected_groups": [
+        [
+          "schema:fact_order_items.order_id"
+        ],
+        [
+          "schema:fact_order_items.order_item_id"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "schema_lookup",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "docs/OLIST_DATA_DICTIONARY.md",
+        "sql/schema.sql"
+      ]
+    },
+    {
+      "id": "R11",
+      "question": "支付表的复合主键由哪两个字段构成？",
+      "retrieval_type": "schema",
+      "expected_groups": [
+        [
+          "schema:fact_payments.order_id"
+        ],
+        [
+          "schema:fact_payments.payment_sequential"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "schema_lookup",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "docs/OLIST_DATA_DICTIONARY.md",
+        "sql/schema.sql"
+      ]
+    },
+    {
+      "id": "R12",
+      "question": "查看全部数据中每月已送达 GMV 的口径，以及下单时间和商品价格对应的字段。",
+      "retrieval_type": "both",
+      "expected_groups": [
+        [
+          "metric:delivered_monthly_gmv",
+          "metric:delivered_gmv"
+        ],
+        [
+          "schema:fact_orders.order_purchase_timestamp"
+        ],
+        [
+          "schema:fact_order_items.price"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "supported",
+      "note": "Either GMV definition is accepted here; month and price field documents are separate required targets. Not a complete SQL dependency list.",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "data/metadata/metric_dictionary.csv",
+        "docs/OLIST_DATA_DICTIONARY.md",
+        "sql/schema.sql"
+      ]
+    },
+    {
+      "id": "R13",
+      "question": "平均承运配送时长的定义是什么？计算起止时间分别对应哪些字段？",
+      "retrieval_type": "both",
+      "expected_groups": [
+        [
+          "metric:average_carrier_delivery_days"
+        ],
+        [
+          "schema:fact_orders.order_delivered_carrier_date"
+        ],
+        [
+          "schema:fact_orders.order_delivered_customer_date"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "definition_lookup",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "data/metadata/metric_dictionary.csv",
+        "docs/OLIST_DATA_DICTIONARY.md",
+        "sql/schema.sql"
+      ]
+    },
+    {
+      "id": "R14",
+      "question": "2018 年 6 月，已送达订单的商品金额连同运费总共是多少？",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:delivered_gmv_including_freight"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "supported",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "data/metadata/metric_dictionary.csv",
+        "sql/schema.sql"
+      ]
+    },
+    {
+      "id": "R15",
+      "question": "2018 年 6 月的已送达客户中，在 6 月之前就有已送达订单的客户占多少？",
+      "retrieval_type": "metric",
+      "expected_groups": [
+        [
+          "metric:historical_returning_customer_rate"
+        ]
+      ],
+      "annotation_status": "assistant_reviewed",
+      "annotation_source": "assistant_review_against_canonical_dictionary_and_schema_at_user_request",
+      "behavior": "supported",
+      "note": "Review task, not a claim of an independent answer to the earlier teaching example.",
+      "review_authorization": "用户明确回复：我不知道，你来审阅吧。",
+      "review_date": "2026-09-10",
+      "review_sources": [
+        "data/metadata/database_data_dictionary.csv",
+        "data/metadata/dimension_dictionary.csv",
+        "data/metadata/metric_dictionary.csv",
+        "sql/schema.sql"
+      ]
+    }
+  ],
+  "review_provenance": "7 human-confirmed cases; 8 assistant-reviewed at explicit user request. Not 15 independently human-labeled cases."
+}
