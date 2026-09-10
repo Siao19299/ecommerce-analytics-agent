@@ -138,6 +138,7 @@ class ReadyPlanningDecision(BaseModel):
 
     status: Literal["ready"]
     plan: AnalysisPlan
+    evidence_document_ids: list[str] = Field(default_factory=list)
 
 
 class ClarificationPlanningDecision(BaseModel):
@@ -169,12 +170,14 @@ class PlanValidationErrorType(str, Enum):
     NON_JSON = "non_json"
     INVALID_STRUCTURE = "invalid_structure"
     INVALID_SEMANTICS = "invalid_semantics"
+    UNGROUNDED = "ungrounded"
 
 
 @dataclass(frozen=True)
 class PlanValidationResult:
     plan: AnalysisPlan | None = None
     clarification_question: str | None = None
+    evidence_document_ids: tuple[str, ...] = ()
     error_type: PlanValidationErrorType | None = None
     error_message: str | None = None
 
@@ -267,7 +270,10 @@ def try_validate_planning_decision(
         return PlanValidationResult(
             clarification_question=decision.clarification_question
         )
-    return PlanValidationResult(plan=decision.plan)
+    return PlanValidationResult(
+        plan=decision.plan,
+        evidence_document_ids=tuple(decision.evidence_document_ids),
+    )
 
 
 def _summarize_validation_error(error: ValidationError) -> str:

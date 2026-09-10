@@ -1,0 +1,301 @@
+{
+  "measurement_scope": "offline_integration_with_fake_model_responses_and_preset_sql; not_real_model_generation_accuracy",
+  "input_sha256": "d389cfcdd950048269961feed584f98ddcc82c7048e6a16bd33365009fe33bfe",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "case_count": 10,
+  "expectation_met_count": 10,
+  "observed_outcome_counts": {
+    "business_semantics_error": 2,
+    "field_error": 1,
+    "needs_clarification": 1,
+    "retrieval_error": 1,
+    "sql_syntax_error": 1,
+    "succeeded": 4
+  },
+  "error_category_counts": {
+    "retrieval": 1,
+    "sql_syntax": 1,
+    "field": 1,
+    "business_semantics": 2
+  },
+  "generation_disclosure": {
+    "planning": "fake_model_response",
+    "sql": "fake_model_response_with_preset_sql_fixture",
+    "reference": "assistant_reviewed_reference_query",
+    "external_api_calls": 0
+  },
+  "cases": [
+    {
+      "case_id": "D7_01",
+      "question": "2018 年 6 月已送达订单 GMV（不含运费）是多少？",
+      "expected_outcome": "succeeded",
+      "observed_outcome": "succeeded",
+      "expectation_met": true,
+      "error_category": null,
+      "evaluation_error_category": null,
+      "runtime_outcome": "succeeded",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": true,
+      "candidate_rows_preview": [
+        {
+          "delivered_gmv": 856077.86
+        }
+      ],
+      "reference_rows_preview": [
+        {
+          "delivered_gmv": 856077.86
+        }
+      ]
+    },
+    {
+      "case_id": "D7_02",
+      "question": "2018 年 6 月各客户州的已送达订单数是多少？",
+      "expected_outcome": "succeeded",
+      "observed_outcome": "succeeded",
+      "expectation_met": true,
+      "error_category": null,
+      "evaluation_error_category": null,
+      "runtime_outcome": "succeeded",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": true,
+      "candidate_rows_preview": [
+        {
+          "customer_state": "AC",
+          "delivered_order_count": 3
+        },
+        {
+          "customer_state": "AL",
+          "delivered_order_count": 24
+        },
+        {
+          "customer_state": "AM",
+          "delivered_order_count": 7
+        },
+        {
+          "customer_state": "AP",
+          "delivered_order_count": 2
+        },
+        {
+          "customer_state": "BA",
+          "delivered_order_count": 198
+        }
+      ],
+      "reference_rows_preview": [
+        {
+          "customer_state": "AC",
+          "delivered_order_count": 3
+        },
+        {
+          "customer_state": "AL",
+          "delivered_order_count": 24
+        },
+        {
+          "customer_state": "AM",
+          "delivered_order_count": 7
+        },
+        {
+          "customer_state": "AP",
+          "delivered_order_count": 2
+        },
+        {
+          "customer_state": "BA",
+          "delivered_order_count": 198
+        }
+      ]
+    },
+    {
+      "case_id": "D7_03",
+      "question": "全部数据中已送达真实客户数是多少？",
+      "expected_outcome": "business_semantics_error",
+      "observed_outcome": "business_semantics_error",
+      "expectation_met": true,
+      "error_category": "business_semantics",
+      "evaluation_error_category": null,
+      "runtime_outcome": "business_semantics_error",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": false,
+      "candidate_rows_preview": [
+        {
+          "delivered_customer_count": 96478
+        }
+      ],
+      "reference_rows_preview": [
+        {
+          "delivered_customer_count": 93358
+        }
+      ]
+    },
+    {
+      "case_id": "D7_04",
+      "question": "2018 年 6 月按支付方式统计已送达订单支付金额。",
+      "expected_outcome": "succeeded",
+      "observed_outcome": "succeeded",
+      "expectation_met": true,
+      "error_category": null,
+      "evaluation_error_category": null,
+      "runtime_outcome": "succeeded",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": true,
+      "candidate_rows_preview": [
+        {
+          "payment_type": "boleto",
+          "delivered_payment_amount": 152040.83
+        },
+        {
+          "payment_type": "credit_card",
+          "delivered_payment_amount": 801289.55
+        },
+        {
+          "payment_type": "debit_card",
+          "delivered_payment_amount": 35605.44
+        },
+        {
+          "payment_type": "voucher",
+          "delivered_payment_amount": 23154.86
+        }
+      ],
+      "reference_rows_preview": [
+        {
+          "payment_type": "boleto",
+          "delivered_payment_amount": 152040.83
+        },
+        {
+          "payment_type": "credit_card",
+          "delivered_payment_amount": 801289.55
+        },
+        {
+          "payment_type": "debit_card",
+          "delivered_payment_amount": 35605.44
+        },
+        {
+          "payment_type": "voucher",
+          "delivered_payment_amount": 23154.86
+        }
+      ]
+    },
+    {
+      "case_id": "D7_05",
+      "question": "2018 年 6 月已送达订单的商品金额加运费是多少？",
+      "expected_outcome": "succeeded",
+      "observed_outcome": "succeeded",
+      "expectation_met": true,
+      "error_category": null,
+      "evaluation_error_category": null,
+      "runtime_outcome": "succeeded",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": true,
+      "candidate_rows_preview": [
+        {
+          "delivered_gmv_including_freight": 1011978.29
+        }
+      ],
+      "reference_rows_preview": [
+        {
+          "delivered_gmv_including_freight": 1011978.29
+        }
+      ]
+    },
+    {
+      "case_id": "D7_06",
+      "question": "2018 年 6 月内，至少完成两笔已送达订单的客户，占当月已送达客户的比例是多少？",
+      "expected_outcome": "retrieval_error",
+      "observed_outcome": "retrieval_error",
+      "expectation_met": true,
+      "error_category": "plan_grounding",
+      "evaluation_error_category": "retrieval",
+      "runtime_outcome": "plan_grounding_error",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": null,
+      "candidate_rows_preview": [],
+      "reference_rows_preview": [
+        {
+          "period_repeat_customer_rate": 0.006105
+        }
+      ]
+    },
+    {
+      "case_id": "D7_07",
+      "question": "2018 年 6 月已送达订单运费是多少？",
+      "expected_outcome": "sql_syntax_error",
+      "observed_outcome": "sql_syntax_error",
+      "expectation_met": true,
+      "error_category": "sql_syntax",
+      "evaluation_error_category": null,
+      "runtime_outcome": "sql_syntax_error",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": null,
+      "candidate_rows_preview": [],
+      "reference_rows_preview": [
+        {
+          "delivered_freight_amount": 155900.43
+        }
+      ]
+    },
+    {
+      "case_id": "D7_08",
+      "question": "2018 年 6 月下单的终态订单取消率是多少？",
+      "expected_outcome": "field_error",
+      "observed_outcome": "field_error",
+      "expectation_met": true,
+      "error_category": "field",
+      "evaluation_error_category": null,
+      "runtime_outcome": "field_error",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_match": null,
+      "candidate_rows_preview": [],
+      "reference_rows_preview": [
+        {
+          "terminal_cancellation_rate": 0.002941
+        }
+      ]
+    },
+    {
+      "case_id": "D7_09",
+      "question": "2018 年 6 月的销售额是多少？",
+      "expected_outcome": "needs_clarification",
+      "observed_outcome": "needs_clarification",
+      "expectation_met": true,
+      "error_category": null,
+      "evaluation_error_category": null,
+      "runtime_outcome": "needs_clarification",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": null,
+      "reference_match": null,
+      "candidate_rows_preview": [],
+      "reference_rows_preview": []
+    },
+    {
+      "case_id": "D7_10",
+      "question": "2018 年 6 月，按商品品类统计已送达订单的支付金额。",
+      "expected_outcome": "business_semantics_error",
+      "observed_outcome": "business_semantics_error",
+      "expectation_met": true,
+      "error_category": "business_semantics",
+      "evaluation_error_category": null,
+      "runtime_outcome": "business_semantics_error",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": null,
+      "reference_match": null,
+      "candidate_rows_preview": [],
+      "reference_rows_preview": []
+    }
+  ]
+}

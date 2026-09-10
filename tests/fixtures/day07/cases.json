@@ -1,0 +1,317 @@
+{
+  "cases": [
+    {
+      "case_id": "D7_01",
+      "question": "2018 年 6 月已送达订单 GMV（不含运费）是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "expected_outcome": "succeeded",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["delivered_gmv"],
+          "dimensions": [],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:delivered_gmv"]
+      },
+      "sql_response": {
+        "sql": "SELECT ROUND(SUM(i.price), 2) AS delivered_gmv FROM fact_orders AS o JOIN fact_order_items AS i ON o.order_id = i.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+        "parameters": {
+          "start_date": "2018-06-01",
+          "end_date_exclusive": "2018-07-01"
+        }
+      },
+      "reference_sql": "SELECT ROUND(SUM(i.price), 2) AS delivered_gmv FROM fact_orders AS o JOIN fact_order_items AS i ON o.order_id = i.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+      "reference_parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-07-01"
+      }
+    },
+    {
+      "case_id": "D7_02",
+      "question": "2018 年 6 月各客户州的已送达订单数是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "expected_outcome": "succeeded",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["delivered_order_count"],
+          "dimensions": ["customer_state"],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:delivered_order_count"]
+      },
+      "sql_response": {
+        "sql": "SELECT c.customer_state, COUNT(DISTINCT o.order_id) AS delivered_order_count FROM fact_orders AS o JOIN dim_customers AS c ON o.customer_id = c.customer_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive GROUP BY c.customer_state ORDER BY c.customer_state",
+        "parameters": {
+          "start_date": "2018-06-01",
+          "end_date_exclusive": "2018-07-01"
+        }
+      },
+      "reference_sql": "SELECT c.customer_state, COUNT(DISTINCT o.order_id) AS delivered_order_count FROM fact_orders AS o JOIN dim_customers AS c ON o.customer_id = c.customer_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive GROUP BY c.customer_state ORDER BY c.customer_state",
+      "reference_parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-07-01"
+      }
+    },
+    {
+      "case_id": "D7_03",
+      "question": "全部数据中已送达真实客户数是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "expected_outcome": "business_semantics_error",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["delivered_customer_count"],
+          "dimensions": [],
+          "filters": [],
+          "time_range": {"mode": "all_data"}
+        },
+        "evidence_document_ids": ["metric:delivered_customer_count"]
+      },
+      "sql_response": {
+        "sql": "SELECT COUNT(DISTINCT o.customer_id) AS delivered_customer_count FROM fact_orders AS o WHERE o.order_status = 'delivered'",
+        "parameters": {}
+      },
+      "reference_sql": "SELECT COUNT(DISTINCT c.customer_unique_id) AS delivered_customer_count FROM fact_orders AS o JOIN dim_customers AS c ON o.customer_id = c.customer_id WHERE o.order_status = 'delivered'",
+      "reference_parameters": {}
+    },
+    {
+      "case_id": "D7_04",
+      "question": "2018 年 6 月按支付方式统计已送达订单支付金额。",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "expected_outcome": "succeeded",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["delivered_payment_amount"],
+          "dimensions": ["payment_type"],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:delivered_payment_amount"]
+      },
+      "sql_response": {
+        "sql": "SELECT p.payment_type, ROUND(SUM(p.payment_value), 2) AS delivered_payment_amount FROM fact_orders AS o JOIN fact_payments AS p ON o.order_id = p.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive GROUP BY p.payment_type ORDER BY p.payment_type",
+        "parameters": {
+          "start_date": "2018-06-01",
+          "end_date_exclusive": "2018-07-01"
+        }
+      },
+      "reference_sql": "SELECT p.payment_type, ROUND(SUM(p.payment_value), 2) AS delivered_payment_amount FROM fact_orders AS o JOIN fact_payments AS p ON o.order_id = p.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive GROUP BY p.payment_type ORDER BY p.payment_type",
+      "reference_parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-07-01"
+      }
+    },
+    {
+      "case_id": "D7_05",
+      "question": "2018 年 6 月已送达订单的商品金额加运费是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "expected_outcome": "succeeded",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["delivered_gmv_including_freight"],
+          "dimensions": [],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:delivered_gmv_including_freight"]
+      },
+      "sql_response": {
+        "sql": "SELECT ROUND(SUM(i.price + i.freight_value), 2) AS delivered_gmv_including_freight FROM fact_orders AS o JOIN fact_order_items AS i ON o.order_id = i.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+        "parameters": {
+          "start_date": "2018-06-01",
+          "end_date_exclusive": "2018-07-01"
+        }
+      },
+      "reference_sql": "SELECT ROUND(SUM(i.price) + SUM(i.freight_value), 2) AS delivered_gmv_including_freight FROM fact_orders AS o JOIN fact_order_items AS i ON o.order_id = i.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+      "reference_parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-07-01"
+      }
+    },
+    {
+      "case_id": "D7_06",
+      "question": "2018 年 6 月内，至少完成两笔已送达订单的客户，占当月已送达客户的比例是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "reference_metric_ids": ["period_repeat_customer_rate"],
+      "expected_outcome": "retrieval_error",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["period_repeat_customer_rate"],
+          "dimensions": [],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:period_repeat_customer_rate"]
+      },
+      "sql_response": {
+        "sql": "WITH customer_orders AS (SELECT c.customer_unique_id, COUNT(DISTINCT o.order_id) AS delivered_orders FROM fact_orders AS o JOIN dim_customers AS c ON o.customer_id = c.customer_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive GROUP BY c.customer_unique_id) SELECT ROUND(1.0 * SUM(CASE WHEN delivered_orders >= 2 THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0), 6) AS period_repeat_customer_rate FROM customer_orders",
+        "parameters": {
+          "start_date": "2018-06-01",
+          "end_date_exclusive": "2018-07-01"
+        }
+      },
+      "reference_sql": "WITH customer_orders AS (SELECT c.customer_unique_id, COUNT(DISTINCT o.order_id) AS delivered_orders FROM fact_orders AS o JOIN dim_customers AS c ON o.customer_id = c.customer_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive GROUP BY c.customer_unique_id) SELECT ROUND(1.0 * SUM(CASE WHEN delivered_orders >= 2 THEN 1 ELSE 0 END) / NULLIF(COUNT(*), 0), 6) AS period_repeat_customer_rate FROM customer_orders",
+      "reference_parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-07-01"
+      }
+    },
+    {
+      "case_id": "D7_07",
+      "question": "2018 年 6 月已送达订单运费是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "expected_outcome": "sql_syntax_error",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["delivered_freight_amount"],
+          "dimensions": [],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:delivered_freight_amount"]
+      },
+      "sql_response": {
+        "sql": "SELECT ROUND(SUM(i.freight_value), 2) AS delivered_freight_amount FROM FROM fact_orders AS o JOIN fact_order_items AS i ON o.order_id = i.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+        "parameters": {
+          "start_date": "2018-06-01",
+          "end_date_exclusive": "2018-07-01"
+        }
+      },
+      "reference_sql": "SELECT ROUND(SUM(i.freight_value), 2) AS delivered_freight_amount FROM fact_orders AS o JOIN fact_order_items AS i ON o.order_id = i.order_id WHERE o.order_status = 'delivered' AND o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+      "reference_parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-07-01"
+      }
+    },
+    {
+      "case_id": "D7_08",
+      "question": "2018 年 6 月下单的终态订单取消率是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "reference_source": "assistant_reviewed_reference_query",
+      "expected_outcome": "field_error",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["terminal_cancellation_rate"],
+          "dimensions": [],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:terminal_cancellation_rate"]
+      },
+      "sql_response": {
+        "sql": "SELECT AVG(o.final_status = 'canceled') AS terminal_cancellation_rate FROM fact_orders AS o WHERE o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+        "parameters": {
+          "start_date": "2018-06-01",
+          "end_date_exclusive": "2018-07-01"
+        }
+      },
+      "reference_sql": "SELECT ROUND(1.0 * COUNT(DISTINCT CASE WHEN o.order_status = 'canceled' THEN o.order_id END) / NULLIF(COUNT(DISTINCT CASE WHEN o.order_status IN ('delivered', 'canceled', 'unavailable') THEN o.order_id END), 0), 6) AS terminal_cancellation_rate FROM fact_orders AS o WHERE o.order_purchase_timestamp >= :start_date AND o.order_purchase_timestamp < :end_date_exclusive",
+      "reference_parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-07-01"
+      }
+    },
+    {
+      "case_id": "D7_09",
+      "question": "2018 年 6 月的销售额是多少？",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "expected_outcome": "needs_clarification",
+      "planning_response": {
+        "status": "needs_clarification",
+        "clarification_question": "销售额是指不含运费 GMV、含运费成交额，还是支付金额？"
+      },
+      "sql_response": {
+        "sql": "SELECT 1",
+        "parameters": {}
+      }
+    },
+    {
+      "case_id": "D7_10",
+      "question": "2018 年 6 月，按商品品类统计已送达订单的支付金额。",
+      "question_source": "synthetic_for_public_olist",
+      "planning_response_source": "fake_model_response",
+      "sql_response_source": "fake_model_response_with_preset_sql_fixture",
+      "expected_outcome": "business_semantics_error",
+      "planning_response": {
+        "status": "ready",
+        "plan": {
+          "metrics": ["delivered_payment_amount"],
+          "dimensions": ["product_category"],
+          "filters": [],
+          "time_range": {
+            "mode": "bounded",
+            "start_date": "2018-06-01",
+            "end_date": "2018-06-30"
+          }
+        },
+        "evidence_document_ids": ["metric:delivered_payment_amount"]
+      },
+      "sql_response": {
+        "sql": "SELECT 1",
+        "parameters": {}
+      }
+    }
+  ]
+}

@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 6 已完成离线检索验收（2026-09-10，`112 passed`；15 题中 7 题由用户确认、8 题按用户委托由助手审阅）
+- 当前状态：Day 7 Text-to-SQL 最小闭环已完成并验收（2026-09-10，`128 passed`；离线 10 题与真实 DeepSeek 4 题分开记录；实际学习 2 小时）
 
 ## 一句话介绍
 
@@ -83,6 +83,9 @@
 
 # 运行全部自动测试
 .\.venv\Scripts\python.exe -m pytest
+
+# 运行 Day 7 十题离线闭环与参考查询核对
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day07_benchmark
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -135,7 +138,42 @@ API Key、问题原文或模型响应原文。
 
 验收与复现详见 `docs/DAY06_ACCEPTANCE.md`；实际错误、局限和精简评测结果
 分别保存于 `docs/DAY06_RETRIEVAL_ERRORS.md` 和 `docs/DAY06_BENCHMARK_RESULTS.json`。
-下一步进入 Day 7；本次没有实现 SQL 生成闭环。
+Day 6 验收时尚未实现 SQL 生成闭环；该缺口已在下述 Day 7 工作中补齐。
+
+## Day 7：Text-to-SQL 最小闭环（已完成）
+
+Day 7 已连接关键词检索、Day 5 AnalysisPlanner、计划级规范上下文、SQL
+JSON 生成合同、命名参数绑定、只读 SQLite 执行和字典列表结果。规划 Prompt
+不再只提供 ID；本次召回文档的定义、公式、字段、时间口径、允许维度和粒度
+限制会一并发送。计划通过既有 Pydantic 与 MetricCatalog 校验后，SQL 上下文
+再从唯一指标字典、维度字典、数据库字典和 DDL 补齐所需信息。
+
+10 个公开 Olist 合成问题已实际运行：4 题查询结果与独立参考查询一致，另有
+检索、SQL 语法、字段、业务口径错误及澄清分支。真实客户反例使用
+`customer_id` 得到 96,478，SQL 可执行但与 `customer_unique_id` 规范结果
+93,358 不一致，证明“可执行”不等于“业务正确”。完整结果保存在被忽略的
+`data/processed/day07/offline_benchmark.json`，精简结果和输入/数据库哈希保存
+于 `docs/DAY07_BENCHMARK_RESULTS.json`。
+
+本批次规划为 `fake_model_response`，SQL 为
+`fake_model_response_with_preset_sql_fixture`，外部调用为 0；这只验证工程闭环，
+不是实际模型 SQL 正确率。执行器保留单 SELECT/WITH、单语句、命名参数、SQLite
+只读 URI 和 `query_only` 基础边界。完整 AST 安全留到 Day 8，自动修复留到
+Day 9。验收、概念、错误分类与拟定真实调用批次见
+`docs/DAY07_ACCEPTANCE.md`。
+
+在用户明确授权后，又使用 `deepseek-v4-flash` 请求配置运行 `D7_01/02/04/05`
+四个公开问题。每题恰好一次真实规划与一次真实 SQL 生成，共 8 次成功响应，
+没有重试或修复；四题均通过有据规划、参数校验和只读执行，结果与独立参考查询
+一致。供应商返回总用量为 28,152 输入 Token 和 739 输出 Token；未计算费用，
+不把四题结果外推为整体模型准确率。精简记录见
+`docs/DAY07_LIVE_RESULTS.json`。
+
+学习验收聚焦 Agent 设计而非重复基础 SQL：Schema Linking、检索与规划
+grounding、Prompt 与程序校验的分工、参数合同、只读执行、结果字典化，及
+运行状态与离线评测结论的区别。用户能够指出给定 trace 的根因在 SQL 生成
+阶段，并理解 `execution_succeeded` 不等于业务结果已被证明正确。用户明确
+提供的 Day 7 实际学习时间为 2 小时。
 
 ## 评测设计
 
