@@ -1,0 +1,84 @@
+{
+  "case_source": "assistant_authored_mechanical_day9_cases_from_user_requirements",
+  "response_source": "fake_model_responses_with_real_sqlite_execution",
+  "cases": [
+    {
+      "case_id": "D9_01",
+      "category": "first_attempt_success",
+      "initial_sql": "SELECT COUNT(DISTINCT order_id) AS order_count FROM fact_orders",
+      "repair_sqls": [],
+      "expected_stop_reason": "first_attempt_succeeded"
+    },
+    {
+      "case_id": "D9_02",
+      "category": "one_repair_success",
+      "initial_sql": "SELECT count(DISTINCT order_id, customer_id) FROM fact_orders",
+      "repair_sqls": [
+        "SELECT COUNT(DISTINCT order_id) AS order_count FROM fact_orders"
+      ],
+      "expected_stop_reason": "repair_succeeded"
+    },
+    {
+      "case_id": "D9_03",
+      "category": "repair_limit_reached",
+      "initial_sql": "SELECT count(DISTINCT order_id, customer_id) FROM fact_orders",
+      "repair_sqls": [
+        "SELECT order_id FROM fact_orders UNION SELECT order_id, customer_id FROM fact_orders",
+        "WITH x(a,b) AS (SELECT order_id FROM fact_orders) SELECT a FROM x"
+      ],
+      "max_repair_attempts": 2,
+      "expected_stop_reason": "repair_limit_reached"
+    },
+    {
+      "case_id": "D9_04",
+      "category": "duplicate_candidate",
+      "initial_sql": "SELECT count(DISTINCT order_id, customer_id) FROM fact_orders",
+      "repair_sqls": [
+        " select COUNT(distinct ORDER_ID, CUSTOMER_ID) from FACT_ORDERS;"
+      ],
+      "expected_stop_reason": "duplicate_candidate"
+    },
+    {
+      "case_id": "D9_05",
+      "category": "repair_candidate_safety_rejected",
+      "initial_sql": "SELECT count(DISTINCT order_id, customer_id) FROM fact_orders",
+      "repair_sqls": [
+        "DELETE FROM fact_orders"
+      ],
+      "expected_stop_reason": "repair_candidate_safety_rejected"
+    },
+    {
+      "case_id": "D9_06",
+      "category": "environment_error",
+      "database_mode": "missing",
+      "initial_sql": "SELECT COUNT(DISTINCT order_id) FROM fact_orders",
+      "repair_sqls": [],
+      "expected_stop_reason": "environment_error"
+    },
+    {
+      "case_id": "D9_07",
+      "category": "initial_safety_rejection",
+      "initial_sql": "SELECT missing_column FROM fact_orders",
+      "repair_sqls": [],
+      "expected_stop_reason": "safety_failure"
+    },
+    {
+      "case_id": "D9_08",
+      "category": "resource_timeout",
+      "timeout_seconds": 0.000001,
+      "initial_sql": "WITH RECURSIVE counter(x) AS (SELECT 1 UNION ALL SELECT x + 1 FROM counter WHERE x < 100000000) SELECT x FROM counter ORDER BY x DESC LIMIT 1",
+      "repair_sqls": [],
+      "expected_stop_reason": "resource_failure"
+    },
+    {
+      "case_id": "D9_09",
+      "category": "transport_retries_then_repair_success",
+      "initial_sql": "SELECT count(DISTINCT order_id, customer_id) FROM fact_orders",
+      "repair_sqls": [
+        "SELECT COUNT(DISTINCT order_id) AS order_count FROM fact_orders"
+      ],
+      "simulated_transient_errors": 2,
+      "expected_stop_reason": "repair_succeeded"
+    }
+  ]
+}

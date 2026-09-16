@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 8 SQL 安全工程与核心概念验收已完成（2026-09-11，`155 passed`；16/16 个真实 SQLite 安全案例符合预期；实际学习时间 2 小时）
+- 当前状态：Day 9 SQL 错误修复与可观测性验收已完成（2026-09-16，`198 passed`；离线机械批次 9/9 符合预设停止条件；实际学习时间 2 小时）
 
 ## 一句话介绍
 
@@ -89,6 +89,9 @@
 
 # 运行 Day 8 十六题 SQL 安全实测
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day08_security_benchmark
+
+# 运行 Day 9 离线有限修复与可观测性批次
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day09_benchmark
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -200,12 +203,39 @@ AnalysisPlan 形成的 `SqlGenerationContext`。实际许可为两者交集，�
 这不是模型安全率评测，没有外部 API 调用。完整验收与逐题结果见
 `docs/DAY08_ACCEPTANCE.md` 和 `docs/DAY08_SECURITY_RESULTS.json`。
 
-Day 8 安全失败只记录 trace 并直接返回，不调用模型改写 SQL。数据库错误驱动
-的修复 Prompt、有限修复次数和修复成功率仍留到 Day 9。
+Day 8 安全失败只记录 trace 并直接返回，不调用模型改写 SQL。该边界在 Day 9
+自动修复流程中保持不变。
 
 核心概念复盘已覆盖 AST、语句类型、两级允许范围、别名/CTE/通配符、参数绑定、
 行数与超时、纵深防御、错误分类和 trace。用户完成逐段判断；机械测试样本仍明确
 记为助手编写。用户明确提供的 Day 8 实际学习时间为 2 小时。
+
+## Day 9：SQL 错误修复与可观测性（工程完成）
+
+Day 9 先审计真实错误路径：未知表、未知字段、解析失败、参数合同错误和 Schema
+漂移已经由 Day 8 在 SQLite 前拦截，不能作为数据库后置修复样本。只有通过安全
+门、实际进入 SQLite、命中窄白名单且不需要扩大 AnalysisPlan 范围的局部 SQL
+结构错误才可进入修复。超时、数据库不存在/损坏/锁定、未知数据库错误、安全
+失败和业务结果错误均不调用修复模型。
+
+修复流程使用严格的 `max_repair_attempts`；首次 SQL 加修复候选形成独立的
+`sql_attempt`，模型 429、网络超时和 5xx 的传输尝试另行计数。每条修复候选都
+重新经过同一 AST、全局/计划两级允许列表、参数合同和资源限制。SQL 按 SQLite
+方言规范化并计算 SHA-256；原样输出或历史重复候选以
+`duplicate_candidate` 停止，避免循环。
+
+一次请求使用同一个 `run_id`，逐 attempt 保存触发原因、候选 SQL、规范化值与
+哈希、参数、脱敏错误、安全 trace、是否进入 SQLite、执行耗时与结果、模型名、
+Token、延迟、finish reason、最终状态及停止原因。未知模型元数据保持 `null`。
+SQL 安全通过、修复后执行成功与业务结果正确分别记录；没有独立参考结果时业务
+状态为 `not_evaluated`。
+
+9 个由助手按 Day 9 要求编写的机械案例使用明确标记的假模型响应，并通过统一
+入口实际运行本地 SQLite；9/9 符合预设停止条件。5 个合格案例实际进入修复，
+其中 2 个成功，离线流程修复成功率为 `2/5 = 40%`；分母不包含首轮成功、安全
+拒绝、环境错误或资源超时。这不是实际模型修复准确率，外部 API 调用为 0，成本
+未计算，业务正确性未评估。完整验收和 trace 见 `docs/DAY09_ACCEPTANCE.md` 与
+`docs/DAY09_REPAIR_RESULTS.json`。用户明确提供的 Day 9 实际学习时间为 2 小时。
 
 ## 评测设计
 

@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from enum import Enum
 import time
 from typing import Callable, Protocol, Sequence
@@ -41,6 +41,7 @@ class ModelResponse:
     prompt_tokens: int | None = None
     completion_tokens: int | None = None
     finish_reason: str | None = None
+    transport_attempts: int | None = None
 
 
 class ModelClient(Protocol):
@@ -92,9 +93,11 @@ class RetryingModelClient:
     ) -> ModelResponse:
         for attempt in range(1, self.policy.max_attempts + 1):
             try:
-                return self.client.generate(messages, config)
-            except TransientModelError:
+                response = self.client.generate(messages, config)
+                return replace(response, transport_attempts=attempt)
+            except TransientModelError as error:
                 if attempt == self.policy.max_attempts:
+                    error.transport_attempts = attempt
                     raise
                 delay = (
                     self.policy.initial_backoff_seconds

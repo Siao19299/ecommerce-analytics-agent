@@ -114,6 +114,7 @@ class DeepSeekClient:
                 usage.get("completion_tokens")
             ),
             finish_reason=_optional_str(choice.get("finish_reason")),
+            transport_attempts=1,
         )
 
 
