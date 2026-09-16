@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 11 普通 Python 状态机、LangGraph 最小映射与离线验收已完成（2026-09-16；真实 SQLite 助手机械批次 7/7 符合预期；实际学习时间仅在用户明确提供后记录）
+- 当前状态：Day 11 普通 Python 状态机、LangGraph 最小映射与离线验收已完成（2026-09-16；真实 SQLite 助手机械批次 7/7 符合预期；用户明确提供的实际学习时间为 2 小时）
 
 ## 一句话介绍
 
@@ -292,7 +292,7 @@ LangGraph 1.2.x 映射层使用 `StateGraph`、条件边和 `compile()`，每个
 缺失比较期状态和受控计算失败均符合预设结果。外部 API 调用和模型生成数值均为
 0，数据库哈希未改变；案例没有独立业务金标准，全部标记为
 `not_independently_evaluated`。详见 `docs/DAY11_ACCEPTANCE.md` 与
-`docs/DAY11_RESULTS.json`。
+`docs/DAY11_RESULTS.json`。用户明确提供的 Day 11 实际学习时间为 2 小时。
 
 ## 评测设计
 
