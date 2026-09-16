@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 10 确定性分析工程与离线验收已完成（2026-09-16，`240 passed`；真实 SQLite 离线机械批次 4/4 符合预期；实际学习时间 1 小时）
+- 当前状态：Day 11 普通 Python 状态机、LangGraph 最小映射与离线验收已完成（2026-09-16；真实 SQLite 助手机械批次 7/7 符合预期；实际学习时间仅在用户明确提供后记录）
 
 ## 一句话介绍
 
@@ -95,6 +95,9 @@
 
 # 运行 Day 10 真实 SQLite 确定性分析批次
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day10_benchmark
+
+# 运行 Day 11 顶层状态机真实 SQLite 离线批次
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day11_benchmark
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -264,6 +267,32 @@ Day 10 calculation trace 不修改 Day 9 SQL attempt，通过 `parent_run_id` �
 结果。外部 API 调用和模型生成数值均为 0，数据库哈希未改变。该批次没有独立
 业务金标准，不能称为业务准确率或用户独立完成。详见
 `docs/DAY10_ACCEPTANCE.md` 与 `docs/DAY10_RESULTS.json`。
+
+## Day 11：状态机与 LangGraph（工程完成）
+
+Day 11 使用类型稳定的 `Day11WorkflowState` 统一保存顶层 `run_id`、检索、规划、
+SQL、Day 8 安全 trace、Day 9 SQL attempt trace、Day 10 calculation trace、
+确定性展示、节点轨迹和停止原因。检索、规划、SQL 生成、安全、执行、有限修复、
+确定性分析、展示和收尾共九个节点均声明前置字段与允许写字段；非法状态写入或
+非法条件边作为程序不变量失败处理。
+
+澄清、安全拒绝、资源失败、环境失败、执行失败、修复失败、修复上限、计算失败
+和展示失败是不同终止状态。预期业务分支由结果对象和枚举传播；异常只用于输入
+合同或程序不变量破坏，并在顶层边界转成受控失败。顶层最多执行 16 个节点；
+Day 9 内层继续使用原有修复次数、SQL attempt、模型传输 attempt 和重复候选哈希
+停止条件，没有另写第二套修复循环。
+
+LangGraph 1.2.x 映射层使用 `StateGraph`、条件边和 `compile()`，每个框架节点只
+调用同一个普通 Python `step()`；没有复制指标、安全、修复或计算逻辑，也没有
+引入 LangChain agent、checkpointer、LangSmith 上报或多 Agent。普通 Python
+状态机测试仍是主验收，LangGraph 只验证框架映射与相同终止分支。
+
+七个由助手依据 Day 11 要求编写的机械案例使用假规划/SQL/修复响应，并实际读取
+本地 Olist SQLite：正常成功、需要澄清、安全拒绝、一次修复成功、修复上限、
+缺失比较期状态和受控计算失败均符合预设结果。外部 API 调用和模型生成数值均为
+0，数据库哈希未改变；案例没有独立业务金标准，全部标记为
+`not_independently_evaluated`。详见 `docs/DAY11_ACCEPTANCE.md` 与
+`docs/DAY11_RESULTS.json`。
 
 ## 评测设计
 
