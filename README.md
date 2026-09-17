@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 12 薄 FastAPI 接口与离线验收已完成（2026-09-17；15/15 助手机械 HTTP 案例符合预期，其中 9 例调用完整状态机、6 例实际进入 SQLite；用户明确提供的实际学习时间为 2 小时）
+- 当前状态：Day 13 薄 Streamlit 页面与离线验收已完成（2026-09-17；14/14 助手机械 AppTest 案例符合预期，其中 5 例经过 Day 12 API 和完整状态机、3 例实际进入 SQLite；外部 API 调用为 0；用户明确提供的实际学习时间为 2 小时）
 
 ## 一句话介绍
 
@@ -101,6 +101,12 @@
 
 # 运行 Day 12 FastAPI/TestClient 离线批次
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day12_benchmark
+
+# 启动 Day 13 Streamlit 页面（默认连接本机 8000 端口的 Day 12 API）
+.\.venv\Scripts\python.exe -m streamlit run streamlit_app.py
+
+# 运行 Day 13 Streamlit/AppTest 离线批次
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day13_benchmark
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -316,6 +322,28 @@ lineage 和必要计数；澄清是 200 正常交互分支；安全、资源、�
 未改变。案例没有独立业务金标准，不能记作业务准确率或用户独立完成。详见
 `docs/DAY12_ACCEPTANCE.md` 与 `docs/DAY12_RESULTS.json`。用户明确提供的 Day 12 实际学习
 时间为 2 小时。
+
+## Day 13：Streamlit、测试与用户体验（工程完成）
+
+Day 13 在 Day 12 公开响应合同上增加薄 Streamlit 页面。`PageState` 显式区分空闲、
+提交中和完成状态，表单提交事件与一次性 token 防止普通重运行重复调用。页面只通过
+`AnalysisApiClient` 调用 `/analyze`；生产实现使用有限超时，测试可注入假客户端或
+FastAPI TestClient 本地传输。网络、超时、非 JSON 和合同不匹配使用固定脱敏文案，
+不把异常文本或原始响应交给组件。
+
+成功页显示 workflow status、顶层 `run_id`、确定性结论、最终 SQL、命名参数、结果表、
+API 预计算 chart 数据、calculation status、stop reason 与必要计数。图表转换层不聚合、
+求和、补零或重新计算增长率。缺失比较期和零基期仍是成功工作流中的计算状态。澄清只
+显示 `clarification_question`，不显示 SQL；安全、资源、环境、修复上限、计算和内部
+失败有不同用户语义。完整 trace、Prompt、模型原始响应、本地路径、异常堆栈和 API Key
+不进入页面。Day 12 公共合同没有暴露分析计划，因此页面不绕过 API 去读取内部计划。
+
+测试分为纯单元测试、假客户端 Streamlit AppTest、FastAPI TestClient/API—前端集成，
+以及真实 SQLite 离线验收。最终全量为 `337 passed`；14 个助手机械 AppTest 验收案例
+14/14 符合预设，其中 5 例经过完整 Day 11 假模型状态机和 Day 12 API，3 例实际读取
+Olist SQLite。外部 API 调用和模型生成数值均为 0，数据库及原始文件哈希未改变。案例
+没有独立业务金标准，也没有记录为用户独立完成。详见 `docs/DAY13_ACCEPTANCE.md` 与
+`docs/DAY13_RESULTS.json`。用户明确提供的 Day 13 实际学习时间为 2 小时。
 
 ## 评测设计
 
