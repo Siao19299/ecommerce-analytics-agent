@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 11 普通 Python 状态机、LangGraph 最小映射与离线验收已完成（2026-09-16；真实 SQLite 助手机械批次 7/7 符合预期；用户明确提供的实际学习时间为 2 小时）
+- 当前状态：Day 12 薄 FastAPI 接口与离线验收已完成（2026-09-17；15/15 助手机械 HTTP 案例符合预期，其中 9 例调用完整状态机、6 例实际进入 SQLite；用户明确提供的实际学习时间为 2 小时）
 
 ## 一句话介绍
 
@@ -98,6 +98,9 @@
 
 # 运行 Day 11 顶层状态机真实 SQLite 离线批次
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day11_benchmark
+
+# 运行 Day 12 FastAPI/TestClient 离线批次
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day12_benchmark
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -293,6 +296,26 @@ LangGraph 1.2.x 映射层使用 `StateGraph`、条件边和 `compile()`，每个
 0，数据库哈希未改变；案例没有独立业务金标准，全部标记为
 `not_independently_evaluated`。详见 `docs/DAY11_ACCEPTANCE.md` 与
 `docs/DAY11_RESULTS.json`。用户明确提供的 Day 11 实际学习时间为 2 小时。
+
+## Day 12：FastAPI 接口（工程完成）
+
+Day 12 通过 `create_app(service)` 应用工厂在 Day 11 状态机外增加薄 HTTP 边界。
+`/health` 只报告进程存活与服务是否已装配，不调用模型、不执行完整 Agent，也不运行昂贵
+数据库查询；`/analyze` 使用同步端点调用同步工作流，由 FastAPI 在线程池中执行。
+服务协议和依赖注入允许测试替换为完全离线假服务，不在生产路由中硬编码假模型响应。
+
+请求模型拒绝空问题、超过 2000 字的问题和额外字段。响应是内部状态的显式投影：成功时
+包含同一顶层 `run_id`、最终 SQL 与命名参数、表格、图表、确定性结论、计算状态、停止原因、
+lineage 和必要计数；澄清是 200 正常交互分支；安全、资源、环境、修复上限、计算和内部
+失败保持独立状态。完整 trace 可留在本地，但 API 不返回本地路径、Prompt、模型原始响应、
+内部异常或不必要上下文。
+
+15 个助手机械 HTTP 案例通过 FastAPI TestClient 实际发起 ASGI 请求并 15/15 符合预设结果；
+其中 9 例调用完整 Day 11 假模型状态机，6 例实际进入真实本地 SQLite，另有 2 例脚本化终态、
+1 例未处理异常和 3 例请求校验。外部 API 调用和模型生成数值均为 0，数据库及原始文件哈希
+未改变。案例没有独立业务金标准，不能记作业务准确率或用户独立完成。详见
+`docs/DAY12_ACCEPTANCE.md` 与 `docs/DAY12_RESULTS.json`。用户明确提供的 Day 12 实际学习
+时间为 2 小时。
 
 ## 评测设计
 
