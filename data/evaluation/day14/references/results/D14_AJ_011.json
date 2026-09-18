@@ -1,0 +1,61 @@
+{
+  "case_id": "D14_AJ_011",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "7742697ba30f468ef5162c0f9df67c320ca1ea02c12b634245a74279841787d8",
+  "parameters": {
+    "start_date": "2018-05-01",
+    "end_date_exclusive": "2018-06-01"
+  },
+  "columns": [
+    "product_category",
+    "delivered_freight_to_gmv_rate"
+  ],
+  "rows": [
+    {
+      "product_category": "flores",
+      "delivered_freight_to_gmv_rate": 1.178049
+    },
+    {
+      "product_category": "artigos_de_festas",
+      "delivered_freight_to_gmv_rate": 0.692552
+    },
+    {
+      "product_category": "fashion_underwear_e_moda_praia",
+      "delivered_freight_to_gmv_rate": 0.448698
+    },
+    {
+      "product_category": "fraldas_higiene",
+      "delivered_freight_to_gmv_rate": 0.36453
+    },
+    {
+      "product_category": "alimentos_bebidas",
+      "delivered_freight_to_gmv_rate": 0.351207
+    },
+    {
+      "product_category": "alimentos",
+      "delivered_freight_to_gmv_rate": 0.347747
+    },
+    {
+      "product_category": "construcao_ferramentas_jardim",
+      "delivered_freight_to_gmv_rate": 0.308
+    },
+    {
+      "product_category": "bebidas",
+      "delivered_freight_to_gmv_rate": 0.302814
+    },
+    {
+      "product_category": "unknown",
+      "delivered_freight_to_gmv_rate": 0.285766
+    },
+    {
+      "product_category": "industria_comercio_e_negocios",
+      "delivered_freight_to_gmv_rate": 0.284304
+    }
+  ],
+  "row_count": 10,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

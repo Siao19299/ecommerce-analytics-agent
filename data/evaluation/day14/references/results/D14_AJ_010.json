@@ -1,0 +1,61 @@
+{
+  "case_id": "D14_AJ_010",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "11679a352e85926ee866b3964c912eb9ebb4eb9e1d1cd9eb59324a98d218d3fd",
+  "parameters": {
+    "start_date": "2017-12-01",
+    "end_date_exclusive": "2018-01-01"
+  },
+  "columns": [
+    "product_category",
+    "delivered_item_count"
+  ],
+  "rows": [
+    {
+      "product_category": "cama_mesa_banho",
+      "delivered_item_count": 546
+    },
+    {
+      "product_category": "esporte_lazer",
+      "delivered_item_count": 484
+    },
+    {
+      "product_category": "beleza_saude",
+      "delivered_item_count": 460
+    },
+    {
+      "product_category": "brinquedos",
+      "delivered_item_count": 436
+    },
+    {
+      "product_category": "moveis_decoracao",
+      "delivered_item_count": 378
+    },
+    {
+      "product_category": "relogios_presentes",
+      "delivered_item_count": 353
+    },
+    {
+      "product_category": "ferramentas_jardim",
+      "delivered_item_count": 323
+    },
+    {
+      "product_category": "utilidades_domesticas",
+      "delivered_item_count": 288
+    },
+    {
+      "product_category": "informatica_acessorios",
+      "delivered_item_count": 284
+    },
+    {
+      "product_category": "automotivo",
+      "delivered_item_count": 263
+    }
+  ],
+  "row_count": 10,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 13 薄 Streamlit 页面与离线验收已完成（2026-09-17；14/14 助手机械 AppTest 案例符合预期，其中 5 例经过 Day 12 API 和完整状态机、3 例实际进入 SQLite；外部 API 调用为 0；用户明确提供的实际学习时间为 2 小时）
+- 当前状态：Day 14 固定 Agent 评测集已完成并冻结（2026-09-18；60 题严格按 20/20/10/10 分层，52 份标准 SQL 通过安全门，50 道业务参考重新读取真实 SQLite，逐题执行框架与盲测隔离已验收；真实待评模型和外部 API 调用均为 0）
 
 ## 一句话介绍
 
@@ -107,6 +107,18 @@
 
 # 运行 Day 13 Streamlit/AppTest 离线批次
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day13_benchmark
+
+# 校验 Day 14 固定集、覆盖矩阵与模板重复度
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day14_dataset_validation
+
+# 重新执行标准 SQL 并核对参考结果
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day14_reference_verification
+
+# 运行逐题评测器的确定性内部自检（不是模型准确率）
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day14_evaluator
+
+# 运行 Day 14 完全离线验收
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day14_acceptance
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -344,6 +356,29 @@ API 预计算 chart 数据、calculation status、stop reason 与必要计数。
 Olist SQLite。外部 API 调用和模型生成数值均为 0，数据库及原始文件哈希未改变。案例
 没有独立业务金标准，也没有记录为用户独立完成。详见 `docs/DAY13_ACCEPTANCE.md` 与
 `docs/DAY13_RESULTS.json`。用户明确提供的 Day 13 实际学习时间为 2 小时。
+
+## Day 14：固定 Agent 评测集（工程完成）
+
+Day 14 冻结 `dataset.v1.json`，恰好包含 60 道题：20 道单指标、20 道聚合/筛选/
+多表、10 道 SQL 后确定性分析、10 道危险/歧义/不可回答。每题记录稳定 ID、难度、
+预期工作流与 calculation status、指标、维度、时间范围、SQL/结果引用、命名参数、
+容差、排序、安全、修复边界、来源、作者和审核状态。内容 SHA-256 可检测题目、参考、
+参数或评分规则变化。
+
+52 份标准 SQL 均通过现有 Day 8 安全门和命名参数合同；其中 50 道可回答题重新读取
+真实 Olist SQLite 并与保存结果一致，另外两道为超时和数据库不可用的固定系统失败
+合同。结果比较不要求 SQL 字符串相等，而比较列、行、多重集、稳定顺序、NULL、ISO
+日期和逐列数值容差。同比、环比、贡献度和异常题继续使用 Day 10 确定性 Python，保留
+缺比较期、零基期、不完整月、历史不连续、目标期缺失和零离散度状态。
+
+候选系统只接收 `cases.public.jsonl` 中的 `case_id` 与 `question`。候选提交完成并计算
+哈希后，评测器才加载内部参考资产。逐题结果分别记录 SQL 生成、执行、状态、停止原因、
+calculation status、源结果、最终结果、安全、lineage、attempt 计数和业务参考状态。
+内部 60/60 oracle replay 只验证评测器，不是待评模型准确率。所有 60 题为助手机械编写，
+用户编写/审核和独立业务参考均为 0；真实待评模型、外部 API 调用和模型生成数值均为 0。
+完整验收、覆盖和机器可读结果见 `docs/DAY14_ACCEPTANCE.md`、
+`docs/DAY14_COVERAGE_REPORT.md` 与 `docs/DAY14_RESULTS.json`。用户明确提供的 Day 14
+实际学习时间为 2 小时。
 
 ## 评测设计
 

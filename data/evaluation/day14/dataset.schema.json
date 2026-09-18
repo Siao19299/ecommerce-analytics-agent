@@ -1,0 +1,914 @@
+{
+  "$defs": {
+    "Authorship": {
+      "enum": [
+        "assistant_mechanical",
+        "user_independent",
+        "user_and_assistant_collaborative",
+        "existing_canonical_asset",
+        "deterministic_policy"
+      ],
+      "title": "Authorship",
+      "type": "string"
+    },
+    "BusinessReferenceStatus": {
+      "enum": [
+        "independently_verified",
+        "not_independently_evaluated",
+        "not_applicable_fixed_contract"
+      ],
+      "title": "BusinessReferenceStatus",
+      "type": "string"
+    },
+    "CalculationStatus": {
+      "enum": [
+        "not_applicable",
+        "computed",
+        "missing_current_period",
+        "missing_comparison_period",
+        "zero_baseline",
+        "negative_baseline",
+        "incomplete_period",
+        "detected",
+        "not_detected",
+        "insufficient_evidence",
+        "non_contiguous_history",
+        "zero_dispersion"
+      ],
+      "title": "CalculationStatus",
+      "type": "string"
+    },
+    "ChangeActor": {
+      "enum": [
+        "assistant",
+        "user",
+        "user_and_assistant"
+      ],
+      "title": "ChangeActor",
+      "type": "string"
+    },
+    "ChangeRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "changed_on": {
+          "format": "date",
+          "title": "Changed On",
+          "type": "string"
+        },
+        "changed_by": {
+          "$ref": "#/$defs/ChangeActor"
+        },
+        "change_type": {
+          "enum": [
+            "created",
+            "modified",
+            "reviewed",
+            "frozen"
+          ],
+          "title": "Change Type",
+          "type": "string"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "changed_on",
+        "changed_by",
+        "change_type",
+        "reason"
+      ],
+      "title": "ChangeRecord",
+      "type": "object"
+    },
+    "ComparisonRules": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_columns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Columns",
+          "type": "array"
+        },
+        "allow_extra_columns": {
+          "default": false,
+          "title": "Allow Extra Columns",
+          "type": "boolean"
+        },
+        "row_comparison": {
+          "$ref": "#/$defs/RowComparison"
+        },
+        "order_keys": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/OrderKey"
+          },
+          "title": "Order Keys",
+          "type": "array"
+        },
+        "numeric_tolerance": {
+          "$ref": "#/$defs/NumericTolerance"
+        },
+        "numeric_tolerance_by_column": {
+          "additionalProperties": {
+            "$ref": "#/$defs/NumericTolerance"
+          },
+          "title": "Numeric Tolerance By Column",
+          "type": "object"
+        },
+        "null_policy": {
+          "$ref": "#/$defs/NullPolicy",
+          "default": "strict_json_null"
+        },
+        "date_format": {
+          "const": "iso_8601",
+          "default": "iso_8601",
+          "title": "Date Format",
+          "type": "string"
+        },
+        "preserve_duplicate_rows": {
+          "default": true,
+          "title": "Preserve Duplicate Rows",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "expected_columns",
+        "row_comparison",
+        "numeric_tolerance"
+      ],
+      "title": "ComparisonRules",
+      "type": "object"
+    },
+    "DatasetCategory": {
+      "enum": [
+        "single_metric",
+        "aggregate_filter_join",
+        "multi_step",
+        "risk_ambiguous_unanswerable"
+      ],
+      "title": "DatasetCategory",
+      "type": "string"
+    },
+    "DatasetProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "created_on": {
+          "format": "date",
+          "title": "Created On",
+          "type": "string"
+        },
+        "updated_on": {
+          "format": "date",
+          "title": "Updated On",
+          "type": "string"
+        },
+        "authorship_disclosure": {
+          "minLength": 1,
+          "title": "Authorship Disclosure",
+          "type": "string"
+        },
+        "reference_isolation_policy": {
+          "minLength": 1,
+          "title": "Reference Isolation Policy",
+          "type": "string"
+        },
+        "source_repository_commit": {
+          "pattern": "^[0-9a-f]{7,40}$",
+          "title": "Source Repository Commit",
+          "type": "string"
+        },
+        "database_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Database Sha256",
+          "type": "string"
+        },
+        "change_history": {
+          "items": {
+            "$ref": "#/$defs/ChangeRecord"
+          },
+          "minItems": 1,
+          "title": "Change History",
+          "type": "array"
+        }
+      },
+      "required": [
+        "created_on",
+        "updated_on",
+        "authorship_disclosure",
+        "reference_isolation_policy",
+        "source_repository_commit",
+        "database_sha256",
+        "change_history"
+      ],
+      "title": "DatasetProvenance",
+      "type": "object"
+    },
+    "DatasetSplit": {
+      "enum": [
+        "development",
+        "final_evaluation"
+      ],
+      "title": "DatasetSplit",
+      "type": "string"
+    },
+    "DatasetState": {
+      "enum": [
+        "draft",
+        "frozen"
+      ],
+      "title": "DatasetState",
+      "type": "string"
+    },
+    "Difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ],
+      "title": "Difficulty",
+      "type": "string"
+    },
+    "EvaluationCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "pattern": "^D14_(SM|AJ|MS|RU)_[0-9]{3}$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "question": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/DatasetCategory"
+        },
+        "difficulty": {
+          "$ref": "#/$defs/Difficulty"
+        },
+        "analysis_type": {
+          "minLength": 1,
+          "title": "Analysis Type",
+          "type": "string"
+        },
+        "expected_workflow_status": {
+          "$ref": "#/$defs/WorkflowStatus"
+        },
+        "allowed_stop_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Stop Reasons",
+          "type": "array"
+        },
+        "expected_calculation_status": {
+          "$ref": "#/$defs/CalculationStatus"
+        },
+        "metric_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Metric Ids",
+          "type": "array"
+        },
+        "dimensions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "time_scope": {
+          "$ref": "#/$defs/TimeScope"
+        },
+        "sql_reference": {
+          "$ref": "#/$defs/SqlReference"
+        },
+        "result_reference": {
+          "$ref": "#/$defs/ResultReference"
+        },
+        "comparison_rules": {
+          "$ref": "#/$defs/ComparisonRules"
+        },
+        "should_enter_sqlite": {
+          "title": "Should Enter Sqlite",
+          "type": "boolean"
+        },
+        "allows_repair": {
+          "title": "Allows Repair",
+          "type": "boolean"
+        },
+        "safety_expectation": {
+          "$ref": "#/$defs/SafetyExpectation"
+        },
+        "provenance": {
+          "$ref": "#/$defs/Provenance"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "boundary_conditions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Boundary Conditions",
+          "type": "array"
+        },
+        "created_on": {
+          "format": "date",
+          "title": "Created On",
+          "type": "string"
+        },
+        "updated_on": {
+          "format": "date",
+          "title": "Updated On",
+          "type": "string"
+        },
+        "change_history": {
+          "items": {
+            "$ref": "#/$defs/ChangeRecord"
+          },
+          "minItems": 1,
+          "title": "Change History",
+          "type": "array"
+        }
+      },
+      "required": [
+        "case_id",
+        "question",
+        "category",
+        "difficulty",
+        "analysis_type",
+        "expected_workflow_status",
+        "allowed_stop_reasons",
+        "expected_calculation_status",
+        "metric_ids",
+        "dimensions",
+        "time_scope",
+        "sql_reference",
+        "result_reference",
+        "comparison_rules",
+        "should_enter_sqlite",
+        "allows_repair",
+        "safety_expectation",
+        "provenance",
+        "created_on",
+        "updated_on",
+        "change_history"
+      ],
+      "title": "EvaluationCase",
+      "type": "object"
+    },
+    "NullOrdering": {
+      "enum": [
+        "native",
+        "first",
+        "last"
+      ],
+      "title": "NullOrdering",
+      "type": "string"
+    },
+    "NullPolicy": {
+      "enum": [
+        "strict_json_null"
+      ],
+      "title": "NullPolicy",
+      "type": "string"
+    },
+    "NumericTolerance": {
+      "additionalProperties": false,
+      "properties": {
+        "absolute": {
+          "minimum": 0,
+          "title": "Absolute",
+          "type": "number"
+        },
+        "relative": {
+          "minimum": 0,
+          "title": "Relative",
+          "type": "number"
+        }
+      },
+      "required": [
+        "absolute",
+        "relative"
+      ],
+      "title": "NumericTolerance",
+      "type": "object"
+    },
+    "OrderKey": {
+      "additionalProperties": false,
+      "properties": {
+        "column": {
+          "minLength": 1,
+          "title": "Column",
+          "type": "string"
+        },
+        "direction": {
+          "$ref": "#/$defs/SortDirection"
+        },
+        "nulls": {
+          "$ref": "#/$defs/NullOrdering",
+          "default": "native"
+        }
+      },
+      "required": [
+        "column",
+        "direction"
+      ],
+      "title": "OrderKey",
+      "type": "object"
+    },
+    "PeriodCompletenessExpectation": {
+      "enum": [
+        "complete",
+        "incomplete",
+        "mixed",
+        "not_applicable"
+      ],
+      "title": "PeriodCompletenessExpectation",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "properties": {
+        "case_authorship": {
+          "$ref": "#/$defs/Authorship"
+        },
+        "reference_authorship": {
+          "$ref": "#/$defs/Authorship"
+        },
+        "user_review_status": {
+          "$ref": "#/$defs/UserReviewStatus"
+        },
+        "sqlite_verification_status": {
+          "$ref": "#/$defs/SqliteVerificationStatus"
+        },
+        "business_reference_status": {
+          "$ref": "#/$defs/BusinessReferenceStatus"
+        },
+        "reference_sources": {
+          "items": {
+            "$ref": "#/$defs/ReferenceSource"
+          },
+          "minItems": 1,
+          "title": "Reference Sources",
+          "type": "array"
+        },
+        "derived_from": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Derived From",
+          "type": "array"
+        }
+      },
+      "required": [
+        "case_authorship",
+        "reference_authorship",
+        "user_review_status",
+        "sqlite_verification_status",
+        "business_reference_status",
+        "reference_sources"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ReferenceSource": {
+      "additionalProperties": false,
+      "properties": {
+        "source_type": {
+          "$ref": "#/$defs/ReferenceSourceType"
+        },
+        "locator": {
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_type",
+        "locator"
+      ],
+      "title": "ReferenceSource",
+      "type": "object"
+    },
+    "ReferenceSourceType": {
+      "enum": [
+        "metric_dictionary",
+        "dimension_dictionary",
+        "database_dictionary",
+        "olist_schema",
+        "day04_standard_sql",
+        "day04_advanced_sql",
+        "assistant_authored_sqlite_verified_sql",
+        "deterministic_python",
+        "safety_policy",
+        "clarification_contract",
+        "user_independent_reference"
+      ],
+      "title": "ReferenceSourceType",
+      "type": "string"
+    },
+    "ResultReference": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/ResultReferenceKind"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "summary": {
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "summary"
+      ],
+      "title": "ResultReference",
+      "type": "object"
+    },
+    "ResultReferenceKind": {
+      "enum": [
+        "exact_rows_file",
+        "result_summary",
+        "status_only"
+      ],
+      "title": "ResultReferenceKind",
+      "type": "string"
+    },
+    "RowComparison": {
+      "enum": [
+        "single_row",
+        "ordered",
+        "unordered_multiset",
+        "status_only"
+      ],
+      "title": "RowComparison",
+      "type": "string"
+    },
+    "SafetyDecision": {
+      "enum": [
+        "allow_read_only_execution",
+        "reject_before_sqlite",
+        "not_applicable"
+      ],
+      "title": "SafetyDecision",
+      "type": "string"
+    },
+    "SafetyExpectation": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/SafetyDecision"
+        },
+        "expected_execution_started": {
+          "title": "Expected Execution Started",
+          "type": "boolean"
+        },
+        "maximum_allowed_repair_attempts": {
+          "minimum": 0,
+          "title": "Maximum Allowed Repair Attempts",
+          "type": "integer"
+        },
+        "database_must_remain_unchanged": {
+          "default": true,
+          "title": "Database Must Remain Unchanged",
+          "type": "boolean"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision",
+        "expected_execution_started",
+        "maximum_allowed_repair_attempts",
+        "reason"
+      ],
+      "title": "SafetyExpectation",
+      "type": "object"
+    },
+    "SortDirection": {
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "title": "SortDirection",
+      "type": "string"
+    },
+    "SqlReference": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/SqlReferenceKind"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "named_parameters": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Named Parameters",
+          "type": "object"
+        },
+        "reference_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Name"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "title": "SqlReference",
+      "type": "object"
+    },
+    "SqlReferenceKind": {
+      "enum": [
+        "standard_sql_file",
+        "no_sql_expected"
+      ],
+      "title": "SqlReferenceKind",
+      "type": "string"
+    },
+    "SqliteVerificationStatus": {
+      "enum": [
+        "pending",
+        "verified_real_sqlite",
+        "not_applicable"
+      ],
+      "title": "SqliteVerificationStatus",
+      "type": "string"
+    },
+    "TimeScope": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "$ref": "#/$defs/TimeScopeMode"
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Date"
+        },
+        "end_date_exclusive": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Date Exclusive"
+        },
+        "time_field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Time Field"
+        },
+        "completeness": {
+          "$ref": "#/$defs/PeriodCompletenessExpectation"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode",
+        "completeness"
+      ],
+      "title": "TimeScope",
+      "type": "object"
+    },
+    "TimeScopeMode": {
+      "enum": [
+        "all_data",
+        "bounded",
+        "not_applicable"
+      ],
+      "title": "TimeScopeMode",
+      "type": "string"
+    },
+    "UserReviewStatus": {
+      "enum": [
+        "not_reviewed",
+        "reviewed",
+        "user_authored"
+      ],
+      "title": "UserReviewStatus",
+      "type": "string"
+    },
+    "WorkflowStatus": {
+      "enum": [
+        "running",
+        "succeeded",
+        "needs_clarification",
+        "safety_rejected",
+        "retrieval_failed",
+        "planning_failed",
+        "sql_generation_failed",
+        "resource_failed",
+        "environment_failed",
+        "execution_failed",
+        "repair_failed",
+        "repair_limit_reached",
+        "calculation_failed",
+        "presentation_failed",
+        "internal_failed"
+      ],
+      "title": "WorkflowStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "dataset_id": {
+      "const": "ecommerce_agent_day14_fixed_evaluation",
+      "title": "Dataset Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "dataset_version": {
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "title": "Dataset Version",
+      "type": "string"
+    },
+    "split": {
+      "$ref": "#/$defs/DatasetSplit"
+    },
+    "state": {
+      "$ref": "#/$defs/DatasetState"
+    },
+    "expected_case_count": {
+      "const": 60,
+      "default": 60,
+      "title": "Expected Case Count",
+      "type": "integer"
+    },
+    "content_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Content Sha256"
+    },
+    "provenance": {
+      "$ref": "#/$defs/DatasetProvenance"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/EvaluationCase"
+      },
+      "title": "Cases",
+      "type": "array"
+    }
+  },
+  "required": [
+    "dataset_id",
+    "schema_version",
+    "dataset_version",
+    "split",
+    "state",
+    "provenance",
+    "cases"
+  ],
+  "title": "EvaluationDataset",
+  "type": "object"
+}

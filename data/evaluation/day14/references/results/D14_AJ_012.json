@@ -1,0 +1,129 @@
+{
+  "case_id": "D14_AJ_012",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "69a81e5c83d97e270bf457e6d9683344a6ca3399c07b227a948158f52d786537",
+  "parameters": {
+    "start_date": "2018-04-01",
+    "end_date_exclusive": "2018-07-01"
+  },
+  "columns": [
+    "customer_state",
+    "average_items_per_delivered_order"
+  ],
+  "rows": [
+    {
+      "customer_state": "RR",
+      "average_items_per_delivered_order": 1.25
+    },
+    {
+      "customer_state": "SC",
+      "average_items_per_delivered_order": 1.213018
+    },
+    {
+      "customer_state": "MS",
+      "average_items_per_delivered_order": 1.183824
+    },
+    {
+      "customer_state": "SP",
+      "average_items_per_delivered_order": 1.16141
+    },
+    {
+      "customer_state": "RJ",
+      "average_items_per_delivered_order": 1.158369
+    },
+    {
+      "customer_state": "PR",
+      "average_items_per_delivered_order": 1.157789
+    },
+    {
+      "customer_state": "MT",
+      "average_items_per_delivered_order": 1.154255
+    },
+    {
+      "customer_state": "AP",
+      "average_items_per_delivered_order": 1.153846
+    },
+    {
+      "customer_state": "MG",
+      "average_items_per_delivered_order": 1.151583
+    },
+    {
+      "customer_state": "TO",
+      "average_items_per_delivered_order": 1.150943
+    },
+    {
+      "customer_state": "PI",
+      "average_items_per_delivered_order": 1.150538
+    },
+    {
+      "customer_state": "RS",
+      "average_items_per_delivered_order": 1.146146
+    },
+    {
+      "customer_state": "ES",
+      "average_items_per_delivered_order": 1.139241
+    },
+    {
+      "customer_state": "AM",
+      "average_items_per_delivered_order": 1.136364
+    },
+    {
+      "customer_state": "PA",
+      "average_items_per_delivered_order": 1.13125
+    },
+    {
+      "customer_state": "SE",
+      "average_items_per_delivered_order": 1.130435
+    },
+    {
+      "customer_state": "BA",
+      "average_items_per_delivered_order": 1.122888
+    },
+    {
+      "customer_state": "DF",
+      "average_items_per_delivered_order": 1.117783
+    },
+    {
+      "customer_state": "GO",
+      "average_items_per_delivered_order": 1.10992
+    },
+    {
+      "customer_state": "RO",
+      "average_items_per_delivered_order": 1.102564
+    },
+    {
+      "customer_state": "MA",
+      "average_items_per_delivered_order": 1.10084
+    },
+    {
+      "customer_state": "PE",
+      "average_items_per_delivered_order": 1.09571
+    },
+    {
+      "customer_state": "RN",
+      "average_items_per_delivered_order": 1.078652
+    },
+    {
+      "customer_state": "CE",
+      "average_items_per_delivered_order": 1.066667
+    },
+    {
+      "customer_state": "AL",
+      "average_items_per_delivered_order": 1.057143
+    },
+    {
+      "customer_state": "PB",
+      "average_items_per_delivered_order": 1.035294
+    },
+    {
+      "customer_state": "AC",
+      "average_items_per_delivered_order": 1.0
+    }
+  ],
+  "row_count": 27,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

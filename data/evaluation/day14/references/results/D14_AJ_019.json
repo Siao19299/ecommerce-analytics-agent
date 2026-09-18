@@ -1,0 +1,66 @@
+{
+  "case_id": "D14_AJ_019",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "122c4377fd0d45000e713076cff9cf03e089975f0ae3bd4591e79f567fb4c6c2",
+  "parameters": {
+    "start_date": "2018-01-01",
+    "end_date_exclusive": "2018-07-01"
+  },
+  "columns": [
+    "purchase_month",
+    "delivered_gmv",
+    "delivered_freight_amount",
+    "delivered_payment_amount",
+    "delivered_payment_reconciliation_difference"
+  ],
+  "rows": [
+    {
+      "purchase_month": "2018-01-01",
+      "delivered_gmv": 924645.0,
+      "delivered_freight_amount": 153242.46,
+      "delivered_payment_amount": 1078606.86,
+      "delivered_payment_reconciliation_difference": 719.4
+    },
+    {
+      "purchase_month": "2018-02-01",
+      "delivered_gmv": 826437.13,
+      "delivered_freight_amount": 139731.28,
+      "delivered_payment_amount": 966510.88,
+      "delivered_payment_reconciliation_difference": 342.47
+    },
+    {
+      "purchase_month": "2018-03-01",
+      "delivered_gmv": 953356.25,
+      "delivered_freight_amount": 167241.99,
+      "delivered_payment_amount": 1120678.0,
+      "delivered_payment_reconciliation_difference": 79.76
+    },
+    {
+      "purchase_month": "2018-04-01",
+      "delivered_gmv": 973534.09,
+      "delivered_freight_amount": 159344.84,
+      "delivered_payment_amount": 1132933.95,
+      "delivered_payment_reconciliation_difference": 55.02
+    },
+    {
+      "purchase_month": "2018-05-01",
+      "delivered_gmv": 977544.69,
+      "delivered_freight_amount": 151229.83,
+      "delivered_payment_amount": 1128836.69,
+      "delivered_payment_reconciliation_difference": 62.17
+    },
+    {
+      "purchase_month": "2018-06-01",
+      "delivered_gmv": 856077.86,
+      "delivered_freight_amount": 155900.43,
+      "delivered_payment_amount": 1012090.68,
+      "delivered_payment_reconciliation_difference": 112.39
+    }
+  ],
+  "row_count": 6,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

@@ -1,0 +1,41 @@
+{
+  "case_id": "D14_AJ_002",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "a038312def086ad53ff4db0169b01f2a06afb906ccf7a99c6be866401e8d9290",
+  "parameters": {
+    "start_date": "2018-04-01",
+    "end_date_exclusive": "2018-07-01"
+  },
+  "columns": [
+    "customer_state",
+    "delivered_gmv"
+  ],
+  "rows": [
+    {
+      "customer_state": "SP",
+      "delivered_gmv": 1156472.29
+    },
+    {
+      "customer_state": "RJ",
+      "delivered_gmv": 343281.33
+    },
+    {
+      "customer_state": "MG",
+      "delivered_gmv": 317387.57
+    },
+    {
+      "customer_state": "PR",
+      "delivered_gmv": 154279.82
+    },
+    {
+      "customer_state": "RS",
+      "delivered_gmv": 144760.83
+    }
+  ],
+  "row_count": 5,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

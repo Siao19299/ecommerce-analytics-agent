@@ -1,0 +1,61 @@
+{
+  "case_id": "D14_AJ_014",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "6e5e565466cc8c8f26d022c190f43e6cbd4d94f0885c5bbac925c5d5558b0817",
+  "parameters": {
+    "start_date": "2018-06-01",
+    "end_date_exclusive": "2018-07-01"
+  },
+  "columns": [
+    "customer_city",
+    "delivered_payment_amount"
+  ],
+  "rows": [
+    {
+      "customer_city": "sao paulo",
+      "delivered_payment_amount": 141385.83
+    },
+    {
+      "customer_city": "rio de janeiro",
+      "delivered_payment_amount": 58238.56
+    },
+    {
+      "customer_city": "belo horizonte",
+      "delivered_payment_amount": 33636.63
+    },
+    {
+      "customer_city": "brasilia",
+      "delivered_payment_amount": 22880.21
+    },
+    {
+      "customer_city": "salvador",
+      "delivered_payment_amount": 20112.43
+    },
+    {
+      "customer_city": "campinas",
+      "delivered_payment_amount": 19575.05
+    },
+    {
+      "customer_city": "curitiba",
+      "delivered_payment_amount": 14539.69
+    },
+    {
+      "customer_city": "guarulhos",
+      "delivered_payment_amount": 14442.62
+    },
+    {
+      "customer_city": "porto alegre",
+      "delivered_payment_amount": 12934.13
+    },
+    {
+      "customer_city": "niteroi",
+      "delivered_payment_amount": 9289.19
+    }
+  ],
+  "row_count": 10,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

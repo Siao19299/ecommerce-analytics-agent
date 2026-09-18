@@ -1,0 +1,129 @@
+{
+  "case_id": "D14_AJ_007",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "fba713a55244255fb1d4433a1ad7e4737dbde14828ee33ec15645104afd5b1e7",
+  "parameters": {
+    "start_date": "2018-01-01",
+    "end_date_exclusive": "2018-07-01"
+  },
+  "columns": [
+    "customer_state",
+    "terminal_cancellation_rate"
+  ],
+  "rows": [
+    {
+      "customer_state": "RR",
+      "terminal_cancellation_rate": 0.055556
+    },
+    {
+      "customer_state": "RO",
+      "terminal_cancellation_rate": 0.011494
+    },
+    {
+      "customer_state": "PI",
+      "terminal_cancellation_rate": 0.009569
+    },
+    {
+      "customer_state": "TO",
+      "terminal_cancellation_rate": 0.009091
+    },
+    {
+      "customer_state": "SP",
+      "terminal_cancellation_rate": 0.006182
+    },
+    {
+      "customer_state": "MS",
+      "terminal_cancellation_rate": 0.006079
+    },
+    {
+      "customer_state": "RJ",
+      "terminal_cancellation_rate": 0.004635
+    },
+    {
+      "customer_state": "BA",
+      "terminal_cancellation_rate": 0.004498
+    },
+    {
+      "customer_state": "MG",
+      "terminal_cancellation_rate": 0.004198
+    },
+    {
+      "customer_state": "CE",
+      "terminal_cancellation_rate": 0.004024
+    },
+    {
+      "customer_state": "ES",
+      "terminal_cancellation_rate": 0.003628
+    },
+    {
+      "customer_state": "MA",
+      "terminal_cancellation_rate": 0.003571
+    },
+    {
+      "customer_state": "PR",
+      "terminal_cancellation_rate": 0.002879
+    },
+    {
+      "customer_state": "PA",
+      "terminal_cancellation_rate": 0.002825
+    },
+    {
+      "customer_state": "SC",
+      "terminal_cancellation_rate": 0.002677
+    },
+    {
+      "customer_state": "MT",
+      "terminal_cancellation_rate": 0.002551
+    },
+    {
+      "customer_state": "RS",
+      "terminal_cancellation_rate": 0.001867
+    },
+    {
+      "customer_state": "PE",
+      "terminal_cancellation_rate": 0.001577
+    },
+    {
+      "customer_state": "GO",
+      "terminal_cancellation_rate": 0.001238
+    },
+    {
+      "customer_state": "DF",
+      "terminal_cancellation_rate": 0.001129
+    },
+    {
+      "customer_state": "AC",
+      "terminal_cancellation_rate": 0.0
+    },
+    {
+      "customer_state": "AL",
+      "terminal_cancellation_rate": 0.0
+    },
+    {
+      "customer_state": "AM",
+      "terminal_cancellation_rate": 0.0
+    },
+    {
+      "customer_state": "AP",
+      "terminal_cancellation_rate": 0.0
+    },
+    {
+      "customer_state": "PB",
+      "terminal_cancellation_rate": 0.0
+    },
+    {
+      "customer_state": "RN",
+      "terminal_cancellation_rate": 0.0
+    },
+    {
+      "customer_state": "SE",
+      "terminal_cancellation_rate": 0.0
+    }
+  ],
+  "row_count": 27,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

@@ -1,0 +1,22 @@
+{
+  "case_id": "D14_SM_015",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "1709576a86aff8fd70b90ae73a1f97df2742824cfe005b68f162a140024f2040",
+  "parameters": {
+    "start_date": "2018-01-01",
+    "end_date_exclusive": "2018-04-01"
+  },
+  "columns": [
+    "period_repeat_customer_count"
+  ],
+  "rows": [
+    {
+      "period_repeat_customer_count": 400
+    }
+  ],
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

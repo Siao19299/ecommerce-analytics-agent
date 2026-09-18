@@ -1,0 +1,22 @@
+{
+  "case_id": "D14_SM_019",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "70b92dc4c42fd5d8a648703b685ed3fed3156b3683d91f682882b4467e910ce7",
+  "parameters": {
+    "start_date": "2018-04-01",
+    "end_date_exclusive": "2018-05-01"
+  },
+  "columns": [
+    "average_order_delivery_days"
+  ],
+  "rows": [
+    {
+      "average_order_delivery_days": 11.499241
+    }
+  ],
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

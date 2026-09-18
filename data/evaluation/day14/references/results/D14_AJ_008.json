@@ -1,0 +1,61 @@
+{
+  "case_id": "D14_AJ_008",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "94ee069943000ba58b1acd2d5bcc08f2db6e20321d69b7cccf6c6d973efd4a22",
+  "parameters": {
+    "start_date": "2017-01-01",
+    "end_date_exclusive": "2018-01-01"
+  },
+  "columns": [
+    "customer_state",
+    "on_time_delivery_rate"
+  ],
+  "rows": [
+    {
+      "customer_state": "RO",
+      "on_time_delivery_rate": 0.977612
+    },
+    {
+      "customer_state": "MG",
+      "on_time_delivery_rate": 0.96584
+    },
+    {
+      "customer_state": "PR",
+      "on_time_delivery_rate": 0.962135
+    },
+    {
+      "customer_state": "MS",
+      "on_time_delivery_rate": 0.955172
+    },
+    {
+      "customer_state": "SP",
+      "on_time_delivery_rate": 0.953544
+    },
+    {
+      "customer_state": "TO",
+      "on_time_delivery_rate": 0.946154
+    },
+    {
+      "customer_state": "DF",
+      "on_time_delivery_rate": 0.945516
+    },
+    {
+      "customer_state": "RS",
+      "on_time_delivery_rate": 0.937066
+    },
+    {
+      "customer_state": "MT",
+      "on_time_delivery_rate": 0.93154
+    },
+    {
+      "customer_state": "GO",
+      "on_time_delivery_rate": 0.931298
+    }
+  ],
+  "row_count": 10,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

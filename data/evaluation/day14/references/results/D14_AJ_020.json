@@ -1,0 +1,41 @@
+{
+  "case_id": "D14_AJ_020",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "38605e889753d2d51cd3fea308df326efb33638b260e6a11af673635b19cede0",
+  "parameters": {
+    "start_date": "2016-09-01",
+    "end_date_exclusive": "2018-10-01"
+  },
+  "columns": [
+    "customer_state",
+    "invalid_carrier_delivery_sequence_count"
+  ],
+  "rows": [
+    {
+      "customer_state": "SP",
+      "invalid_carrier_delivery_sequence_count": 14
+    },
+    {
+      "customer_state": "MG",
+      "invalid_carrier_delivery_sequence_count": 5
+    },
+    {
+      "customer_state": "SC",
+      "invalid_carrier_delivery_sequence_count": 2
+    },
+    {
+      "customer_state": "RJ",
+      "invalid_carrier_delivery_sequence_count": 1
+    },
+    {
+      "customer_state": "RS",
+      "invalid_carrier_delivery_sequence_count": 1
+    }
+  ],
+  "row_count": 5,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

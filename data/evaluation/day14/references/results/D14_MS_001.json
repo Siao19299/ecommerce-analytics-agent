@@ -1,0 +1,246 @@
+{
+  "case_id": "D14_MS_001",
+  "reference_type": "real_sqlite_plus_deterministic_python",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "cb453c53ceea6baef8ef5bb56cee685f9b537fc317f533b6631b901b7cf93f9a",
+  "parameters": {
+    "start_date": "2018-06-01",
+    "end_date_exclusive": "2018-08-01"
+  },
+  "source_sql": {
+    "columns": [
+      "purchase_month",
+      "metric_value"
+    ],
+    "rows": [
+      {
+        "purchase_month": "2018-06-01",
+        "metric_value": 856077.86
+      },
+      {
+        "purchase_month": "2018-07-01",
+        "metric_value": 867953.46
+      }
+    ],
+    "row_count": 2,
+    "safety_gate_accepted": true,
+    "execution_started": true,
+    "rows_truncated": false
+  },
+  "calculation": {
+    "analysis_type": "month_over_month",
+    "metric": {
+      "metric_id": "delivered_monthly_gmv",
+      "definition_source": "data/metadata/metric_dictionary.csv",
+      "metric_definition": "按下单自然月汇总的已送达订单GMV",
+      "time_field": "order_purchase_timestamp",
+      "filters": {}
+    },
+    "lineage": {
+      "parent_run_id": "D14_MS_001-reference-sql",
+      "source_sql_attempt": 1,
+      "input_reference": "D14_MS_001.reference_sql.rows"
+    },
+    "target_period": "2018-07-01",
+    "comparison_period": "2018-06-01",
+    "current_value": 867953.46,
+    "comparison_value": 856077.86,
+    "absolute_change": 11875.599999999977,
+    "relative_change": 0.013872102708041038,
+    "calculation_status": "computed",
+    "comparability": "comparable",
+    "comparability_reasons": [],
+    "sign_transition": "none",
+    "method": {
+      "period_match": "previous_calendar_month",
+      "absolute_change_formula": "current_value - comparison_value",
+      "relative_change_formula": "(current_value - comparison_value) / comparison_value",
+      "relative_change_policy": "computed_only_when_comparison_value_is_positive"
+    },
+    "raw_input": [
+      {
+        "period": "2018-06-01",
+        "value": 856077.86,
+        "completeness": "complete",
+        "completeness_reason": null
+      },
+      {
+        "period": "2018-07-01",
+        "value": 867953.46,
+        "completeness": "complete",
+        "completeness_reason": null
+      }
+    ],
+    "chart_data": [
+      {
+        "role": "comparison",
+        "period": "2018-06-01",
+        "value": 856077.86,
+        "completeness": "complete"
+      },
+      {
+        "role": "current",
+        "period": "2018-07-01",
+        "value": 867953.46,
+        "completeness": "complete"
+      }
+    ],
+    "boundary_notes": [
+      "an_arithmetic_result_does_not_establish_business_cause"
+    ]
+  },
+  "calculation_trace": {
+    "calculation_id": "D14_MS_001-reference-calculation",
+    "parent_run_id": "D14_MS_001-reference-sql",
+    "source_sql_attempt": 1,
+    "step": "deterministic_comparison",
+    "analysis_type": "month_over_month",
+    "created_at": "2026-09-17T00:00:00Z",
+    "input_sha256": "d306214703127296cf37ddfb7c02fbf1c4747f7e113257f287e2f458ea0a2555",
+    "result": {
+      "analysis_type": "month_over_month",
+      "metric": {
+        "metric_id": "delivered_monthly_gmv",
+        "definition_source": "data/metadata/metric_dictionary.csv",
+        "metric_definition": "按下单自然月汇总的已送达订单GMV",
+        "time_field": "order_purchase_timestamp",
+        "filters": {}
+      },
+      "lineage": {
+        "parent_run_id": "D14_MS_001-reference-sql",
+        "source_sql_attempt": 1,
+        "input_reference": "D14_MS_001.reference_sql.rows"
+      },
+      "target_period": "2018-07-01",
+      "comparison_period": "2018-06-01",
+      "current_value": 867953.46,
+      "comparison_value": 856077.86,
+      "absolute_change": 11875.599999999977,
+      "relative_change": 0.013872102708041038,
+      "calculation_status": "computed",
+      "comparability": "comparable",
+      "comparability_reasons": [],
+      "sign_transition": "none",
+      "method": {
+        "period_match": "previous_calendar_month",
+        "absolute_change_formula": "current_value - comparison_value",
+        "relative_change_formula": "(current_value - comparison_value) / comparison_value",
+        "relative_change_policy": "computed_only_when_comparison_value_is_positive"
+      },
+      "raw_input": [
+        {
+          "period": "2018-06-01",
+          "value": 856077.86,
+          "completeness": "complete",
+          "completeness_reason": null
+        },
+        {
+          "period": "2018-07-01",
+          "value": 867953.46,
+          "completeness": "complete",
+          "completeness_reason": null
+        }
+      ],
+      "chart_data": [
+        {
+          "role": "comparison",
+          "period": "2018-06-01",
+          "value": 856077.86,
+          "completeness": "complete"
+        },
+        {
+          "role": "current",
+          "period": "2018-07-01",
+          "value": 867953.46,
+          "completeness": "complete"
+        }
+      ],
+      "boundary_notes": [
+        "an_arithmetic_result_does_not_establish_business_cause"
+      ]
+    }
+  },
+  "presentation": {
+    "analysis_type": "month_over_month",
+    "metric_id": "delivered_monthly_gmv",
+    "metric_definition_source": "data/metadata/metric_dictionary.csv",
+    "lineage": {
+      "parent_run_id": "D14_MS_001-reference-sql",
+      "source_sql_attempt": 1,
+      "input_reference": "D14_MS_001.reference_sql.rows"
+    },
+    "table": {
+      "columns": [
+        "role",
+        "period",
+        "value",
+        "completeness"
+      ],
+      "rows": [
+        {
+          "role": "comparison",
+          "period": "2018-06-01",
+          "value": 856077.86,
+          "completeness": "complete"
+        },
+        {
+          "role": "current",
+          "period": "2018-07-01",
+          "value": 867953.46,
+          "completeness": "complete"
+        }
+      ]
+    },
+    "chart": {
+      "chart_type": "bar",
+      "title": "delivered_monthly_gmv: 2018-06-01 vs 2018-07-01",
+      "x_field": "period",
+      "y_fields": [
+        "value"
+      ],
+      "data": [
+        {
+          "role": "comparison",
+          "period": "2018-06-01",
+          "value": 856077.86,
+          "completeness": "complete"
+        },
+        {
+          "role": "current",
+          "period": "2018-07-01",
+          "value": 867953.46,
+          "completeness": "complete"
+        }
+      ],
+      "notes": [
+        "chart_uses_precomputed_values_only"
+      ]
+    },
+    "conclusion": "2018-07-01 的 delivered_monthly_gmv 为 867953.46，比较期 2018-06-01 为 856077.86，绝对变化为 11875.60。相对变化为 1.3872%。两期通过本次完整性检查，可作标准期间比较。",
+    "boundary_notes": [
+      "an_arithmetic_result_does_not_establish_business_cause"
+    ],
+    "generated_by": "deterministic_python_template"
+  },
+  "columns": [
+    "role",
+    "period",
+    "value",
+    "completeness"
+  ],
+  "rows": [
+    {
+      "role": "comparison",
+      "period": "2018-06-01",
+      "value": 856077.86,
+      "completeness": "complete"
+    },
+    {
+      "role": "current",
+      "period": "2018-07-01",
+      "value": 867953.46,
+      "completeness": "complete"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "case_id": "D14_SM_004",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "c8e317c78d4f915bb27a5f670c2d9f78cd6a25abd935d57f350e8c44c702e89c",
+  "parameters": {
+    "start_date": "2017-07-01",
+    "end_date_exclusive": "2018-01-01"
+  },
+  "columns": [
+    "delivered_payment_amount"
+  ],
+  "rows": [
+    {
+      "delivered_payment_amount": 4661442.02
+    }
+  ],
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}
