@@ -125,14 +125,16 @@ def _render_success(response: AnalyzeSuccessResponse) -> None:
         st.error("图表数据与展示合同不一致，当前无法安全绘制。")
     else:
         st.caption(chart.title)
-        if chart.chart_type == "bar":
+        if not chart.renderable:
+            st.info("当前结果是单值或缺少独立横轴，保留结果表而不强制绘图。")
+        elif chart.chart_type == "bar":
             st.bar_chart(
                 chart.frame,
                 x=chart.x_field,
                 y=list(chart.y_fields),
                 width="stretch",
             )
-        else:
+        elif chart.chart_type == "line":
             st.line_chart(
                 chart.frame,
                 x=chart.x_field,

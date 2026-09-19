@@ -77,7 +77,7 @@ _FAILURES = {
 @dataclass(frozen=True)
 class Day13ApiClient:
     transport: HttpTransport
-    timeout_seconds: float = 30.0
+    timeout_seconds: float = 90.0
 
     def __post_init__(self) -> None:
         if self.timeout_seconds <= 0:
@@ -111,7 +111,7 @@ class Day13ApiClient:
 def create_http_api_client(
     base_url: str = "http://127.0.0.1:8000",
     *,
-    timeout_seconds: float = 30.0,
+    timeout_seconds: float = 90.0,
 ) -> Day13ApiClient:
     """Create the production HTTP client without probing the API."""
     transport = httpx.Client(base_url=base_url)
@@ -119,4 +119,3 @@ def create_http_api_client(
         transport=transport,
         timeout_seconds=timeout_seconds,
     )
-

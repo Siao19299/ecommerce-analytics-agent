@@ -353,6 +353,8 @@ class Day09RepairWorkflow:
             completion_tokens=response.completion_tokens,
             latency_ms=response.latency_ms,
             finish_reason=response.finish_reason,
+            cost=response.cost,
+            cost_currency=response.cost_currency,
         )
 
     def _repair_model_event(
@@ -383,9 +385,13 @@ class Day09RepairWorkflow:
                 response.completion_tokens if response is not None else None
             ),
             latency_ms=response.latency_ms if response is not None else None,
-            finish_reason=(
-                response.finish_reason if response is not None else None
-            ),
+                finish_reason=(
+                    response.finish_reason if response is not None else None
+                ),
+                cost=response.cost if response is not None else None,
+                cost_currency=(
+                    response.cost_currency if response is not None else None
+                ),
         )
 
     @staticmethod

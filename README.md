@@ -5,7 +5,7 @@
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发
 - 项目角色：求职简历中的主项目
 - 预计投入：约 70 小时
-- 当前状态：Day 14 固定 Agent 评测集已完成并冻结（2026-09-18；60 题严格按 20/20/10/10 分层，52 份标准 SQL 通过安全门，50 道业务参考重新读取真实 SQLite，逐题执行框架与盲测隔离已验收；真实待评模型和外部 API 调用均为 0）
+- 当前状态：Day 15 已验收并封板（2026-09-20；三版本各 60 题、先封存后评分、配对统计、18 个真实代表失败案例、本地真实交互 Demo；当前机器无 Docker CLI，容器实跑作为已披露限制）
 
 ## 一句话介绍
 
@@ -105,6 +105,14 @@
 # 启动 Day 13 Streamlit 页面（默认连接本机 8000 端口的 Day 12 API）
 .\.venv\Scripts\python.exe -m streamlit run streamlit_app.py
 
+# 真实交互 Demo：终端 1 启动完整 Agent API（运行时读取 DEEPSEEK_API_KEY）
+.\.venv\Scripts\python.exe -m uvicorn `
+  src.ecommerce_agent.live_runtime:create_live_app --factory `
+  --host 127.0.0.1 --port 8000
+
+# 真实交互 Demo：终端 2 启动页面
+.\.venv\Scripts\python.exe -m streamlit run streamlit_app.py
+
 # 运行 Day 13 Streamlit/AppTest 离线批次
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day13_benchmark
 
@@ -119,6 +127,14 @@
 
 # 运行 Day 14 完全离线验收
 .\.venv\Scripts\python.exe -m src.ecommerce_agent.day14_acceptance
+
+# 运行 Day 15 宿主机离线复现检查（无模型或外部 API）
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.day15_offline_check
+
+# Docker 可用时构建并运行断网、只读的离线检查
+$env:DAY15_SOURCE_COMMIT = git rev-parse HEAD
+docker compose build day15-offline-check
+docker compose run --rm day15-offline-check
 ```
 
 数据库、质量报告和查询结果生成在 `data/processed/`，属于可再生成且被 Git 忽略的产物；`data/raw/` 中的原始文件不得修改。
@@ -146,6 +162,17 @@ API Key、问题原文或模型响应原文。
 真实 API Key 只从 `DEEPSEEK_API_KEY` 环境变量读取。`.env.example`
 只列出变量名，不包含真实值。真实调用会产生供应商费用，并会把 system/user
 消息发送至外部模型服务，运行前必须确认数据可以外发。
+
+本地真实交互 Demo 复用 Day 11 状态机与 Day 12 状态到 HTTP 映射，不使用
+Day 15 私有金标准。默认模型为 `deepseek-flash`，temperature 为 0；独立账本
+写入 `data/processed/live_demo/api_budget_ledger.json`，默认最多 40 次 HTTP
+调用和 $0.15 的 cache-miss 保守估算。账本不记录问题、模型响应或 API Key。
+页面客户端超时为 90 秒。修改非秘密限额可使用 `.env.example` 中列出的
+`ECOMMERCE_AGENT_*` 环境变量；不要把真实 Key 写入或提交 `.env.example`。
+瞬时网络/5xx 错误最多重试一次，每次失败传输也计入 HTTP 预算，但在供应商
+没有返回 usage 时 token 和费用保持不可用/0，不进行猜测。2026-09-20 已实测
+澄清路径和完整成功路径；成功样例通过安全门读取 SQLite，返回已送达订单数
+96,478，并保留 SQL attempt 与 calculation lineage。
 
 2026-09-08 使用公开样例问题完成一次真实 `deepseek-v4-flash` 验证。
 第一轮返回内容未通过 JSON 校验，第二轮在一次有限纠正后生成合法计划；
@@ -379,6 +406,16 @@ calculation status、源结果、最终结果、安全、lineage、attempt 计�
 完整验收、覆盖和机器可读结果见 `docs/DAY14_ACCEPTANCE.md`、
 `docs/DAY14_COVERAGE_REPORT.md` 与 `docs/DAY14_RESULTS.json`。用户明确提供的 Day 14
 实际学习时间为 2 小时。
+
+## Day 15：三版本评测工程与离线交付包
+
+Day 15 将直接 SQL、检索 + SQL 和完整 Agent 投影到统一的 60 题运行合同。候选阶段只能读取公开 `case_id/question`；逐题原始输出按公开顺序追加、支持断点续跑并封存，标准化候选再次封存后才授权私有评分。评分分别记录 SQL 生成、SQLite 进入与执行、源结果和最终结果、状态、停止原因、计算状态、安全、lineage、四类 attempt、业务参考、延迟、调用、token 和费用，不能压缩成一个成功率。
+
+三个版本除 60 题离线合同冒烟外，已在相同冻结题集上完成一次授权的 DeepSeek `deepseek-flash` 正式运行。完整逐题契约为 6/60、22/60、25/60；结果正确为 0/51、16/53、26/52。检索上下文在本题集上带来明确配对改善；完整 Agent 进一步提高结果层，但状态与 stop reason 低于检索版，不能包装为全面胜出。正式主实验共 229 次调用、783,506 tokens，本地保守费用估算 $0.2651；业务正确性仍因没有独立金标准而保持未独立评估。
+
+Dockerfile 使用 Python 3.11.9 和精确直接依赖，Compose 运行阶段断网、只读且不挂载 `.env`。当前开发机没有 Docker CLI，所以只有配置测试和宿主机等价检查通过，不能声称容器已经实际运行。实验结论、真实失败、限制和验收状态见 `docs/DAY15_EXPERIMENT_REPORT.md`、`docs/DAY15_REAL_FAILURE_ANALYSIS.md`、`docs/DAY15_ACCEPTANCE.md` 与 `docs/DAY15_LIVE_RESULTS.json`。
+
+用户明确提供的 Day 15 实际学习时间为 2 小时。最终验收为“通过，带非阻塞的 Docker 实跑限制”；这表示项目可在当前 Windows + 项目 `.venv` 环境中本地演示，不表示容器或生产云部署已经验证。
 
 ## 评测设计
 

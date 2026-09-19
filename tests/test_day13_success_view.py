@@ -4,7 +4,7 @@ from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
 
-from src.ecommerce_agent.day12_api_models import AnalyzeSuccessResponse
+from src.ecommerce_agent.day12_api_models import AnalyzeSuccessResponse, ChartArtifact
 from src.ecommerce_agent.day13_api_client import ApiResponse
 from src.ecommerce_agent.day13_streamlit import API_CLIENT_KEY
 from src.ecommerce_agent.day13_view_models import (
@@ -96,6 +96,54 @@ def test_table_and_chart_adapters_preserve_precomputed_api_values():
     assert chart.x_field == response.chart.x_field
     assert chart.y_fields == response.chart.y_fields
     assert chart.chart_type == response.chart.chart_type
+    assert chart.renderable is True
+
+
+def test_single_numeric_result_is_kept_as_table_without_forced_chart():
+    artifact = ChartArtifact.model_validate({
+        "chart_type": "bar",
+        "title": "Delivered orders",
+        "x_field": "delivered_order_count",
+        "y_fields": ["delivered_order_count"],
+        "data": [{"delivered_order_count": 96478}],
+        "notes": ["single_value"],
+    })
+    chart = build_chart_view(artifact)
+    assert chart.frame.to_dict(orient="records") == [
+        {"delivered_order_count": 96478}
+    ]
+    assert chart.renderable is False
+
+
+def test_single_numeric_success_page_does_not_crash_chart_renderer():
+    payload = _success().model_dump(mode="json")
+    payload["table"] = {
+        "columns": ["delivered_order_count"],
+        "rows": [{"delivered_order_count": 96478}],
+    }
+    payload["chart"] = {
+        "chart_type": "bar",
+        "title": "Delivered orders",
+        "x_field": "delivered_order_count",
+        "y_fields": ["delivered_order_count"],
+        "data": [{"delivered_order_count": 96478}],
+        "notes": ["single_value"],
+    }
+    response = AnalyzeSuccessResponse.model_validate(payload)
+
+    class SingleValueClient:
+        def analyze(self, question):
+            return ApiResponse(http_status=200, payload=response)
+
+    app = AppTest.from_file(ROOT / "streamlit_app.py", default_timeout=10)
+    app.session_state[API_CLIENT_KEY] = SingleValueClient()
+    app.run()
+    app.text_area[0].input("统计已送达订单数量。")
+    app.button[0].click().run()
+
+    assert app.exception == []
+    assert len(app.get("arrow_vega_lite_chart")) == 0
+    assert any("不强制绘图" in item.value for item in app.info)
 
 
 def test_success_page_shows_conclusion_sql_parameters_and_required_metadata():

@@ -1,0 +1,10 @@
+.git
+.venv
+.env
+.pytest_cache
+**/__pycache__
+**/*.pyc
+data/processed/*
+!data/processed/olist.sqlite3
+data/processed/day15/
+*.log

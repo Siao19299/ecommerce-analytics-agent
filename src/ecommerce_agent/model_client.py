@@ -42,6 +42,8 @@ class ModelResponse:
     completion_tokens: int | None = None
     finish_reason: str | None = None
     transport_attempts: int | None = None
+    cost: float | None = None
+    cost_currency: str | None = None
 
 
 class ModelClient(Protocol):

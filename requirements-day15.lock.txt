@@ -1,0 +1,13 @@
+# Direct runtime/test dependencies used by the Day 15 reproducibility image.
+# Exact versions match the accepted project .venv on 2026-09-19.
+pandas==2.3.3
+fastapi==0.141.1
+httpx==0.28.1
+openpyxl==3.1.5
+pydantic==2.13.5
+pytest==8.4.2
+PyYAML==6.0.3
+sqlglot==30.18.0
+langgraph==1.2.11
+streamlit==1.50.0
+uvicorn==0.46.0

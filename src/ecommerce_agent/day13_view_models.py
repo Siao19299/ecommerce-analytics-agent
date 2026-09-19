@@ -47,6 +47,7 @@ class ChartViewModel:
     y_fields: tuple[str, ...]
     frame: pd.DataFrame
     notes: tuple[str, ...]
+    renderable: bool
 
 
 def build_table_frame(table: TableArtifact) -> pd.DataFrame:
@@ -64,7 +65,8 @@ def build_chart_view(chart: ChartArtifact) -> ChartViewModel:
     ]
     if missing:
         raise ValueError("chart data 缺少声明字段")
-    frame = pd.DataFrame(list(chart.data), columns=list(required))
+    columns = list(dict.fromkeys(required))
+    frame = pd.DataFrame(list(chart.data), columns=columns)
     return ChartViewModel(
         chart_type=chart.chart_type,
         title=chart.title,
@@ -72,6 +74,11 @@ def build_chart_view(chart: ChartArtifact) -> ChartViewModel:
         y_fields=chart.y_fields,
         frame=frame,
         notes=chart.notes,
+        renderable=(
+            not frame.empty
+            and chart.x_field not in chart.y_fields
+            and bool(chart.y_fields)
+        ),
     )
 
 

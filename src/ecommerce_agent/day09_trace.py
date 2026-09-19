@@ -48,6 +48,8 @@ class ModelCallTrace:
     completion_tokens: int | None = None
     latency_ms: float | None = None
     finish_reason: str | None = None
+    cost: float | None = None
+    cost_currency: str | None = None
 
     def __post_init__(self) -> None:
         if self.http_attempts is not None and self.http_attempts < 1:
@@ -66,6 +68,8 @@ class RepairModelEvent:
     completion_tokens: int | None = None
     latency_ms: float | None = None
     finish_reason: str | None = None
+    cost: float | None = None
+    cost_currency: str | None = None
 
     def __post_init__(self) -> None:
         if self.repair_attempt < 1:

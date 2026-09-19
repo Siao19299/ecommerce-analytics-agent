@@ -1,0 +1,11 @@
+{
+  "provenance": "user_provided_provider_console_screenshot",
+  "received_date": "2026-09-19",
+  "experiment_stage": "intermediate_snapshot_during_formal_run",
+  "currency": "CNY",
+  "consumed_amount": 0.09,
+  "api_request_count": 115,
+  "token_count": 193864,
+  "final_billing_snapshot": false,
+  "note": "Provider-console counters can refresh asynchronously and use actual cache-aware billing. This intermediate snapshot must not be substituted for the final local run ledger or described as the final experiment bill."
+}

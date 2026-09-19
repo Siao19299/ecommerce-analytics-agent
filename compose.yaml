@@ -1,0 +1,15 @@
+services:
+  day15-offline-check:
+    build:
+      context: .
+      args:
+        SOURCE_COMMIT: ${DAY15_SOURCE_COMMIT:-unknown}
+    image: ecommerce-agent-day15-offline-check:local
+    network_mode: none
+    read_only: true
+    tmpfs:
+      - /tmp:size=512m,mode=1777
+    environment:
+      DAY15_SOURCE_COMMIT: ${DAY15_SOURCE_COMMIT:-unknown}
+      PYTHONPYCACHEPREFIX: /tmp/pycache
+    command: ["python", "-m", "src.ecommerce_agent.day15_offline_check"]
