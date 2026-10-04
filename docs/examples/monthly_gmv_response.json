@@ -1,0 +1,84 @@
+{
+  "example_provenance": "offline_scripted_planning_and_sql_with_real_olist_sqlite",
+  "question": "比较 2018 年 7 月与 6 月的已送达月度 GMV 环比。",
+  "external_model_calls": 0,
+  "business_reference_status": "not_independently_evaluated",
+  "response": {
+    "status": "succeeded",
+    "run_id": "00724fc31c51461c863c560d0496088c",
+    "answer": "2018-07-01 的 delivered_monthly_gmv 为 867953.46，比较期 2018-06-01 为 856077.86，绝对变化为 11875.60。相对变化为 1.3872%。两期通过本次完整性检查，可作标准期间比较。",
+    "sql": {
+      "statement": "SELECT substr(o.order_purchase_timestamp, 1, 7) || '-01' AS purchase_month,\n       SUM(i.price) AS monthly_gmv\nFROM fact_orders AS o\nJOIN fact_order_items AS i ON i.order_id = o.order_id\nWHERE o.order_status = 'delivered'\n  AND o.order_purchase_timestamp >= :start_date\n  AND o.order_purchase_timestamp < :end_date_exclusive\nGROUP BY substr(o.order_purchase_timestamp, 1, 7)\nORDER BY purchase_month",
+      "parameters": {
+        "start_date": "2018-06-01",
+        "end_date_exclusive": "2018-08-01"
+      },
+      "sql_attempt": 1,
+      "repaired": false
+    },
+    "table": {
+      "columns": [
+        "role",
+        "period",
+        "value",
+        "completeness"
+      ],
+      "rows": [
+        {
+          "role": "comparison",
+          "period": "2018-06-01",
+          "value": 856077.86,
+          "completeness": "complete"
+        },
+        {
+          "role": "current",
+          "period": "2018-07-01",
+          "value": 867953.46,
+          "completeness": "complete"
+        }
+      ]
+    },
+    "chart": {
+      "chart_type": "bar",
+      "title": "delivered_monthly_gmv: 2018-06-01 vs 2018-07-01",
+      "x_field": "period",
+      "y_fields": [
+        "value"
+      ],
+      "data": [
+        {
+          "role": "comparison",
+          "period": "2018-06-01",
+          "value": 856077.86,
+          "completeness": "complete"
+        },
+        {
+          "role": "current",
+          "period": "2018-07-01",
+          "value": 867953.46,
+          "completeness": "complete"
+        }
+      ],
+      "notes": [
+        "chart_uses_precomputed_values_only"
+      ]
+    },
+    "calculation_status": "computed",
+    "stop_reason": "completed",
+    "lineage": {
+      "parent_run_id": "00724fc31c51461c863c560d0496088c",
+      "source_sql_attempt": 1,
+      "calculation_id": "00724fc31c51461c863c560d0496088c-calculation",
+      "input_sha256": "d306214703127296cf37ddfb7c02fbf1c4747f7e113257f287e2f458ea0a2555"
+    },
+    "metadata": {
+      "created_at": "2026-10-04T07:40:00.328610Z",
+      "workflow_duration_ms": 6416.61399975419,
+      "node_count": 8,
+      "sql_attempt_count": 1,
+      "repair_attempt_count": 0,
+      "execution_started": true,
+      "rows_truncated": false
+    }
+  }
+}

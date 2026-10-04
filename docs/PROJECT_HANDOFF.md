@@ -169,8 +169,10 @@ Day 15 宿主机离线复现检查，不调用模型：
 报告，最后才是计划和学习日志中的历史描述。
 
 - 对外项目说明和启动方式：`README.md`。
-- 当前计划与后续包装：`PLAN.md`。
-- 学习记录：`LEARNING_LOG.md`。
+- 当前对外工程导航：`docs/ENGINEERING.md`。
+- 启动与数据准备：`docs/QUICKSTART.md`。
+- 历史计划与后续包装：`docs/archive/PLAN.md`。
+- 学习记录：`docs/archive/LEARNING_LOG.md`。
 - Day 15 最终验收：`docs/DAY15_ACCEPTANCE.md`。
 - 结构化总结果：`docs/DAY15_RESULTS.json`。
 - 真实三版本逐题与汇总结果：`docs/DAY15_LIVE_RESULTS.json`。
@@ -231,4 +233,28 @@ Day 15 宿主机离线复现检查，不调用模型：
 
 网络与后续更新方法见 `docs/GITHUB_PUBLISHING.md`。上传成功以本地提交和远程
 `main` 的完整哈希一致为准；不要从历史提交号推断最新发布状态。
+
+## 12. 面向项目评审的展示整理（2026-10-04）
+
+用户明确仓库用于简历与面试查看。README 改为业务问题、当前功能、架构、实际
+离线 API 示例、工程设计、真实模型实验和运行入口；仅描述已存在的实现，去除
+规划中的 PostgreSQL/pgvector 及逐日学习叙述。展示名称改为电商经营分析 Agent，
+保留当前数据没有平台/渠道字段的事实。
+
+原首页保存在 `docs/archive/DEVELOPMENT_NOTES.md`，根目录 PLAN 与学习日志移动到
+同一归档目录；敏感信息扫描补充归档路径，历史记录和冻结评测资产保持原内容。
+新增 `docs/README.md`、`docs/ENGINEERING.md`、`docs/QUICKSTART.md`。
+
+`docs/examples/monthly_gmv_response.json` 由固定规划/SQL 测试输入经过真实 Olist
+SQLite 与 FastAPI 产生，模型调用为 0；明确标注离线机制演示，不作为真实模型效果。
+真实模型指标继续引用原封存结果，没有新模型调用、业务上线或容器实跑声明。
+
+本次全量检查为 462 通过、1 项敏感扫描失败：运行说明中的进程环境赋值示例
+被识别为密钥赋值，未包含真实密钥。改用进程环境设置 API 后，相关 35 项测试
+重跑通过（1 条已知依赖 warning）；360 个文本文件敏感扫描、归档敏感扫描、
+新文档本地链接与示例响应合同检查均通过。全量中的 SQLite、哈希、依赖和编译
+检查通过。历史实验报告仅被测试重写生成时间，已还原，实验结果未改变。
+另将拟上传的 364 个文件复制到不含原始数据与数据库的仓库副本，执行 README
+中的轻量入口，结果为 30 passed、1 条已知 warning；验证复用当前项目依赖环境，
+没有重新下载或安装依赖。
 
