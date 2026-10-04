@@ -1,0 +1,61 @@
+{
+  "case_id": "D14_AJ_004",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "ebe1119097430bf876e44b6e2185c06b06d4c3af671c80f6a75e0a9268a2efa7",
+  "parameters": {
+    "start_date": "2018-07-01",
+    "end_date_exclusive": "2018-08-01"
+  },
+  "columns": [
+    "seller",
+    "delivered_gmv"
+  ],
+  "rows": [
+    {
+      "seller": "1025f0e2d44d7041d6cf58b6550e0bfa",
+      "delivered_gmv": 17465.26
+    },
+    {
+      "seller": "04308b1ee57b6625f47df1d56f00eedf",
+      "delivered_gmv": 16259.3
+    },
+    {
+      "seller": "612170e34b97004b3ba37eae81836b4c",
+      "delivered_gmv": 15770.33
+    },
+    {
+      "seller": "6560211a19b47992c3666cc44a7e94c0",
+      "delivered_gmv": 13237.0
+    },
+    {
+      "seller": "2eb70248d66e0e3ef83659f71b244378",
+      "delivered_gmv": 13036.28
+    },
+    {
+      "seller": "fa1c13f2614d7b5c4749cbc52fecda94",
+      "delivered_gmv": 12010.66
+    },
+    {
+      "seller": "53243585a1d6dc2643021fd1853d8905",
+      "delivered_gmv": 9397.8
+    },
+    {
+      "seller": "966cb4760537b1404caedd472cc610a5",
+      "delivered_gmv": 9197.6
+    },
+    {
+      "seller": "4869f7a5dfa277a7dca6462dcf3b52b2",
+      "delivered_gmv": 8280.3
+    },
+    {
+      "seller": "8fb791022c1fc8909664f48ab7dc636d",
+      "delivered_gmv": 8119.95
+    }
+  ],
+  "row_count": 10,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

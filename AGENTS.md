@@ -13,7 +13,7 @@
 
 ## Project and environment
 
-- This repository implements the cross-platform e-commerce analytics Agent. The
+- This repository implements the e-commerce analytics Agent. The
   supported local environment is Windows, Python 3.11.9 and the repository-local
   `.venv`.
 - Use `rg`/`rg --files` for discovery and `apply_patch` for hand-written edits.
@@ -24,9 +24,9 @@
 
 ## Immutable data and evaluation boundaries
 
-- Do not modify `data/raw/`, `data/processed/olist.sqlite3` or the frozen Day 14
+- Do not modify `data/raw/`, `data/processed/olist.sqlite3` or the frozen Frozen benchmark
   evaluation assets to improve a result.
-- Day 14 dataset version is `1.0.0`. Its content, dataset-file and public-manifest
+- Frozen benchmark dataset version is `1.0.0`. Its content, dataset-file and public-manifest
   hashes are recorded in `docs/PROJECT_HANDOFF.md` and must be verified before any
   new formal evaluation.
 - Candidate systems may read only the public case manifest. Save and seal candidate
@@ -54,8 +54,8 @@
   SQL repair loop. SQL attempts, repair count and model transport attempts remain
   separate.
 - Numeric conclusions come only from SQL results or deterministic Python. Do not
-  bypass the Day 11 state machine, run lineage or stop conditions, and do not
-  duplicate Day 12 state-to-HTTP mappings in later scripts. The Day 13 UI is not
+  bypass the Agent workflow state machine, run lineage or stop conditions, and do not
+  duplicate API service state-to-HTTP mappings in later scripts. The User interface UI is not
   evidence of business correctness.
 
 ## External model and secrets
@@ -77,6 +77,5 @@
   not been verified because the current recorded host had no Docker CLI. Do not
   claim container or production-deployment validation without fresh evidence.
 - When a material milestone changes the verified state, update
-  `docs/PROJECT_HANDOFF.md` and the relevant acceptance/result documents. Record
-  learning time only when the user explicitly supplies it.
+  `docs/PROJECT_HANDOFF.md` and the relevant acceptance/result documents.
 

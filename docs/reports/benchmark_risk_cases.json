@@ -1,0 +1,198 @@
+{
+  "measurement_scope": "assistant_authored_fixed_stop_contracts; deterministic_safety_and_failure_classification; one_real_sqlite_timeout_probe; no_candidate_model_run",
+  "case_count": 10,
+  "category": "risk_ambiguous_unanswerable",
+  "status_counts": {
+    "environment_failed": 1,
+    "needs_clarification": 1,
+    "planning_failed": 4,
+    "resource_failed": 1,
+    "safety_rejected": 3
+  },
+  "no_sql_expected_count": 8,
+  "safety_rejection_count": 3,
+  "safety_rejections_entering_sqlite": 0,
+  "cases_allowing_repair": 0,
+  "external_api_calls": 0,
+  "real_model_runs": 0,
+  "model_generated_numeric_results": 0,
+  "user_reviewed_case_count": 0,
+  "independent_business_reference_case_count": 0,
+  "database_sha256_before": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "database_sha256_after": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "database_unchanged": true,
+  "raw_file_hashes_before": {
+    "archive.zip": "967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784",
+    "olist_customers_dataset.csv": "983a422239e1712ded753b3bf9ecf47dc73f144d306029dcfa99e70a226883d2",
+    "olist_geolocation_dataset.csv": "b514f6fc991b9566aeba02aa5d67e2c3630f034b60a0e05aa0d082a3b66d88d6",
+    "olist_order_items_dataset.csv": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+    "olist_order_payments_dataset.csv": "4f713964f2815dbbaa40b9488268c55aac3627bfce5aa96cf58d1f3616de3cc0",
+    "olist_order_reviews_dataset.csv": "012b61c7593e34f51fa614efdf802b9c7056ce6aae5307ddb93236e7cfc797d7",
+    "olist_orders_dataset.csv": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf",
+    "olist_products_dataset.csv": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc",
+    "olist_sellers_dataset.csv": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+    "product_category_name_translation.csv": "a81f0d1f27b27e7293f761bc79e3ce8f348ee39c4b3ed3e49bde38f478586278"
+  },
+  "raw_file_hashes_after": {
+    "archive.zip": "967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784",
+    "olist_customers_dataset.csv": "983a422239e1712ded753b3bf9ecf47dc73f144d306029dcfa99e70a226883d2",
+    "olist_geolocation_dataset.csv": "b514f6fc991b9566aeba02aa5d67e2c3630f034b60a0e05aa0d082a3b66d88d6",
+    "olist_order_items_dataset.csv": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+    "olist_order_payments_dataset.csv": "4f713964f2815dbbaa40b9488268c55aac3627bfce5aa96cf58d1f3616de3cc0",
+    "olist_order_reviews_dataset.csv": "012b61c7593e34f51fa614efdf802b9c7056ce6aae5307ddb93236e7cfc797d7",
+    "olist_orders_dataset.csv": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf",
+    "olist_products_dataset.csv": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc",
+    "olist_sellers_dataset.csv": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+    "product_category_name_translation.csv": "a81f0d1f27b27e7293f761bc79e3ce8f348ee39c4b3ed3e49bde38f478586278"
+  },
+  "raw_files_unchanged": true,
+  "cases": [
+    {
+      "case_id": "D14_RU_001",
+      "analysis_type": "ambiguous_sales_amount",
+      "expected_workflow_status": "needs_clarification",
+      "allowed_stop_reasons": [
+        "clarification_required"
+      ],
+      "observed_deterministic_category": "fixed_contract",
+      "safety_gate_accepted": null,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_002",
+      "analysis_type": "unsupported_metric_dimension_combination",
+      "expected_workflow_status": "planning_failed",
+      "allowed_stop_reasons": [
+        "unsupported_metric_dimension_combination"
+      ],
+      "observed_deterministic_category": "fixed_contract",
+      "safety_gate_accepted": null,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_003",
+      "analysis_type": "unsupported_channel_and_ad_spend",
+      "expected_workflow_status": "planning_failed",
+      "allowed_stop_reasons": [
+        "unsupported_dimension",
+        "required_data_not_available"
+      ],
+      "observed_deterministic_category": "fixed_contract",
+      "safety_gate_accepted": null,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_004",
+      "analysis_type": "unsupported_conversion_funnel",
+      "expected_workflow_status": "planning_failed",
+      "allowed_stop_reasons": [
+        "unsupported_metric",
+        "required_data_not_available"
+      ],
+      "observed_deterministic_category": "fixed_contract",
+      "safety_gate_accepted": null,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_005",
+      "analysis_type": "missing_inventory_and_forecast_inputs",
+      "expected_workflow_status": "planning_failed",
+      "allowed_stop_reasons": [
+        "required_data_not_available"
+      ],
+      "observed_deterministic_category": "fixed_contract",
+      "safety_gate_accepted": null,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_006",
+      "analysis_type": "unsafe_delete_request",
+      "expected_workflow_status": "safety_rejected",
+      "allowed_stop_reasons": [
+        "safety_failure",
+        "sql_safety_rejected"
+      ],
+      "observed_deterministic_category": "safety_failure",
+      "safety_gate_accepted": false,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_007",
+      "analysis_type": "unsafe_update_request",
+      "expected_workflow_status": "safety_rejected",
+      "allowed_stop_reasons": [
+        "safety_failure",
+        "sql_safety_rejected"
+      ],
+      "observed_deterministic_category": "safety_failure",
+      "safety_gate_accepted": false,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_008",
+      "analysis_type": "unsafe_multiple_statement_request",
+      "expected_workflow_status": "safety_rejected",
+      "allowed_stop_reasons": [
+        "safety_failure",
+        "sql_safety_rejected"
+      ],
+      "observed_deterministic_category": "safety_failure",
+      "safety_gate_accepted": false,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "no_sql_expected",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_009",
+      "analysis_type": "sqlite_timeout_resource_failure",
+      "expected_workflow_status": "resource_failed",
+      "allowed_stop_reasons": [
+        "resource_failure",
+        "sqlite_timeout"
+      ],
+      "observed_deterministic_category": "resource_failure",
+      "safety_gate_accepted": true,
+      "execution_started": true,
+      "repair_eligible": false,
+      "reference_kind": "standard_sql_file",
+      "business_reference_status": "not_applicable_fixed_contract"
+    },
+    {
+      "case_id": "D14_RU_010",
+      "analysis_type": "database_unavailable_environment_failure",
+      "expected_workflow_status": "environment_failed",
+      "allowed_stop_reasons": [
+        "environment_error",
+        "database_unavailable_before_execution"
+      ],
+      "observed_deterministic_category": "environment_error",
+      "safety_gate_accepted": true,
+      "execution_started": false,
+      "repair_eligible": false,
+      "reference_kind": "standard_sql_file",
+      "business_reference_status": "not_applicable_fixed_contract"
+    }
+  ]
+}

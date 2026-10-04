@@ -1,0 +1,37 @@
+{
+  "case_id": "D14_AJ_005",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "ddb570f7b86c80e87352b36ac34a772352d62351d0656e0cb2d9b18641bdd151",
+  "parameters": {
+    "start_date": "2018-01-01",
+    "end_date_exclusive": "2018-04-01"
+  },
+  "columns": [
+    "payment_type",
+    "delivered_payment_amount"
+  ],
+  "rows": [
+    {
+      "payment_type": "credit_card",
+      "delivered_payment_amount": 2500434.94
+    },
+    {
+      "payment_type": "boleto",
+      "delivered_payment_amount": 563391.12
+    },
+    {
+      "payment_type": "voucher",
+      "delivered_payment_amount": 75432.33
+    },
+    {
+      "payment_type": "debit_card",
+      "delivered_payment_amount": 26537.35
+    }
+  ],
+  "row_count": 4,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

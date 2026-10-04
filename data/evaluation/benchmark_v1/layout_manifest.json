@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "source_commit": "cac9b431588c89500f2f9094e8558260afb8d207",
+  "prefix_aliases": {
+    "data/evaluation/day14/": "data/evaluation/benchmark_v1/"
+  },
+  "provenance_sources": {
+    "sql/day04_standard_metrics.sql": "data/evaluation/benchmark_v1/provenance/8354289fcaa976787e4727a84fe8e125ee0b2c3ca4fa7c8562c4c571bfe7fd03.txt",
+    "sql/day04_advanced_metrics.sql": "data/evaluation/benchmark_v1/provenance/8dfd0641e557dd1d29e51f6ea569835b3977c1bfe3850df443e1fb3460422286.txt",
+    "src/ecommerce_agent/day10_comparison.py": "data/evaluation/benchmark_v1/provenance/5d2390704b0d64f8c7187fe42e217bdede0ca7cf85ded99be4ccb9ce3f974e5b.txt",
+    "src/ecommerce_agent/day10_contribution.py": "data/evaluation/benchmark_v1/provenance/ffa8e1af3b1284ea037ed358640256b76b2b76bc49afa56aa5d7a9370c8bfef4.txt",
+    "src/ecommerce_agent/day10_anomaly.py": "data/evaluation/benchmark_v1/provenance/ac24b8e062ff122f3a528cf2a2095adfd1e743c71fe57cc7a46fe838bd8e24e8.txt",
+    "src/ecommerce_agent/day11_benchmark.py": "data/evaluation/benchmark_v1/provenance/ee83f07f9429751081e28305825510fe6c3ffc851990bf9555976c06d2813d2a.txt",
+    "src/ecommerce_agent/sql_safety.py": "data/evaluation/benchmark_v1/provenance/4ab222125540fac6a30df82940bddbb4cff03a9c767bbb23d5025dc0e59c78fc.txt",
+    "src/ecommerce_agent/day09_error_classification.py": "data/evaluation/benchmark_v1/provenance/295d60775d5889a8b1781f388a65eccfc7703e6111207ae8f194b37136b9a072.txt"
+  }
+}

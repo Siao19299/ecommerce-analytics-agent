@@ -9,14 +9,14 @@ from pathlib import Path
 from fastapi import FastAPI
 
 from src.ecommerce_agent.analysis_planner import AnalysisPlanner
-from src.ecommerce_agent.day09_attempt_budget import RepairLimits
-from src.ecommerce_agent.day09_pipeline import Day09RepairWorkflow
-from src.ecommerce_agent.day09_repair import SqlRepairer
-from src.ecommerce_agent.day11_workflow import Day11Services, Day11StateMachine
-from src.ecommerce_agent.day12_api import create_app
-from src.ecommerce_agent.day12_service import Day11AgentService
-from src.ecommerce_agent.day15_api_budget import ApiBudget, BudgetedModelClient
-from src.ecommerce_agent.day15_live_experiment import (
+from src.ecommerce_agent.repair_limits import RepairLimits
+from src.ecommerce_agent.repair_workflow import SqlRepairWorkflow
+from src.ecommerce_agent.sql_repair import SqlRepairer
+from src.ecommerce_agent.workflow import WorkflowServices, AgentStateMachine
+from src.ecommerce_agent.api import create_app
+from src.ecommerce_agent.analysis_service import AgentService
+from src.ecommerce_agent.model_budget import ApiBudget, BudgetedModelClient
+from src.ecommerce_agent.model_experiment import (
     build_live_analyzer,
     present_live_result,
 )
@@ -70,7 +70,7 @@ def build_live_machine(
     *,
     settings: LiveRuntimeSettings | None = None,
     ledger_path: Path | None = None,
-) -> Day11StateMachine:
+) -> AgentStateMachine:
     """Assemble existing components without duplicating workflow behavior."""
 
     settings = settings or LiveRuntimeSettings()
@@ -96,7 +96,7 @@ def build_live_machine(
         root / "data/metadata/metric_dictionary.csv",
         root / "data/metadata/dimension_dictionary.csv",
     )
-    services = Day11Services(
+    services = WorkflowServices(
         root=root,
         database_path=root / "data/processed/olist.sqlite3",
         documents=documents,
@@ -122,7 +122,7 @@ def build_live_machine(
                 max_tokens=settings.sql_max_tokens,
             ),
         ),
-        repair_workflow=Day09RepairWorkflow(
+        repair_workflow=SqlRepairWorkflow(
             database_path=root / "data/processed/olist.sqlite3",
             repairer=SqlRepairer(
                 clients["repair"],
@@ -141,7 +141,7 @@ def build_live_machine(
         analyzer=build_live_analyzer(root),
         presenter=present_live_result,
     )
-    return Day11StateMachine(services)
+    return AgentStateMachine(services)
 
 
 def create_live_app(
@@ -164,7 +164,7 @@ def create_live_app(
         settings=settings or settings_from_environment(),
         ledger_path=ledger_path,
     )
-    app = create_app(Day11AgentService(machine))
-    app.title = "Cross-platform E-commerce Analytics Agent - Live Demo"
+    app = create_app(AgentService(machine))
+    app.title = "E-commerce Analytics Agent - Live Demo"
     app.version = "0.15.0"
     return app

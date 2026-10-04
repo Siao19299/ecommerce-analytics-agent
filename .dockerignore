@@ -6,5 +6,5 @@
 **/*.pyc
 data/processed/*
 !data/processed/olist.sqlite3
-data/processed/day15/
+data/processed/experiments/
 *.log

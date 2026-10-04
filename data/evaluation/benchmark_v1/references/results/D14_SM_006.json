@@ -1,0 +1,22 @@
+{
+  "case_id": "D14_SM_006",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "4184e381d0e137c23e9e1772532dbf8cb4d81b8ca0df129744ab4b4e80abfeed",
+  "parameters": {
+    "start_date": "2017-08-01",
+    "end_date_exclusive": "2017-09-01"
+  },
+  "columns": [
+    "delivered_gmv_including_freight"
+  ],
+  "rows": [
+    {
+      "delivered_gmv_including_freight": 645832.36
+    }
+  ],
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

@@ -1,0 +1,5 @@
+# Preserve byte hashes of frozen references and recorded evidence across checkouts.
+data/evaluation/** -text
+docs/reports/*.json -text
+docs/examples/*.json -text
+tests/fixtures/**/*.json -text

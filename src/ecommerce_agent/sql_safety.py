@@ -1,4 +1,4 @@
-"""Day 8 SQL AST validation and plan-scoped read-only policy.
+"""SQL security SQL AST validation and plan-scoped read-only policy.
 
 SQL text is untrusted.  SQLGlot parses SQLite syntax into an AST, then this
 module applies a default-deny query/type check and resolves tables and columns

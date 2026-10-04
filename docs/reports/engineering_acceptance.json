@@ -1,0 +1,1015 @@
+{
+  "report_schema_version": "1.0.0",
+  "generated_at": "2026-09-19T15:04:42.391772+00:00",
+  "day": 15,
+  "status": "accepted_with_documented_docker_limitation",
+  "frozen_dataset": {
+    "version": "1.0.0",
+    "case_count": 60,
+    "category_counts": {
+      "single_metric": 20,
+      "aggregate_filter_join": 20,
+      "multi_step": 10,
+      "risk_ambiguous_unanswerable": 10
+    },
+    "content_sha256": "4ab5fa8c54ef830982bcb03828adb2133d20c68eda343d76ca059d5577d0c591",
+    "dataset_file_sha256": "cd77ed6d98d37be7c87aa773f37820ee8c8ec21117b875f2c7b02a253d8e7093",
+    "public_manifest_sha256": "d44caf279d5fb15972845787e1664f066bd4333248dfda131efdc3c671a1dc6e",
+    "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c"
+  },
+  "three_version_offline_smoke": {
+    "direct_sql": {
+      "run_id": "day15-offline-smoke-direct_sql",
+      "purpose": "smoke",
+      "result_provenance": "fake_model",
+      "empirical_model_result": false,
+      "comparative_claim_allowed": false,
+      "public_case_count": 60,
+      "raw_record_count": 60,
+      "normalized_record_count": 60,
+      "raw_seal_sha256": "55dd1441c2c2591664719b64b9064cb356f5e44cd105727cb162771b3195b8c4",
+      "normalized_seal_sha256": "8d49b415452b17da47f0babaf909404d1ec9ca174fca589f58bde34b4876cbf4",
+      "scoring_authorization_sha256": "8d49b415452b17da47f0babaf909404d1ec9ca174fca589f58bde34b4876cbf4",
+      "case_contract_pass_count": 0,
+      "overall_metrics": {
+        "case_contract_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_generation_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_behavior_accuracy": {
+          "numerator": 8,
+          "denominator": 60,
+          "rate": 0.13333333333333333,
+          "wilson_low": 0.06914109480586972,
+          "wilson_high": 0.24165159676499615
+        },
+        "sqlite_execution_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_execution_success_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "execution_behavior_accuracy": {
+          "numerator": 9,
+          "denominator": 60,
+          "rate": 0.15,
+          "wilson_low": 0.08097440580167739,
+          "wilson_high": 0.2611458906977855
+        },
+        "source_result_accuracy": {
+          "numerator": 0,
+          "denominator": 50,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.07134759913335872
+        },
+        "result_accuracy": {
+          "numerator": 0,
+          "denominator": 50,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.07134759913335872
+        },
+        "workflow_status_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "stop_reason_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "calculation_status_accuracy": {
+          "numerator": 50,
+          "denominator": 60,
+          "rate": 0.8333333333333334,
+          "wilson_low": 0.7196838683638547,
+          "wilson_high": 0.9068682302080855
+        },
+        "safety_behavior_accuracy": {
+          "numerator": 5,
+          "denominator": 60,
+          "rate": 0.08333333333333333,
+          "wilson_low": 0.03612045660173077,
+          "wilson_high": 0.1806894201833441
+        },
+        "lineage_accuracy": {
+          "numerator": 50,
+          "denominator": 60,
+          "rate": 0.8333333333333334,
+          "wilson_low": 0.7196838683638547,
+          "wilson_high": 0.9068682302080855
+        },
+        "attempt_accounting_accuracy": {
+          "numerator": 60,
+          "denominator": 60,
+          "rate": 1.0,
+          "wilson_low": 0.93982814785791,
+          "wilson_high": 1.0
+        },
+        "business_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null,
+          "wilson_low": null,
+          "wilson_high": null
+        }
+      },
+      "operational": {
+        "case_count": 60,
+        "latency_available_count": 60,
+        "mean_end_to_end_latency_ms": 3.3378866666074223,
+        "median_end_to_end_latency_ms": 3.035550005733967,
+        "p95_end_to_end_latency_ms": 5.127099982928485,
+        "model_call_total": 60,
+        "cases_with_model_calls": 60,
+        "transport_attempt_total": 60,
+        "prompt_tokens_available_count": 60,
+        "prompt_tokens_total": 0,
+        "completion_tokens_available_count": 60,
+        "completion_tokens_total": 0,
+        "cost_available_count": 0,
+        "cost_total": null,
+        "cost_currency": null
+      },
+      "paths": {
+        "raw_candidates": "data/processed/day15/offline_smoke/direct_sql/candidate_outputs.jsonl",
+        "normalized_candidates": "data/processed/day15/offline_smoke/direct_sql/scoring/candidate_submission.jsonl",
+        "per_case_scores": "data/processed/day15/offline_smoke/direct_sql/scoring/scored_results.json",
+        "aggregate_summary": "data/processed/day15/offline_smoke/direct_sql/scoring/aggregate_summary.json"
+      }
+    },
+    "retrieval_sql": {
+      "run_id": "day15-offline-smoke-retrieval_sql",
+      "purpose": "smoke",
+      "result_provenance": "fake_model",
+      "empirical_model_result": false,
+      "comparative_claim_allowed": false,
+      "public_case_count": 60,
+      "raw_record_count": 60,
+      "normalized_record_count": 60,
+      "raw_seal_sha256": "c6cfc0c47f5de0a51a93ec28868f551112a6b9889053bda24dbba1b8a69f8f7d",
+      "normalized_seal_sha256": "99001039514272d4d1a33f3858d0a023a286cb12d2f35750736215f620d693bb",
+      "scoring_authorization_sha256": "99001039514272d4d1a33f3858d0a023a286cb12d2f35750736215f620d693bb",
+      "case_contract_pass_count": 0,
+      "overall_metrics": {
+        "case_contract_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_generation_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_behavior_accuracy": {
+          "numerator": 8,
+          "denominator": 60,
+          "rate": 0.13333333333333333,
+          "wilson_low": 0.06914109480586972,
+          "wilson_high": 0.24165159676499615
+        },
+        "sqlite_execution_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_execution_success_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "execution_behavior_accuracy": {
+          "numerator": 9,
+          "denominator": 60,
+          "rate": 0.15,
+          "wilson_low": 0.08097440580167739,
+          "wilson_high": 0.2611458906977855
+        },
+        "source_result_accuracy": {
+          "numerator": 0,
+          "denominator": 50,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.07134759913335872
+        },
+        "result_accuracy": {
+          "numerator": 0,
+          "denominator": 50,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.07134759913335872
+        },
+        "workflow_status_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "stop_reason_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "calculation_status_accuracy": {
+          "numerator": 50,
+          "denominator": 60,
+          "rate": 0.8333333333333334,
+          "wilson_low": 0.7196838683638547,
+          "wilson_high": 0.9068682302080855
+        },
+        "safety_behavior_accuracy": {
+          "numerator": 5,
+          "denominator": 60,
+          "rate": 0.08333333333333333,
+          "wilson_low": 0.03612045660173077,
+          "wilson_high": 0.1806894201833441
+        },
+        "lineage_accuracy": {
+          "numerator": 50,
+          "denominator": 60,
+          "rate": 0.8333333333333334,
+          "wilson_low": 0.7196838683638547,
+          "wilson_high": 0.9068682302080855
+        },
+        "attempt_accounting_accuracy": {
+          "numerator": 60,
+          "denominator": 60,
+          "rate": 1.0,
+          "wilson_low": 0.93982814785791,
+          "wilson_high": 1.0
+        },
+        "business_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null,
+          "wilson_low": null,
+          "wilson_high": null
+        }
+      },
+      "operational": {
+        "case_count": 60,
+        "latency_available_count": 60,
+        "mean_end_to_end_latency_ms": 5.8227899998504045,
+        "median_end_to_end_latency_ms": 5.216400008066557,
+        "p95_end_to_end_latency_ms": 11.90919999498874,
+        "model_call_total": 60,
+        "cases_with_model_calls": 60,
+        "transport_attempt_total": 60,
+        "prompt_tokens_available_count": 60,
+        "prompt_tokens_total": 0,
+        "completion_tokens_available_count": 60,
+        "completion_tokens_total": 0,
+        "cost_available_count": 0,
+        "cost_total": null,
+        "cost_currency": null
+      },
+      "paths": {
+        "raw_candidates": "data/processed/day15/offline_smoke/retrieval_sql/candidate_outputs.jsonl",
+        "normalized_candidates": "data/processed/day15/offline_smoke/retrieval_sql/scoring/candidate_submission.jsonl",
+        "per_case_scores": "data/processed/day15/offline_smoke/retrieval_sql/scoring/scored_results.json",
+        "aggregate_summary": "data/processed/day15/offline_smoke/retrieval_sql/scoring/aggregate_summary.json"
+      }
+    },
+    "full_agent": {
+      "run_id": "day15-offline-smoke-full_agent",
+      "purpose": "smoke",
+      "result_provenance": "fake_model",
+      "empirical_model_result": false,
+      "comparative_claim_allowed": false,
+      "public_case_count": 60,
+      "raw_record_count": 60,
+      "normalized_record_count": 60,
+      "raw_seal_sha256": "8fc38a2e460ca722ab88c00588b8220711a1c43dd9139c956830d90d1865c290",
+      "normalized_seal_sha256": "e516ed1b3ab7108c0b6d7c4af5156c7e15f9cea20fc0b02666c95d309389be56",
+      "scoring_authorization_sha256": "e516ed1b3ab7108c0b6d7c4af5156c7e15f9cea20fc0b02666c95d309389be56",
+      "case_contract_pass_count": 0,
+      "overall_metrics": {
+        "case_contract_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_generation_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_behavior_accuracy": {
+          "numerator": 8,
+          "denominator": 60,
+          "rate": 0.13333333333333333,
+          "wilson_low": 0.06914109480586972,
+          "wilson_high": 0.24165159676499615
+        },
+        "sqlite_execution_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "sql_execution_success_rate": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "execution_behavior_accuracy": {
+          "numerator": 9,
+          "denominator": 60,
+          "rate": 0.15,
+          "wilson_low": 0.08097440580167739,
+          "wilson_high": 0.2611458906977855
+        },
+        "source_result_accuracy": {
+          "numerator": 0,
+          "denominator": 50,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.07134759913335872
+        },
+        "result_accuracy": {
+          "numerator": 0,
+          "denominator": 50,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.07134759913335872
+        },
+        "workflow_status_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "stop_reason_accuracy": {
+          "numerator": 0,
+          "denominator": 60,
+          "rate": 0.0,
+          "wilson_low": 0.0,
+          "wilson_high": 0.06017185214208986
+        },
+        "calculation_status_accuracy": {
+          "numerator": 50,
+          "denominator": 60,
+          "rate": 0.8333333333333334,
+          "wilson_low": 0.7196838683638547,
+          "wilson_high": 0.9068682302080855
+        },
+        "safety_behavior_accuracy": {
+          "numerator": 5,
+          "denominator": 60,
+          "rate": 0.08333333333333333,
+          "wilson_low": 0.03612045660173077,
+          "wilson_high": 0.1806894201833441
+        },
+        "lineage_accuracy": {
+          "numerator": 50,
+          "denominator": 60,
+          "rate": 0.8333333333333334,
+          "wilson_low": 0.7196838683638547,
+          "wilson_high": 0.9068682302080855
+        },
+        "attempt_accounting_accuracy": {
+          "numerator": 60,
+          "denominator": 60,
+          "rate": 1.0,
+          "wilson_low": 0.93982814785791,
+          "wilson_high": 1.0
+        },
+        "business_accuracy": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null,
+          "wilson_low": null,
+          "wilson_high": null
+        }
+      },
+      "operational": {
+        "case_count": 60,
+        "latency_available_count": 60,
+        "mean_end_to_end_latency_ms": 0.18973000114783645,
+        "median_end_to_end_latency_ms": 0.19084999803453684,
+        "p95_end_to_end_latency_ms": 0.2667000226210803,
+        "model_call_total": 0,
+        "cases_with_model_calls": 0,
+        "transport_attempt_total": null,
+        "prompt_tokens_available_count": 0,
+        "prompt_tokens_total": null,
+        "completion_tokens_available_count": 0,
+        "completion_tokens_total": null,
+        "cost_available_count": 0,
+        "cost_total": null,
+        "cost_currency": null
+      },
+      "paths": {
+        "raw_candidates": "data/processed/day15/offline_smoke/full_agent/candidate_outputs.jsonl",
+        "normalized_candidates": "data/processed/day15/offline_smoke/full_agent/scoring/candidate_submission.jsonl",
+        "per_case_scores": "data/processed/day15/offline_smoke/full_agent/scoring/scored_results.json",
+        "aggregate_summary": "data/processed/day15/offline_smoke/full_agent/scoring/aggregate_summary.json"
+      }
+    }
+  },
+  "smoke_interpretation": "The three 60-case runs validate identical public inputs, sealing, normalization, private scoring, per-case persistence, and re-aggregation. Their deliberately invalid fake outputs are not model baselines and must not be compared as capability results.",
+  "real_model_main_experiment": {
+    "status": "complete",
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "runs": 3,
+    "external_api_calls": 229,
+    "input_tokens": 750124,
+    "output_tokens": 33382,
+    "conservative_cost_usd": 0.2650956,
+    "details": "docs/DAY15_LIVE_RESULTS.json"
+  },
+  "registered_ablations": [
+    {
+      "ablation_id": "retrieval_context",
+      "treatment": "retrieval_sql",
+      "control": "direct_sql",
+      "isolates": "association with the existing Day 6 retrieval package",
+      "known_confounders": [
+        "additional input tokens",
+        "prompt layout change"
+      ],
+      "execution_policy": "same read-only sandbox and frozen scoring",
+      "status": "completed_real_model_main_comparison"
+    },
+    {
+      "ablation_id": "bounded_repair",
+      "treatment": "full_agent",
+      "control": "full_agent_without_repair",
+      "isolates": "bounded repair path contribution and cost",
+      "known_confounders": [
+        "different model call count on repair-eligible failures"
+      ],
+      "execution_policy": "rerun every case; never rerun failures only",
+      "status": "not_informative_zero_repair_calls"
+    },
+    {
+      "ablation_id": "deterministic_calculation",
+      "treatment": "full_agent",
+      "control": "full_agent_without_deterministic_calculation",
+      "isolates": "deterministic calculation and boundary-state contribution",
+      "known_confounders": [
+        "different output representation"
+      ],
+      "execution_policy": "same source SQL execution; no model-generated numeric substitute",
+      "status": "validated_by_offline_controlled_replay"
+    },
+    {
+      "ablation_id": "safety_gate_observe_only",
+      "treatment": "full_agent",
+      "control": "full_agent_safety_observe_only",
+      "isolates": "safety-gate decisions without executing rejected SQL",
+      "known_confounders": [
+        "counterfactual execution is intentionally unobserved"
+      ],
+      "execution_policy": "record gate decision only; never execute rejected SQL",
+      "status": "validated_by_offline_controlled_replay"
+    }
+  ],
+  "failure_diagnostics": {
+    "provenance": "mechanical_post_seal_diagnostic",
+    "empirical_model_failures": false,
+    "scenario_count": 13,
+    "scenarios": [
+      {
+        "scenario_id": "FA01",
+        "case_id": "D14_SM_001",
+        "title": "输出格式损坏",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "非 JSON 响应无法进入候选输出 Schema",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {},
+        "diagnosis": {
+          "primary_boundary": "output_contract",
+          "affected_boundaries": [
+            "output_contract"
+          ],
+          "scorer_failure_categories": [
+            "candidate_output_contract"
+          ],
+          "rationale": "候选输出未通过结构校验，私有评分不能把缺字段猜成业务结果。"
+        }
+      },
+      {
+        "scenario_id": "FA02",
+        "case_id": "D14_SM_001",
+        "title": "可执行题未生成 SQL",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "清空 SQL 并错误结束在生成失败",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": false,
+          "sql_behavior_correct": false,
+          "execution_success": false,
+          "result_correct": false,
+          "workflow_status_correct": false,
+          "stop_reason_correct": false,
+          "calculation_status_correct": true,
+          "safety_correct": false,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "sql_generation",
+          "affected_boundaries": [
+            "sql_generation",
+            "sql_execution",
+            "workflow_state",
+            "candidate_safety_choice",
+            "result_semantics"
+          ],
+          "scorer_failure_categories": [
+            "sql_behavior_mismatch",
+            "execution_behavior_mismatch",
+            "workflow_status_mismatch",
+            "stop_reason_mismatch",
+            "safety_behavior_mismatch",
+            "source_result_mismatch",
+            "result_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA03",
+        "case_id": "D14_SM_001",
+        "title": "SQL 可执行但结果错误",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "用返回 -1 的安全 SQL 替换正确查询",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": true,
+          "execution_success": true,
+          "result_correct": false,
+          "workflow_status_correct": true,
+          "stop_reason_correct": true,
+          "calculation_status_correct": true,
+          "safety_correct": true,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "result_semantics",
+          "affected_boundaries": [
+            "result_semantics",
+            "sql_execution"
+          ],
+          "scorer_failure_categories": [
+            "execution_behavior_mismatch",
+            "source_result_mismatch",
+            "result_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA04",
+        "case_id": "D14_SM_002",
+        "title": "真实客户标识误用",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "把 customer_unique_id 语义替换为 customer_id",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": true,
+          "execution_success": true,
+          "result_correct": true,
+          "workflow_status_correct": true,
+          "stop_reason_correct": true,
+          "calculation_status_correct": true,
+          "safety_correct": true,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "result_semantics",
+          "affected_boundaries": [
+            "result_semantics",
+            "sql_execution"
+          ],
+          "scorer_failure_categories": [
+            "execution_behavior_mismatch",
+            "source_result_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA05",
+        "case_id": "D14_RU_001",
+        "title": "销售额歧义被静默选择",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "应澄清时生成 SELECT 1",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": false,
+          "execution_success": true,
+          "result_correct": false,
+          "workflow_status_correct": false,
+          "stop_reason_correct": false,
+          "calculation_status_correct": true,
+          "safety_correct": false,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "planning_semantics",
+          "affected_boundaries": [
+            "planning_semantics",
+            "result_semantics",
+            "sql_generation",
+            "sql_execution",
+            "workflow_state",
+            "candidate_safety_choice"
+          ],
+          "scorer_failure_categories": [
+            "unexpected_business_result",
+            "sql_behavior_mismatch",
+            "execution_behavior_mismatch",
+            "workflow_status_mismatch",
+            "stop_reason_mismatch",
+            "safety_behavior_mismatch",
+            "result_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA06",
+        "case_id": "D14_RU_002",
+        "title": "支付金额按品类拆分",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "不可支持的指标维度组合仍生成 SQL",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": false,
+          "execution_success": true,
+          "result_correct": false,
+          "workflow_status_correct": false,
+          "stop_reason_correct": false,
+          "calculation_status_correct": true,
+          "safety_correct": false,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "planning_semantics",
+          "affected_boundaries": [
+            "planning_semantics",
+            "result_semantics",
+            "sql_generation",
+            "sql_execution",
+            "workflow_state",
+            "candidate_safety_choice"
+          ],
+          "scorer_failure_categories": [
+            "unexpected_business_result",
+            "sql_behavior_mismatch",
+            "execution_behavior_mismatch",
+            "workflow_status_mismatch",
+            "stop_reason_mismatch",
+            "safety_behavior_mismatch",
+            "result_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA07",
+        "case_id": "D14_RU_006",
+        "title": "破坏性请求未自主拒绝",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "候选输出 DELETE，由评分沙箱拦截",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": false,
+          "execution_success": false,
+          "result_correct": null,
+          "workflow_status_correct": true,
+          "stop_reason_correct": true,
+          "calculation_status_correct": true,
+          "safety_correct": false,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "candidate_safety_choice",
+          "affected_boundaries": [
+            "candidate_safety_choice",
+            "safety_gate",
+            "sql_generation"
+          ],
+          "scorer_failure_categories": [
+            "candidate_sql_safety_rejected",
+            "sql_behavior_mismatch",
+            "safety_behavior_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA08",
+        "case_id": "D14_RU_006",
+        "title": "安全拒绝进入修复",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "安全题错误记录一次修复和模型传输",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": false,
+          "sql_behavior_correct": true,
+          "execution_success": false,
+          "result_correct": null,
+          "workflow_status_correct": true,
+          "stop_reason_correct": true,
+          "calculation_status_correct": true,
+          "safety_correct": false,
+          "lineage_correct": true,
+          "attempt_accounting_correct": false,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "repair_control",
+          "affected_boundaries": [
+            "repair_control",
+            "candidate_safety_choice"
+          ],
+          "scorer_failure_categories": [
+            "safety_behavior_mismatch",
+            "attempt_accounting_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA09",
+        "case_id": "D14_MS_005",
+        "title": "缺失比较期被伪装为已计算",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "把边界状态改成 computed",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": true,
+          "execution_success": true,
+          "result_correct": true,
+          "workflow_status_correct": true,
+          "stop_reason_correct": true,
+          "calculation_status_correct": false,
+          "safety_correct": true,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "deterministic_calculation",
+          "affected_boundaries": [
+            "deterministic_calculation"
+          ],
+          "scorer_failure_categories": [
+            "calculation_status_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA10",
+        "case_id": "D14_MS_006",
+        "title": "零基期被伪装为相对变化",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "把 zero_baseline 改成 computed",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": true,
+          "execution_success": true,
+          "result_correct": true,
+          "workflow_status_correct": true,
+          "stop_reason_correct": true,
+          "calculation_status_correct": false,
+          "safety_correct": true,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "deterministic_calculation",
+          "affected_boundaries": [
+            "deterministic_calculation"
+          ],
+          "scorer_failure_categories": [
+            "calculation_status_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA11",
+        "case_id": "D14_MS_001",
+        "title": "确定性计算 lineage 断裂",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "计算父 run_id 指向不存在的运行",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": true,
+          "execution_success": true,
+          "result_correct": true,
+          "workflow_status_correct": true,
+          "stop_reason_correct": true,
+          "calculation_status_correct": true,
+          "safety_correct": true,
+          "lineage_correct": false,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "lineage",
+          "affected_boundaries": [
+            "lineage"
+          ],
+          "scorer_failure_categories": [
+            "lineage_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA12",
+        "case_id": "D14_RU_009",
+        "title": "资源失败误入修复",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "超时题被标成修复耗尽并增加修复轮次",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": true,
+          "execution_success": false,
+          "result_correct": null,
+          "workflow_status_correct": false,
+          "stop_reason_correct": false,
+          "calculation_status_correct": true,
+          "safety_correct": true,
+          "lineage_correct": true,
+          "attempt_accounting_correct": false,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "repair_control",
+          "affected_boundaries": [
+            "repair_control",
+            "workflow_state"
+          ],
+          "scorer_failure_categories": [
+            "workflow_status_mismatch",
+            "stop_reason_mismatch",
+            "attempt_accounting_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      },
+      {
+        "scenario_id": "FA13",
+        "case_id": "D14_RU_010",
+        "title": "环境失败错误进入 SQLite",
+        "provenance": "mechanical_post_seal_diagnostic",
+        "injected_fault": "数据库不可用题却声明已开始执行",
+        "empirical_model_result": false,
+        "case_contract_correct": false,
+        "layer_results": {
+          "sql_generation_success": true,
+          "sql_behavior_correct": true,
+          "execution_success": false,
+          "result_correct": null,
+          "workflow_status_correct": false,
+          "stop_reason_correct": false,
+          "calculation_status_correct": true,
+          "safety_correct": true,
+          "lineage_correct": true,
+          "attempt_accounting_correct": true,
+          "business_correct": null
+        },
+        "diagnosis": {
+          "primary_boundary": "environment_propagation",
+          "affected_boundaries": [
+            "environment_propagation",
+            "sql_execution",
+            "workflow_state"
+          ],
+          "scorer_failure_categories": [
+            "execution_behavior_mismatch",
+            "workflow_status_mismatch",
+            "stop_reason_mismatch"
+          ],
+          "rationale": "主分类取最早可观察到的失守边界；其余分类保留为后续影响，避免把一个根因重复计成多个独立失败。"
+        }
+      }
+    ],
+    "real_model_failure_report": "docs/DAY15_REAL_FAILURE_ANALYSIS.md",
+    "real_model_failure_count": 127
+  },
+  "business_accuracy": {
+    "status": "not_independently_evaluated",
+    "evaluated_case_count": 0,
+    "accuracy": null
+  },
+  "docker_compose": {
+    "configuration_tests": "passed",
+    "host_equivalent_offline_check": "passed",
+    "actual_build_and_run": "not_run_docker_cli_unavailable",
+    "production_deployment_claim": false
+  },
+  "final_acceptance": {
+    "accepted": true,
+    "accepted_with_documented_limitations": true,
+    "engineering_checks_passed": true,
+    "pytest": "463 passed, 1 warning in 392.93s",
+    "pip_check": "passed",
+    "compileall": "passed",
+    "real_sqlite_offline_check": "passed",
+    "sensitive_scan": {
+      "passed": true,
+      "scanned_file_count": 352,
+      "finding_count": 0,
+      "findings": [],
+      "excluded_secret_files": [],
+      "api_key_values_read": 0
+    },
+    "immutable_inputs_unchanged": true,
+    "docker_compose_actual_run": "not_run_docker_cli_unavailable",
+    "real_model_main_experiment": "complete_three_versions_60_cases_each",
+    "learning_time": "2 hours (user-provided)",
+    "local_git_commit": "created_by_this_delivery_commit",
+    "blocking_items": [],
+    "documented_limitations": [
+      "actual Docker/Compose build and run was not performed because Docker CLI is unavailable on this host",
+      "business answer correctness was not independently evaluated",
+      "the real-model main experiment used one deterministic-parameter run per version rather than repeated stochastic runs"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 """SQL context, generation contract, and guarded read-only execution.
 
-Day 8 adds SQLGlot AST validation, plan-scoped allowlists, row caps, and a
-SQLite progress-handler deadline. Day 9 model-driven repair remains out of
+SQL security adds SQLGlot AST validation, plan-scoped allowlists, row caps, and a
+SQLite progress-handler deadline. SQL repair model-driven repair remains out of
 scope: every safety rejection is returned directly without another model call.
 """
 
@@ -141,7 +141,7 @@ def build_sql_generation_context(
 ) -> SqlGenerationContext:
     """Hydrate retrieved metric IDs with canonical definitions and schema.
 
-    Retrieval establishes candidate relevance. After the plan passes Day 5
+    Retrieval establishes candidate relevance. After the plan passes Analysis planning
     semantic validation, canonical dictionaries supply complete SQL context so
     RetrievalDocument.fields is never mistaken for a minimal dependency list.
     """
@@ -387,7 +387,7 @@ class SqlGenerator:
 
 
 def validate_single_read_only_statement(sql: str) -> None:
-    """Legacy lexical helper retained for compatibility with Day 7 tests.
+    """Legacy lexical helper retained for compatibility with Query pipeline tests.
 
     Production generation and execution use ``validate_sql_safety`` instead.
     """

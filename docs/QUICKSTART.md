@@ -11,7 +11,7 @@
 git clone https://github.com/Siao19299/ecommerce-analytics-agent.git
 cd ecommerce-analytics-agent
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-day15.lock.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements.lock.txt
 .\.venv\Scripts\python.exe -m pip check
 ```
 
@@ -21,7 +21,7 @@ python -m venv .venv
 ## 2. 无模型、无完整数据的检查
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q tests/test_day05_analysis_plan.py tests/test_live_runtime.py
+.\.venv\Scripts\python.exe -m pytest -q tests/test_analysis_plan.py tests/test_live_runtime.py
 ```
 
 这组测试使用注入的假模型，检查结构化计划、服务装配、健康检查与歧义澄清，
@@ -51,7 +51,7 @@ data/raw/
 在**新克隆目录**中构建六张核心表的数据库：
 
 ```powershell
-.\.venv\Scripts\python.exe -m src.ecommerce_agent.day03_pipeline
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.data_pipeline
 ```
 
 成功后会逐表输出 CSV 与数据库行数比对结果，数据库位于
@@ -108,7 +108,7 @@ API 进程继承上述环境后，启动服务：
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
-.\.venv\Scripts\python.exe -m src.ecommerce_agent.day15_offline_check
+.\.venv\Scripts\python.exe -m src.ecommerce_agent.offline_check
 ```
 
 离线检查核对 Python 版本、题集与公开清单、数据库和全部原始文件 SHA-256，
@@ -116,7 +116,7 @@ API 进程继承上述环境后，启动服务：
 不表示待评模型 100% 准确。若文件哈希不匹配，应确认数据版本和环境，保留原始资产。
 
 原始真实模型运行文件没有随 Git 上传；保存的正式结果与逐题失败证据见
-[结构化实验结果](DAY15_LIVE_RESULTS.json)。在新机器上重新生成完整实验需要另行
+[结构化实验结果](reports/model_comparison.json)。在新机器上重新生成完整实验需要另行
 准备数据、模型凭据与预算，不属于离线检查。
 
-Docker/Compose 的可选命令和未完成的实跑验证见[容器复现说明](DAY15_DOCKER_REPRODUCIBILITY.md)。
+Docker/Compose 的可选命令和未完成的实跑验证见[容器复现说明](evaluation/container_reproducibility.md)。

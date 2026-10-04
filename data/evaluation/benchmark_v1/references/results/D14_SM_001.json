@@ -1,0 +1,22 @@
+{
+  "case_id": "D14_SM_001",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "5dc4cbb28e119d6ab673bcd5d252eef63ef19a04f550364bb55eb43c485c4b2d",
+  "parameters": {
+    "start_date": "2018-06-01",
+    "end_date_exclusive": "2018-07-01"
+  },
+  "columns": [
+    "delivered_order_count"
+  ],
+  "rows": [
+    {
+      "delivered_order_count": 6099
+    }
+  ],
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

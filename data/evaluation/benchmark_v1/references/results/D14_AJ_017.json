@@ -1,0 +1,61 @@
+{
+  "case_id": "D14_AJ_017",
+  "reference_type": "assistant_authored_sql_verified_on_real_sqlite",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "b9bdf3e73e3636e5faf5174274eda7af99b5da023d650fb218436842c9286f6f",
+  "parameters": {
+    "start_date": "2018-01-01",
+    "end_date_exclusive": "2018-04-01"
+  },
+  "columns": [
+    "seller",
+    "delivered_freight_amount"
+  ],
+  "rows": [
+    {
+      "seller": "7c67e1448b00f6e969d365cea6b010ab",
+      "delivered_freight_amount": 15266.88
+    },
+    {
+      "seller": "955fee9216a65b617aa5c0531780ce60",
+      "delivered_freight_amount": 9354.85
+    },
+    {
+      "seller": "a1043bafd471dff536d0c462352beb48",
+      "delivered_freight_amount": 9286.6
+    },
+    {
+      "seller": "1f50f920176fa81dab994f9023523100",
+      "delivered_freight_amount": 7753.91
+    },
+    {
+      "seller": "8b321bb669392f5163d04c59e235e066",
+      "delivered_freight_amount": 7032.76
+    },
+    {
+      "seller": "ea8482cd71df3c1969d7b9473ff13abc",
+      "delivered_freight_amount": 7018.95
+    },
+    {
+      "seller": "1025f0e2d44d7041d6cf58b6550e0bfa",
+      "delivered_freight_amount": 6942.61
+    },
+    {
+      "seller": "4a3ca9315b744ce9f8e9374361493884",
+      "delivered_freight_amount": 6499.48
+    },
+    {
+      "seller": "da8622b14eb17ae2831f4ac5b9dab84a",
+      "delivered_freight_amount": 6415.84
+    },
+    {
+      "seller": "4869f7a5dfa277a7dca6462dcf3b52b2",
+      "delivered_freight_amount": 5473.38
+    }
+  ],
+  "row_count": 10,
+  "safety_gate_accepted": true,
+  "execution_started": true,
+  "rows_truncated": false
+}

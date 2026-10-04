@@ -1,0 +1,212 @@
+{
+  "case_id": "D14_MS_005",
+  "reference_type": "real_sqlite_plus_deterministic_python",
+  "business_reference_status": "not_independently_evaluated",
+  "database_sha256": "ef08ccb7cf6ca5cc96e1ee56c15af0af1f3a0af159985b6461ea38e1ecfa675c",
+  "sql_sha256": "071720a128c0e44f9761f3084fc9c2aca2889d72b9ba78475e444128c26e0668",
+  "parameters": {
+    "customer_state": "AM",
+    "start_date": "2017-01-01",
+    "end_date_exclusive": "2017-03-01"
+  },
+  "source_sql": {
+    "columns": [
+      "purchase_month",
+      "metric_value"
+    ],
+    "rows": [
+      {
+        "purchase_month": "2017-02-01",
+        "metric_value": 902.89
+      }
+    ],
+    "row_count": 1,
+    "safety_gate_accepted": true,
+    "execution_started": true,
+    "rows_truncated": false
+  },
+  "calculation": {
+    "analysis_type": "month_over_month",
+    "metric": {
+      "metric_id": "delivered_monthly_gmv",
+      "definition_source": "data/metadata/metric_dictionary.csv",
+      "metric_definition": "按下单自然月汇总的已送达订单GMV",
+      "time_field": "order_purchase_timestamp",
+      "filters": {
+        "customer_state": "AM"
+      }
+    },
+    "lineage": {
+      "parent_run_id": "D14_MS_005-reference-sql",
+      "source_sql_attempt": 1,
+      "input_reference": "D14_MS_005.reference_sql.rows"
+    },
+    "target_period": "2017-02-01",
+    "comparison_period": "2017-01-01",
+    "current_value": 902.89,
+    "comparison_value": null,
+    "absolute_change": null,
+    "relative_change": null,
+    "calculation_status": "missing_comparison_period",
+    "comparability": "not_applicable",
+    "comparability_reasons": [
+      "comparison_period_missing"
+    ],
+    "sign_transition": "none",
+    "method": {
+      "period_match": "previous_calendar_month",
+      "absolute_change_formula": "current_value - comparison_value",
+      "relative_change_formula": "(current_value - comparison_value) / comparison_value",
+      "relative_change_policy": "computed_only_when_comparison_value_is_positive"
+    },
+    "raw_input": [
+      {
+        "period": "2017-02-01",
+        "value": 902.89,
+        "completeness": "complete",
+        "completeness_reason": null
+      }
+    ],
+    "chart_data": [
+      {
+        "role": "current",
+        "period": "2017-02-01",
+        "value": 902.89,
+        "completeness": "complete"
+      }
+    ],
+    "boundary_notes": [
+      "missing_period_is_not_imputed_as_zero",
+      "no_standard_comparison_without_exact_calendar_match"
+    ]
+  },
+  "calculation_trace": {
+    "calculation_id": "D14_MS_005-reference-calculation",
+    "parent_run_id": "D14_MS_005-reference-sql",
+    "source_sql_attempt": 1,
+    "step": "deterministic_comparison",
+    "analysis_type": "month_over_month",
+    "created_at": "2026-09-17T00:00:00Z",
+    "input_sha256": "1ba097c031e7240ed55245a413d59eeebd2e3f3760381848dcc8bc9157e6a18d",
+    "result": {
+      "analysis_type": "month_over_month",
+      "metric": {
+        "metric_id": "delivered_monthly_gmv",
+        "definition_source": "data/metadata/metric_dictionary.csv",
+        "metric_definition": "按下单自然月汇总的已送达订单GMV",
+        "time_field": "order_purchase_timestamp",
+        "filters": {
+          "customer_state": "AM"
+        }
+      },
+      "lineage": {
+        "parent_run_id": "D14_MS_005-reference-sql",
+        "source_sql_attempt": 1,
+        "input_reference": "D14_MS_005.reference_sql.rows"
+      },
+      "target_period": "2017-02-01",
+      "comparison_period": "2017-01-01",
+      "current_value": 902.89,
+      "comparison_value": null,
+      "absolute_change": null,
+      "relative_change": null,
+      "calculation_status": "missing_comparison_period",
+      "comparability": "not_applicable",
+      "comparability_reasons": [
+        "comparison_period_missing"
+      ],
+      "sign_transition": "none",
+      "method": {
+        "period_match": "previous_calendar_month",
+        "absolute_change_formula": "current_value - comparison_value",
+        "relative_change_formula": "(current_value - comparison_value) / comparison_value",
+        "relative_change_policy": "computed_only_when_comparison_value_is_positive"
+      },
+      "raw_input": [
+        {
+          "period": "2017-02-01",
+          "value": 902.89,
+          "completeness": "complete",
+          "completeness_reason": null
+        }
+      ],
+      "chart_data": [
+        {
+          "role": "current",
+          "period": "2017-02-01",
+          "value": 902.89,
+          "completeness": "complete"
+        }
+      ],
+      "boundary_notes": [
+        "missing_period_is_not_imputed_as_zero",
+        "no_standard_comparison_without_exact_calendar_match"
+      ]
+    }
+  },
+  "presentation": {
+    "analysis_type": "month_over_month",
+    "metric_id": "delivered_monthly_gmv",
+    "metric_definition_source": "data/metadata/metric_dictionary.csv",
+    "lineage": {
+      "parent_run_id": "D14_MS_005-reference-sql",
+      "source_sql_attempt": 1,
+      "input_reference": "D14_MS_005.reference_sql.rows"
+    },
+    "table": {
+      "columns": [
+        "role",
+        "period",
+        "value",
+        "completeness"
+      ],
+      "rows": [
+        {
+          "role": "current",
+          "period": "2017-02-01",
+          "value": 902.89,
+          "completeness": "complete"
+        }
+      ]
+    },
+    "chart": {
+      "chart_type": "bar",
+      "title": "delivered_monthly_gmv: 2017-01-01 vs 2017-02-01",
+      "x_field": "period",
+      "y_fields": [
+        "value"
+      ],
+      "data": [
+        {
+          "role": "current",
+          "period": "2017-02-01",
+          "value": 902.89,
+          "completeness": "complete"
+        }
+      ],
+      "notes": [
+        "chart_uses_precomputed_values_only"
+      ]
+    },
+    "conclusion": "2017-02-01 的month_over_month缺少精确日历比较期或当前期，因此不可计算；缺失期间未补零，也未使用最近一条记录替代。",
+    "boundary_notes": [
+      "missing_period_is_not_imputed_as_zero",
+      "no_standard_comparison_without_exact_calendar_match"
+    ],
+    "generated_by": "deterministic_python_template"
+  },
+  "columns": [
+    "role",
+    "period",
+    "value",
+    "completeness"
+  ],
+  "rows": [
+    {
+      "role": "current",
+      "period": "2017-02-01",
+      "value": 902.89,
+      "completeness": "complete"
+    }
+  ]
+}

@@ -1,0 +1,2915 @@
+{
+  "dataset_usage": "development_review_set_not_held_out_benchmark",
+  "document_count": 65,
+  "top_k_values": [
+    1,
+    3,
+    5,
+    10
+  ],
+  "input_sha256": {
+    "tests/fixtures/day06/retrieval_cases.json": "81180fafe7c59e012513d85990de20f77b510399f659371e20733030946158c3",
+    "data/metadata/metric_dictionary.csv": "efd3b82dbbea748e36aa733e29c6ecb9bdfdbdaf0870ac3cae5d3aba753de740",
+    "data/metadata/dimension_dictionary.csv": "eba6775c71fbd1534c4a4f29263a9d12c2690deb9f5c4a5608fe4d425356941e",
+    "data/metadata/database_data_dictionary.csv": "f65bac88471cda81847692e9379edbb662d517ef0a9a5a9185b45af9c4584e9a",
+    "sql/schema.sql": "14a7366b1d108242eca862796afc732bf7e1c3e6d903500568bb401dfacf13fd",
+    "docs/OLIST_DATA_DICTIONARY.md": "764413b14e6ca19536778d3aa9007ba487a8f2411b77dfbc5928d9e0cf6d46aa",
+    "src/ecommerce_agent/retrieval.py": "24ac8321ca2e978324c7520de1bf5f4c31a6a0125011a818ca761f7ab3d45a9d",
+    "src/ecommerce_agent/day06_benchmark.py": "7b0124ae32019d4e1b3098ef30e9009a4bc297f8ab20fe53958232f51021dfaf"
+  },
+  "implementations": {
+    "keyword-bigram-idf-v1": {
+      "annotation_counts": {
+        "human_reviewed": 7,
+        "assistant_reviewed": 8,
+        "pending_human_review": 0
+      },
+      "summaries_reviewed_only": {
+        "all": {
+          "reviewed_count": 15,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.611111111111111,
+              "complete_question_count": 8
+            },
+            "3": {
+              "mean_required_group_coverage": 0.7,
+              "complete_question_count": 9
+            },
+            "5": {
+              "mean_required_group_coverage": 0.7888888888888889,
+              "complete_question_count": 10
+            },
+            "10": {
+              "mean_required_group_coverage": 0.8333333333333334,
+              "complete_question_count": 12
+            }
+          }
+        },
+        "metric": {
+          "reviewed_count": 9,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.6666666666666666,
+              "complete_question_count": 6
+            },
+            "3": {
+              "mean_required_group_coverage": 0.7777777777777778,
+              "complete_question_count": 7
+            },
+            "5": {
+              "mean_required_group_coverage": 0.7777777777777778,
+              "complete_question_count": 7
+            },
+            "10": {
+              "mean_required_group_coverage": 0.7777777777777778,
+              "complete_question_count": 7
+            }
+          }
+        },
+        "schema": {
+          "reviewed_count": 4,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.625,
+              "complete_question_count": 2
+            },
+            "3": {
+              "mean_required_group_coverage": 0.625,
+              "complete_question_count": 2
+            },
+            "5": {
+              "mean_required_group_coverage": 0.875,
+              "complete_question_count": 3
+            },
+            "10": {
+              "mean_required_group_coverage": 0.875,
+              "complete_question_count": 3
+            }
+          }
+        },
+        "both": {
+          "reviewed_count": 2,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.3333333333333333,
+              "complete_question_count": 0
+            },
+            "3": {
+              "mean_required_group_coverage": 0.5,
+              "complete_question_count": 0
+            },
+            "5": {
+              "mean_required_group_coverage": 0.6666666666666666,
+              "complete_question_count": 0
+            },
+            "10": {
+              "mean_required_group_coverage": 1.0,
+              "complete_question_count": 2
+            }
+          }
+        }
+      },
+      "measurement_scope": "required_target_group_coverage_not_full_SQL_dependencies_or_execution_accuracy",
+      "rows": [
+        {
+          "id": "R01",
+          "question": "2018 年 6 月，已送达订单的商品金额加运费，与支付金额相差多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_payment_reconciliation_difference"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 72.43947044839283,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 71.3408581597247,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 58.08690154663804,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 48.75626194559827,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 45.1884676360045,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 35.046897818748405,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_item_count",
+              "score": 33.417467551005956,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 32.85782803496473,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_order_count",
+              "score": 30.3305488148315,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 23.814870506376742,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R02",
+          "question": "2018 年 6 月内，至少完成两笔已送达订单的客户，占当月已送达客户的比例是多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:period_repeat_customer_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:period_repeat_customer_rate"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:period_repeat_customer_rate"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:period_repeat_customer_rate"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:period_repeat_customer_rate"
+                ]
+              ]
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 50.900664070860856,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 36.14551010741651,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 36.14551010741651,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:period_repeat_customer_count",
+              "score": 34.18980961333288,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 32.74761483461815,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 32.74761483461815,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 32.74761483461815,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 32.74761483461815,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_order_count",
+              "score": 30.3305488148315,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 29.394265727648996,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R03",
+          "question": "2018 年 6 月的销售额是多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_gmv"
+            ],
+            [
+              "metric:delivered_gmv_including_freight"
+            ],
+            [
+              "metric:delivered_payment_amount"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_gmv_mom_rate",
+              "score": 4.091042453358316,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_gmv_yoy_rate",
+              "score": 4.091042453358316,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "id": "R04",
+          "question": "2018 年 6 月，按商品品类统计已送达订单的支付金额。",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_payment_amount"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 71.3408581597247,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 55.83973456364679,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 41.84268836434514,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 41.84268836434514,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 35.046897818748405,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 32.74761483461815,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_monthly_category_gmv_rank",
+              "score": 31.520203556857922,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_order_count",
+              "score": 30.3305488148315,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_item_count",
+              "score": 29.614107170099416,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 27.443513048549978,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R05",
+          "question": "2018 年 6 月的已送达 GMV，比 2017 年 6 月增长了百分之多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_gmv_yoy_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv_yoy_rate"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_gmv_mom_rate",
+              "score": 48.73169495878419,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_gmv_yoy_rate",
+              "score": 48.73169495878419,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_monthly_gmv",
+              "score": 32.367525145350925,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_monthly_category_gmv_rank",
+              "score": 28.276482691992612,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 25.284052527302407,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 24.199792183684664,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 19.29919219792199,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 19.29919219792199,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 16.306762033231784,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 16.306762033231784,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R06",
+          "question": "想评估承运商接到货以后，平均需要多少天才能送达客户，不把商家备货时间算进去。",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:average_carrier_delivery_days"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:average_carrier_delivery_days",
+              "score": 41.63583633777818,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:invalid_carrier_delivery_sequence_count",
+              "score": 38.8632476155384,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:average_order_delivery_days",
+              "score": 28.413709045260337,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 26.629941473787255,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 19.13631395873938,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 16.703523310090393,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:historical_returning_customer_rate",
+              "score": 14.850406532392011,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:period_repeat_customer_count",
+              "score": 11.857976367701806,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:on_time_delivery_rate",
+              "score": 10.836446016366363,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 7.726232816019774,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R07",
+          "question": "2018 年 6 月下单、当前已进入终态的订单中，取消订单占多少比例？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:terminal_cancellation_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:terminal_cancellation_rate",
+              "score": 47.172187632056946,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:terminal_order_count",
+              "score": 41.122788781538965,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:canceled_order_count",
+              "score": 35.40988589574799,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:average_order_delivery_days",
+              "score": 10.352805551832107,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 6.772588722239782,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 6.772588722239782,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 6.772588722239782,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 6.772588722239782,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_order_count",
+              "score": 6.772588722239782,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 6.772588722239782,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R08",
+          "question": "商品价格（不含运费）存在哪个字段？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:fact_order_items.price"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:fact_order_items.price",
+              "score": 68.10713774934847,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:fact_order_items.freight_value",
+              "score": 9.330639601039769,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:dim_products.product_category_name",
+              "score": 6.897848952390782,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:dim_products.product_description_lenght",
+              "score": 6.897848952390782,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:dim_products.product_height_cm",
+              "score": 6.897848952390782,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:dim_products.product_id",
+              "score": 6.897848952390782,
+              "rank": 6
+            },
+            {
+              "document_id": "schema:dim_products.product_length_cm",
+              "score": 6.897848952390782,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:dim_products.product_name_lenght",
+              "score": 6.897848952390782,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:dim_products.product_photos_qty",
+              "score": 6.897848952390782,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:dim_products.product_weight_g",
+              "score": 6.897848952390782,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R09",
+          "question": "跨订单识别同一个真实客户，应该使用哪个字段？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:dim_customers.customer_unique_id"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:dim_customers.customer_unique_id",
+              "score": 78.75547326212521,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:dim_customers.customer_id",
+              "score": 12.524255164452484,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:fact_orders.customer_id",
+              "score": 12.524255164452484,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:dim_customers.customer_city",
+              "score": 7.444813622772647,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:dim_customers.customer_state",
+              "score": 7.444813622772647,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:dim_customers.customer_zip_code_prefix",
+              "score": 7.444813622772647,
+              "rank": 6
+            },
+            {
+              "document_id": "schema:fact_orders.order_delivered_customer_date",
+              "score": 7.444813622772647,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:fact_order_items.order_id",
+              "score": 5.079441541679836,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:fact_order_items.order_item_id",
+              "score": 5.079441541679836,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:fact_orders.order_approved_at",
+              "score": 5.079441541679836,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R10",
+          "question": "订单明细表的复合主键由哪两个字段构成？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:fact_order_items.order_id"
+            ],
+            [
+              "schema:fact_order_items.order_item_id"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_order_items.order_id"
+                ],
+                [
+                  "schema:fact_order_items.order_item_id"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_order_items.order_id"
+                ],
+                [
+                  "schema:fact_order_items.order_item_id"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:fact_order_items.freight_value",
+              "score": 10.193685818395112,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:dim_customers.customer_id",
+              "score": 5.079441541679836,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:dim_customers.customer_unique_id",
+              "score": 5.079441541679836,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:fact_order_items.order_id",
+              "score": 5.079441541679836,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:fact_order_items.order_item_id",
+              "score": 5.079441541679836,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:fact_orders.customer_id",
+              "score": 5.079441541679836,
+              "rank": 6
+            },
+            {
+              "document_id": "schema:fact_orders.order_approved_at",
+              "score": 5.079441541679836,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:fact_orders.order_id",
+              "score": 5.079441541679836,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:fact_orders.order_status",
+              "score": 5.079441541679836,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:fact_payments.order_id",
+              "score": 5.079441541679836,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R11",
+          "question": "支付表的复合主键由哪两个字段构成？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:fact_payments.order_id"
+            ],
+            [
+              "schema:fact_payments.payment_sequential"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:fact_payments.payment_sequential",
+              "score": 10.193685818395112,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:fact_payments.payment_type",
+              "score": 10.193685818395112,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:fact_payments.payment_value",
+              "score": 10.193685818395112,
+              "rank": 3
+            }
+          ]
+        },
+        {
+          "id": "R12",
+          "question": "查看全部数据中每月已送达 GMV 的口径，以及下单时间和商品价格对应的字段。",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "both",
+          "expected_groups": [
+            [
+              "metric:delivered_monthly_gmv",
+              "metric:delivered_gmv"
+            ],
+            [
+              "schema:fact_orders.order_purchase_timestamp"
+            ],
+            [
+              "schema:fact_order_items.price"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.3333333333333333,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_monthly_gmv",
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "schema:fact_orders.order_purchase_timestamp"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.6666666666666666,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_monthly_gmv",
+                  "metric:delivered_gmv"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.6666666666666666,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_monthly_gmv",
+                  "metric:delivered_gmv"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:fact_order_items.price",
+              "score": 33.87689432118966,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:fact_orders.order_purchase_timestamp",
+              "score": 33.56081277421618,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv_mom_rate",
+              "score": 32.367525145350925,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_gmv_yoy_rate",
+              "score": 32.367525145350925,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_monthly_category_gmv_rank",
+              "score": 31.856699521584936,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_monthly_gmv",
+              "score": 31.856699521584936,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 28.29083463704298,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 27.583335511432665,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_item_count",
+              "score": 25.503893969752827,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:fact_order_items.freight_value",
+              "score": 24.546254720149896,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R13",
+          "question": "平均承运配送时长的定义是什么？计算起止时间分别对应哪些字段？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "both",
+          "expected_groups": [
+            [
+              "metric:average_carrier_delivery_days"
+            ],
+            [
+              "schema:fact_orders.order_delivered_carrier_date"
+            ],
+            [
+              "schema:fact_orders.order_delivered_customer_date"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.3333333333333333,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_orders.order_delivered_carrier_date"
+                ],
+                [
+                  "schema:fact_orders.order_delivered_customer_date"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.3333333333333333,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_orders.order_delivered_carrier_date"
+                ],
+                [
+                  "schema:fact_orders.order_delivered_customer_date"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.6666666666666666,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_orders.order_delivered_customer_date"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:average_carrier_delivery_days",
+              "score": 97.09995762530983,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:invalid_carrier_delivery_sequence_count",
+              "score": 64.47367640523734,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:average_order_delivery_days",
+              "score": 31.577611337059402,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:fact_orders.order_delivered_carrier_date",
+              "score": 20.740720743759375,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:fact_order_items.freight_value",
+              "score": 12.273127360074948,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:fact_orders.customer_id",
+              "score": 12.273127360074948,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 11.410081142719605,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:fact_orders.order_approved_at",
+              "score": 9.330639601039769,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:fact_orders.order_delivered_customer_date",
+              "score": 9.330639601039769,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:fact_orders.order_estimated_delivery_date",
+              "score": 9.330639601039769,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R14",
+          "question": "2018 年 6 月，已送达订单的商品金额连同运费总共是多少？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_gmv_including_freight"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 58.08690154663804,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 49.68497519747098,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 48.75626194559827,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 46.33919592581162,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 46.05151385335984,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 35.046897818748405,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_item_count",
+              "score": 33.417467551005956,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 32.85782803496473,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_order_count",
+              "score": 30.3305488148315,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 23.814870506376742,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R15",
+          "question": "2018 年 6 月的已送达客户中，在 6 月之前就有已送达订单的客户占多少？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:historical_returning_customer_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:historical_returning_customer_rate",
+              "score": 55.57373513199717,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 42.71857916414423,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 36.14551010741651,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 36.14551010741651,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 32.74761483461815,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 32.74761483461815,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 32.74761483461815,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 32.74761483461815,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_order_count",
+              "score": 30.3305488148315,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 29.394265727648996,
+              "rank": 10
+            }
+          ]
+        }
+      ]
+    },
+    "keyword-bigram-idf-dependencies-v2": {
+      "annotation_counts": {
+        "human_reviewed": 7,
+        "assistant_reviewed": 8,
+        "pending_human_review": 0
+      },
+      "summaries_reviewed_only": {
+        "all": {
+          "reviewed_count": 15,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.45555555555555555,
+              "complete_question_count": 6
+            },
+            "3": {
+              "mean_required_group_coverage": 0.7666666666666667,
+              "complete_question_count": 10
+            },
+            "5": {
+              "mean_required_group_coverage": 0.8555555555555555,
+              "complete_question_count": 11
+            },
+            "10": {
+              "mean_required_group_coverage": 0.9,
+              "complete_question_count": 13
+            }
+          }
+        },
+        "metric": {
+          "reviewed_count": 9,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.4444444444444444,
+              "complete_question_count": 4
+            },
+            "3": {
+              "mean_required_group_coverage": 0.8888888888888888,
+              "complete_question_count": 8
+            },
+            "5": {
+              "mean_required_group_coverage": 0.8888888888888888,
+              "complete_question_count": 8
+            },
+            "10": {
+              "mean_required_group_coverage": 0.8888888888888888,
+              "complete_question_count": 8
+            }
+          }
+        },
+        "schema": {
+          "reviewed_count": 4,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.625,
+              "complete_question_count": 2
+            },
+            "3": {
+              "mean_required_group_coverage": 0.625,
+              "complete_question_count": 2
+            },
+            "5": {
+              "mean_required_group_coverage": 0.875,
+              "complete_question_count": 3
+            },
+            "10": {
+              "mean_required_group_coverage": 0.875,
+              "complete_question_count": 3
+            }
+          }
+        },
+        "both": {
+          "reviewed_count": 2,
+          "at_k": {
+            "1": {
+              "mean_required_group_coverage": 0.16666666666666666,
+              "complete_question_count": 0
+            },
+            "3": {
+              "mean_required_group_coverage": 0.5,
+              "complete_question_count": 0
+            },
+            "5": {
+              "mean_required_group_coverage": 0.6666666666666666,
+              "complete_question_count": 0
+            },
+            "10": {
+              "mean_required_group_coverage": 1.0,
+              "complete_question_count": 2
+            }
+          }
+        }
+      },
+      "measurement_scope": "required_target_group_coverage_not_full_SQL_dependencies_or_execution_accuracy",
+      "rows": [
+        {
+          "id": "R01",
+          "question": "2018 年 6 月，已送达订单的商品金额加运费，与支付金额相差多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_payment_reconciliation_difference"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 99.9705745450499,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 69.01250358457479,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 54.51115139094186,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 53.607732218947646,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 47.3340956381723,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 45.849942443844725,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 43.58939928803039,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 42.059453622818125,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 34.049173449842904,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_item_count",
+              "score": 31.813311079801274,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R02",
+          "question": "2018 年 6 月内，至少完成两笔已送达订单的客户，占当月已送达客户的比例是多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:period_repeat_customer_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:period_repeat_customer_rate"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 49.54254058670766,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:period_repeat_customer_rate",
+              "score": 44.6849964360961,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 42.84316033410414,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 40.051400864876086,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 40.01968183417295,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 38.202824999286975,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 34.83288016112893,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 34.83288016112893,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:period_repeat_customer_count",
+              "score": 32.42622102107153,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 32.04112069190087,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R03",
+          "question": "2018 年 6 月的销售额是多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_gmv"
+            ],
+            [
+              "metric:delivered_gmv_including_freight"
+            ],
+            [
+              "metric:delivered_payment_amount"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "metric:delivered_gmv_including_freight"
+                ],
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_gmv_mom_rate",
+              "score": 4.091042453358316,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_gmv_yoy_rate",
+              "score": 4.091042453358316,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "id": "R04",
+          "question": "2018 年 6 月，按商品品类统计已送达订单的支付金额。",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_payment_amount"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_payment_amount"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 77.71448239789548,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 69.01250358457479,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 44.341665473482095,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 43.38311515974646,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 39.970442630122136,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 39.970442630122136,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 36.17995380909554,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 36.17995380909554,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 32.04112069190087,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_monthly_category_gmv_rank",
+              "score": 31.520203556857922,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R05",
+          "question": "2018 年 6 月的已送达 GMV，比 2017 年 6 月增长了百分之多少？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_gmv_yoy_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv_yoy_rate"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_gmv_mom_rate",
+              "score": 48.73169495878419,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_gmv_yoy_rate",
+              "score": 48.73169495878419,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_monthly_gmv",
+              "score": 32.367525145350925,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 31.268912856682817,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_monthly_category_gmv_rank",
+              "score": 28.276482691992612,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 26.368312870920143,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 26.368312870920143,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 25.284052527302407,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 20.383452541539732,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 20.383452541539732,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R06",
+          "question": "想评估承运商接到货以后，平均需要多少天才能送达客户，不把商家备货时间算进去。",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:average_carrier_delivery_days"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:average_carrier_delivery_days",
+              "score": 41.63583633777818,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:invalid_carrier_delivery_sequence_count",
+              "score": 38.8632476155384,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:average_order_delivery_days",
+              "score": 28.413709045260337,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 26.629941473787255,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 21.067872162744322,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 18.635081514095337,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:historical_returning_customer_rate",
+              "score": 14.850406532392011,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:period_repeat_customer_rate",
+              "score": 14.81118581923873,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:period_repeat_customer_count",
+              "score": 11.857976367701806,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:on_time_delivery_rate",
+              "score": 10.836446016366363,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R07",
+          "question": "2018 年 6 月下单、当前已进入终态的订单中，取消订单占多少比例？",
+          "annotation_status": "human_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:terminal_cancellation_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:terminal_cancellation_rate",
+              "score": 77.20842948601044,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:terminal_order_count",
+              "score": 39.26556634901458,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:canceled_order_count",
+              "score": 35.174523895656264,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:average_order_delivery_days",
+              "score": 10.117443551740372,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 8.171533402685059,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 8.171533402685059,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 6.848830190666349,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 6.537226722148048,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 6.537226722148048,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 6.537226722148048,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R08",
+          "question": "商品价格（不含运费）存在哪个字段？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:fact_order_items.price"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:fact_order_items.price",
+              "score": 64.89581351424424,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:fact_order_items.freight_value",
+              "score": 8.661208947097139,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:dim_products.product_category_name",
+              "score": 6.435396912909008,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:dim_products.product_description_lenght",
+              "score": 6.435396912909008,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:dim_products.product_height_cm",
+              "score": 6.435396912909008,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:dim_products.product_id",
+              "score": 6.435396912909008,
+              "rank": 6
+            },
+            {
+              "document_id": "schema:dim_products.product_length_cm",
+              "score": 6.435396912909008,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:dim_products.product_name_lenght",
+              "score": 6.435396912909008,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:dim_products.product_photos_qty",
+              "score": 6.435396912909008,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:dim_products.product_weight_g",
+              "score": 6.435396912909008,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R09",
+          "question": "跨订单识别同一个真实客户，应该使用哪个字段？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:dim_customers.customer_unique_id"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:dim_customers.customer_unique_id",
+              "score": 78.57895176205639,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:dim_customers.customer_id",
+              "score": 12.347733664383682,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:fact_orders.customer_id",
+              "score": 12.347733664383682,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:dim_customers.customer_city",
+              "score": 7.444813622772647,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:dim_customers.customer_state",
+              "score": 7.444813622772647,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:dim_customers.customer_zip_code_prefix",
+              "score": 7.444813622772647,
+              "rank": 6
+            },
+            {
+              "document_id": "schema:fact_orders.order_delivered_customer_date",
+              "score": 7.444813622772647,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:fact_order_items.order_id",
+              "score": 4.9029200416110355,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:fact_order_items.order_item_id",
+              "score": 4.9029200416110355,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:fact_orders.order_approved_at",
+              "score": 4.9029200416110355,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R10",
+          "question": "订单明细表的复合主键由哪两个字段构成？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:fact_order_items.order_id"
+            ],
+            [
+              "schema:fact_order_items.order_item_id"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_order_items.order_id"
+                ],
+                [
+                  "schema:fact_order_items.order_item_id"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_order_items.order_id"
+                ],
+                [
+                  "schema:fact_order_items.order_item_id"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:fact_order_items.freight_value",
+              "score": 9.330639601039769,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:dim_customers.customer_id",
+              "score": 4.9029200416110355,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:dim_customers.customer_unique_id",
+              "score": 4.9029200416110355,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:fact_order_items.order_id",
+              "score": 4.9029200416110355,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:fact_order_items.order_item_id",
+              "score": 4.9029200416110355,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:fact_orders.customer_id",
+              "score": 4.9029200416110355,
+              "rank": 6
+            },
+            {
+              "document_id": "schema:fact_orders.order_approved_at",
+              "score": 4.9029200416110355,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:fact_orders.order_id",
+              "score": 4.9029200416110355,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:fact_orders.order_status",
+              "score": 4.9029200416110355,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:fact_payments.order_id",
+              "score": 4.9029200416110355,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R11",
+          "question": "支付表的复合主键由哪两个字段构成？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "schema",
+          "expected_groups": [
+            [
+              "schema:fact_payments.order_id"
+            ],
+            [
+              "schema:fact_payments.payment_sequential"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 0.5,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_payments.order_id"
+                ]
+              ]
+            }
+          },
+          "returned": [
+            {
+              "document_id": "schema:fact_payments.payment_sequential",
+              "score": 10.193685818395112,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:fact_payments.payment_type",
+              "score": 10.193685818395112,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:fact_payments.payment_value",
+              "score": 10.193685818395112,
+              "rank": 3
+            }
+          ]
+        },
+        {
+          "id": "R12",
+          "question": "查看全部数据中每月已送达 GMV 的口径，以及下单时间和商品价格对应的字段。",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "both",
+          "expected_groups": [
+            [
+              "metric:delivered_monthly_gmv",
+              "metric:delivered_gmv"
+            ],
+            [
+              "schema:fact_orders.order_purchase_timestamp"
+            ],
+            [
+              "schema:fact_order_items.price"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_monthly_gmv",
+                  "metric:delivered_gmv"
+                ],
+                [
+                  "schema:fact_orders.order_purchase_timestamp"
+                ],
+                [
+                  "schema:fact_order_items.price"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.6666666666666666,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_monthly_gmv",
+                  "metric:delivered_gmv"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.6666666666666666,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_monthly_gmv",
+                  "metric:delivered_gmv"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 37.217405541892354,
+              "rank": 1
+            },
+            {
+              "document_id": "schema:fact_orders.order_purchase_timestamp",
+              "score": 33.56081277421618,
+              "rank": 2
+            },
+            {
+              "document_id": "schema:fact_order_items.price",
+              "score": 33.414442281707885,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_gmv_mom_rate",
+              "score": 32.367525145350925,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_gmv_yoy_rate",
+              "score": 32.367525145350925,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_monthly_category_gmv_rank",
+              "score": 31.856699521584936,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_monthly_gmv",
+              "score": 31.856699521584936,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 28.513445175223143,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 28.513445175223143,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 28.477077531052274,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R13",
+          "question": "平均承运配送时长的定义是什么？计算起止时间分别对应哪些字段？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "both",
+          "expected_groups": [
+            [
+              "metric:average_carrier_delivery_days"
+            ],
+            [
+              "schema:fact_orders.order_delivered_carrier_date"
+            ],
+            [
+              "schema:fact_orders.order_delivered_customer_date"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.3333333333333333,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_orders.order_delivered_carrier_date"
+                ],
+                [
+                  "schema:fact_orders.order_delivered_customer_date"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 0.3333333333333333,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_orders.order_delivered_carrier_date"
+                ],
+                [
+                  "schema:fact_orders.order_delivered_customer_date"
+                ]
+              ]
+            },
+            "5": {
+              "required_group_coverage": 0.6666666666666666,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "schema:fact_orders.order_delivered_customer_date"
+                ]
+              ]
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:average_carrier_delivery_days",
+              "score": 97.09995762530983,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:invalid_carrier_delivery_sequence_count",
+              "score": 64.47367640523734,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:average_order_delivery_days",
+              "score": 31.577611337059402,
+              "rank": 3
+            },
+            {
+              "document_id": "schema:fact_orders.order_delivered_carrier_date",
+              "score": 20.740720743759375,
+              "rank": 4
+            },
+            {
+              "document_id": "schema:fact_order_items.freight_value",
+              "score": 12.273127360074948,
+              "rank": 5
+            },
+            {
+              "document_id": "schema:fact_orders.customer_id",
+              "score": 12.273127360074948,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 11.410081142719605,
+              "rank": 7
+            },
+            {
+              "document_id": "schema:fact_orders.order_approved_at",
+              "score": 9.330639601039769,
+              "rank": 8
+            },
+            {
+              "document_id": "schema:fact_orders.order_delivered_customer_date",
+              "score": 9.330639601039769,
+              "rank": 9
+            },
+            {
+              "document_id": "schema:fact_orders.order_estimated_delivery_date",
+              "score": 9.330639601039769,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R14",
+          "question": "2018 年 6 月，已送达订单的商品金额连同运费总共是多少？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:delivered_gmv_including_freight"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 0.0,
+              "all_required_groups_found": false,
+              "missing_groups": [
+                [
+                  "metric:delivered_gmv_including_freight"
+                ]
+              ]
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 66.381362296312,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 57.69877467230596,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 54.51115139094186,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 47.680441741388705,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 47.3340956381723,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 45.849942443844725,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 44.01084135066169,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 42.059453622818125,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_category_gmv_contribution",
+              "score": 34.049173449842904,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_item_count",
+              "score": 31.813311079801274,
+              "rank": 10
+            }
+          ]
+        },
+        {
+          "id": "R15",
+          "question": "2018 年 6 月的已送达客户中，在 6 月之前就有已送达订单的客户占多少？",
+          "annotation_status": "assistant_reviewed",
+          "retrieval_type": "metric",
+          "expected_groups": [
+            [
+              "metric:historical_returning_customer_rate"
+            ]
+          ],
+          "at_k": {
+            "1": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "3": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "5": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            },
+            "10": {
+              "required_group_coverage": 1.0,
+              "all_required_groups_found": true,
+              "missing_groups": []
+            }
+          },
+          "returned": [
+            {
+              "document_id": "metric:historical_returning_customer_rate",
+              "score": 54.790975792747545,
+              "rank": 1
+            },
+            {
+              "document_id": "metric:delivered_payment_reconciliation_difference",
+              "score": 42.84316033410414,
+              "rank": 2
+            },
+            {
+              "document_id": "metric:delivered_customer_count",
+              "score": 41.935819824894594,
+              "rank": 3
+            },
+            {
+              "document_id": "metric:average_items_per_delivered_order",
+              "score": 40.051400864876086,
+              "rank": 4
+            },
+            {
+              "document_id": "metric:delivered_average_order_value",
+              "score": 40.01968183417295,
+              "rank": 5
+            },
+            {
+              "document_id": "metric:delivered_gmv",
+              "score": 34.83288016112893,
+              "rank": 6
+            },
+            {
+              "document_id": "metric:delivered_gmv_including_freight",
+              "score": 34.83288016112893,
+              "rank": 7
+            },
+            {
+              "document_id": "metric:delivered_freight_amount",
+              "score": 32.04112069190087,
+              "rank": 8
+            },
+            {
+              "document_id": "metric:delivered_payment_amount",
+              "score": 32.04112069190087,
+              "rank": 9
+            },
+            {
+              "document_id": "metric:delivered_freight_to_gmv_rate",
+              "score": 31.04239134010233,
+              "rank": 10
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

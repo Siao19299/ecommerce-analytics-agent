@@ -6,10 +6,10 @@
 进行月度比较、品类贡献分析和规则型异常检测；系统返回 SQL、结果表、图表、
 计算结论与运行追踪。已实现 FastAPI + Streamlit 本地演示和三个版本的真实模型评测。
 
-**6 张核心表 · 38 个字段 · 27 项指标口径定义 · 60 道冻结评测题 · 463 项离线测试**
+**6 张核心表 · 38 个字段 · 27 项指标口径定义 · 60 道冻结评测题 · 468 项离线测试**
 
 [快速运行](docs/QUICKSTART.md) · [工程设计与代码导航](docs/ENGINEERING.md) ·
-[真实实验报告](docs/DAY15_EXPERIMENT_REPORT.md) · [文档索引](docs/README.md)
+[真实实验报告](docs/evaluation/experiment_report.md) · [文档索引](docs/README.md)
 
 ## 项目解决什么问题
 
@@ -79,11 +79,11 @@ API 响应同时包含 `status`、`run_id`、SQL、命名参数、表格、图�
 | 唯一指标语义源 | [指标字典](data/metadata/metric_dictionary.csv)定义公式、粒度、维度与限制；[MetricCatalog](src/ecommerce_agent/metric_catalog.py)校验结构化计划 |
 | 两层 SQL 授权 | [SQL 安全门](src/ecommerce_agent/sql_safety.py)取全局 Schema 与本次计划范围的交集，解析 CTE、别名、字段和查询类型 |
 | 执行层防护 | [SQL 执行器](src/ecommerce_agent/sql_generation.py)使用只读 URI、`query_only`、命名参数、行数上限与 SQLite 超时中断 |
-| 有边界的修复 | [修复工作流](src/ecommerce_agent/day09_pipeline.py)仅处理合格 SQL 错误，重新校验候选，以次数和重复 SQL 哈希停止循环 |
-| 可追溯数值计算 | [环比/同比](src/ecommerce_agent/day10_comparison.py)、[异常检测](src/ecommerce_agent/day10_anomaly.py)由 Python 计算，记录输入哈希和 SQL 来源 |
-| 状态与服务解耦 | [状态机](src/ecommerce_agent/day11_workflow.py)、[API 映射](src/ecommerce_agent/day12_mapping.py)和[页面](src/ecommerce_agent/day13_streamlit.py)分离业务执行与展示 |
-| 有预算的模型调用 | [预算账本](src/ecommerce_agent/day15_api_budget.py)对调用、token 和保守成本设置硬限额，区分模型传输尝试与 SQL 尝试 |
-| 先封存、后评分 | [评测隔离](src/ecommerce_agent/day15_reproducibility.py)保存候选与哈希后才开放参考评分，区分真实模型、假模型与评分器回放 |
+| 有边界的修复 | [修复工作流](src/ecommerce_agent/repair_workflow.py)仅处理合格 SQL 错误，重新校验候选，以次数和重复 SQL 哈希停止循环 |
+| 可追溯数值计算 | [环比/同比](src/ecommerce_agent/period_comparison.py)、[异常检测](src/ecommerce_agent/anomaly_detection.py)由 Python 计算，记录输入哈希和 SQL 来源 |
+| 状态与服务解耦 | [状态机](src/ecommerce_agent/workflow.py)、[API 映射](src/ecommerce_agent/response_mapping.py)和[页面](src/ecommerce_agent/ui.py)分离业务执行与展示 |
+| 有预算的模型调用 | [预算账本](src/ecommerce_agent/model_budget.py)对调用、token 和保守成本设置硬限额，区分模型传输尝试与 SQL 尝试 |
+| 先封存、后评分 | [评测隔离](src/ecommerce_agent/reproducibility.py)保存候选与哈希后才开放参考评分，区分真实模型、假模型与评分器回放 |
 
 设计取舍、典型失败及对应测试见[工程设计与代码导航](docs/ENGINEERING.md)。
 
@@ -111,8 +111,8 @@ API 响应同时包含 `status`、`run_id`、SQL、命名参数、表格、图�
 
 题集为项目内构建并冻结，业务答案没有独立金标准；单模型单次运行也不能代表
 生产请求分布。主实验未触发修复调用，修复收益仍由离线机制测试覆盖。
-[结构化结果](docs/DAY15_LIVE_RESULTS.json) · [配对统计与实验解释](docs/DAY15_EXPERIMENT_REPORT.md) ·
-[18 个真实代表失败案例](docs/DAY15_REAL_FAILURE_ANALYSIS.md)
+[结构化结果](docs/reports/model_comparison.json) · [配对统计与实验解释](docs/evaluation/experiment_report.md) ·
+[18 个真实代表失败案例](docs/evaluation/model_failures.md)
 
 ## 运行与验证
 
@@ -134,10 +134,10 @@ API 响应同时包含 `status`、`run_id`、SQL、命名参数、表格、图�
 无需 API Key 或下载完整数据，也可以先验证结构化计划、服务装配和澄清路径：
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q tests/test_day05_analysis_plan.py tests/test_live_runtime.py
+.\.venv\Scripts\python.exe -m pytest -q tests/test_analysis_plan.py tests/test_live_runtime.py
 ```
 
-2026-10-04，本地完整数据环境的全量测试为 **463 passed**，有 1 条依赖弃用提示；
+2026-10-04，本地完整数据环境的全量测试为 **468 passed**，有 1 条依赖弃用提示；
 `pip check`、compileall、真实 SQLite 离线检查和冻结输入哈希核验通过。
 Docker/Compose 的配置检查已通过，容器实际 build/run 尚未验证。
 
@@ -150,9 +150,10 @@ sql/                   表结构与参考经营 SQL
 data/metadata/         指标、维度、数据库字典与数据文件清单
 data/evaluation/       冻结评测题、公开题面与评分参考
 docs/examples/         带来源标记的实际 API 输出示例
-docs/archive/          历史开发说明、计划与学习日志
+docs/evaluation/       实验设计、真实模型对比与失败分析
+docs/reports/          结构化实验结果和验证证据
+docs/validation/       各组件的验证范围与验收记录
 ```
 
-源文件中的 `dayXX` 前缀来自开发阶段划分；当前组件职责和阅读顺序见
-[工程导航](docs/ENGINEERING.md)。更多证据见[文档索引](docs/README.md)，
+组件职责和阅读顺序见[工程导航](docs/ENGINEERING.md)。更多证据见[文档索引](docs/README.md)，
 维护与发布方法见[GitHub 更新说明](docs/GITHUB_PUBLISHING.md)。

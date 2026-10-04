@@ -107,7 +107,7 @@ def build_documents(root: Path) -> tuple[RetrievalDocument, ...]:
     finally:
         connection.close()
 
-    # Chinese field descriptions already exist in the Day 2 source document.
+    # Chinese field descriptions already exist in the Data import source document.
     translations = {}
     source_file = None
     for line in (root / "docs" / "OLIST_DATA_DICTIONARY.md").read_text(encoding="utf-8").splitlines():
@@ -210,7 +210,7 @@ class KeywordRetriever:
 
     Constraints are always returned but not scored: a prohibition containing a
     term must not count as positive relevance evidence. No dimension permission
-    filtering is applied here; Day 5 remains responsible for semantic validation.
+    filtering is applied here; Analysis planning remains responsible for semantic validation.
     """
 
     version = "keyword-bigram-idf-v1"
