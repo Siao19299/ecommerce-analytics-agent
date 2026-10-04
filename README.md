@@ -1,5 +1,8 @@
 # 跨平台电商经营分析 Agent
 
+GitHub 仓库：[Siao19299/ecommerce-analytics-agent](https://github.com/Siao19299/ecommerce-analytics-agent)。
+后续更新方法见 [GitHub 上传与更新说明](docs/GITHUB_PUBLISHING.md)。
+
 ## 项目定位
 
 - 目标岗位：AI 应用工程师、大模型应用开发、数据分析 Agent 开发

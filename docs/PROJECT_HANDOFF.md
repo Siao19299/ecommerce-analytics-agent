@@ -1,6 +1,6 @@
 # 项目交接：跨平台电商经营分析 Agent
 
-更新日期：2026-09-20  
+更新日期：2026-10-04
 最近完成的产品提交：`952deb4 feat: complete Day 15 evaluation and live demo`
 
 本文件用于让新的对话或新的协作者快速接手项目。提交号、工作区、依赖和外部服务
@@ -210,4 +210,25 @@ Day 15 宿主机离线复现检查，不调用模型：
 
 我本次的请求是：……
 ```
+
+## 11. GitHub 仓库与发布前核验（2026-10-04）
+
+- GitHub 账号：`Siao19299`。
+- 公开仓库：https://github.com/Siao19299/ecommerce-analytics-agent。
+- 远程名称：`origin`；HTTPS 地址：
+  `https://github.com/Siao19299/ecommerce-analytics-agent.git`。
+- 首次发布基于现有 `main` 的 22 个提交；发布前源提交为
+  `8f246b1841b5b3895ef404fc97803511aec41c50`，保留原有项目历史。
+- 当前 Python 仍为项目 `.venv` 的 3.11.9。
+- 本次全量测试：`463 passed, 1 warning in 413.56s`；警告仍为已知 AnyIO 别名弃用。
+- `pip check`、compileall、真实 SQLite 离线检查、冻结评测资产和全部原始数据
+  SHA-256 核验通过；评分器 oracle replay 为 60/60，不代表候选模型准确率。
+- 发布源提交的 432 个历史 Git blob 无敏感信息发现，包含新发布文档的
+  355 个工作区文本文件扫描也通过。未读取本地模型 API Key，未运行真实模型
+  或产生模型费用。
+- 上传范围为已有项目提交和本次发布文档；未提交的
+  `docs/电商经营分析Agent项目学习与面试手册.docx` 保留在本地。
+
+网络与后续更新方法见 `docs/GITHUB_PUBLISHING.md`。上传成功以本地提交和远程
+`main` 的完整哈希一致为准；不要从历史提交号推断最新发布状态。
 
